@@ -1,0 +1,25 @@
+#heading {
+	color:#2D3F44;
+	font-family: 'Berkshire Swash' , cursive;
+	text-align: left;
+}
+
+.calc {
+	color: #424DD9;
+	padding: 10px;
+	border: solid;
+	border-radius: 5px;
+	align-content: center;
+	align-self: center;
+	align-items: center;
+	justify-content: center;
+}
+
+
+
+#display {
+	padding: 20px;
+	border-radius: 10px;
+	border-color: #BE00FF;
+}
+

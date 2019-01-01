@@ -1,0 +1,38 @@
+<<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Page Title</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+        </head>
+
+    <body>
+        <form id="form">
+            <p id="demo"></p>
+            <input type="number" name="num" value="9">
+            <input type="button" name="Submit" value="Submit" onclick="Multiply(num)">   
+        </form>
+    
+        <script> 
+            function Multiply(num)
+            {
+                var number=parseInt(num);
+                var arr=[]
+                var i;
+                var j=0;
+                for( i=1;i<=10;i++)
+                {
+                    arr[j]=" " + number + " * " + i + " = " + number*i + "<br>";
+                    j++;
+                }
+                document.getElementById("demo").innerHTML=arr;
+            }
+        
+        </script>
+
+
+    </body>
+
+</html>

@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+
+    <title>Hello React!</title>
+
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+   <style>
+       #ret {
+           color: blue;
+           text-align: center;
+           background-color: darksalmon;
+       } 
+
+       #ter {
+           align-self: center;
+           table-layout: auto;
+           border: 1px solid royalblue;
+           text-decoration-color: chocolate;
+           text-decoration-line: underline;
+           justify-items: center;
+       }
+   </style>
+</head>
+
+<body>
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+        class App extends React.Component { 
+            render() { 
+                return (
+                    <div id="ret">
+                        function Result()
+                        {
+                            let total;
+                            return {
+                                total+=1;
+                            }
+                        }
+                        <h1>Welcome Today</h1>
+                        <table id="ter">
+                            <tr>
+                              <th> ID </th>
+                              <th> Name </th>
+                            </tr>
+
+                            <tr>
+                              <td> 1 </td>
+                              <td> Shivam </td>
+                            </tr>
+
+                            <tr>
+                              <td> 2 </td>
+                              <td> Rajesh </td>
+                            </tr>
+
+                            <tr>
+                              <td> 3 </td>
+                              <td> Mahesh </td>
+                            </tr>
+
+                        </table>
+                        let Res1=this.Result();
+                        <p> result: Res1 </p>  
+                    </div>
+                    
+
+                ); 
+            } 
+        } 
+
+ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+
+</body>
+
+</html>

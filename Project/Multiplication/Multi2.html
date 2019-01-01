@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title> Multiplication</title>
+</head>
+<body>
+
+<form class="form">
+	<input type="number" name="number" value="number" rows="10" cols="10">
+	<input type="button" name="Generate" value="Generate" onclick="document.getElementById("demo").innerHTML= MultiplyTable(number)">
+	<p id="demo"></p>
+</form>
+
+<script type="text/javascript">
+	var i=1
+	function MultiplyTable(number)
+	{ 
+		var arr=[];
+		var j=0;
+		for(i=1; i<=10; i++)
+		{
+			/*document.write(number "*" i "=" eval(number*i));*/
+			var result= number*i;
+			var str=""	+	number	+	"	*	"	+	i 	+	"	=	";
+			arr[j]=result	+	str;
+			j++;
+		}
+		return arr.toString();
+		
+	}	
+
+
+</script>
+
+</body>
+</html>

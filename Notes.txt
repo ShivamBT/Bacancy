@@ -1,0 +1,61 @@
+Javascript Arrow Function:https://flaviocopes.com/javascript-arrow-functions/
+
+In javascript every function is an object. An object is a collection of key:value pairs. If a value is a primitive (integer, string, boolean), or another object, the value is considered a property. If a value is a function, it is called a 'method'.
+
+Don't define function using "function" keyword in function definition in react.
+
+React JS uses JSX. (syntax extension to JavaScript)
+React doesn’t require using JSX, but most people find it helpful as a visual aid.
+
+example:
+const name = 'Josh Perez';
+const element = <h1>Hello, {name}</h1>;
+
+Babel converts JSX to Javascript.
+
+We split JSX over multiple lines for readability. While it isn’t required, when doing this, we also recommend wrapping it in parentheses to avoid the pitfalls of automatic semicolon insertion.
+(https://reactjs.org/docs/introducing-jsx.html)
+
+JSX Prevents Injection Attacks.
+
+Props can be any name in stateless component(not in stateful-class based).state isnot available in stateless.
+we may have more than one ReactDOM methods.
+
+onClick, onChange, etc event function starts with ()=>{} not directly {} in tag
+
+no state manipulation in render method. (pure function)
+
+ctrl+del to remove all spaces in any editors.
+
+Binding:
+https://codeburst.io/binding-functions-in-react-b168d2d006cb
+
+Don't log after setState. it's async so run in background.
+
+Don't user this.state.anyname inside setState, instead, pass the function in setState. ex. this.setState((state,props)=>{})
+
+if function is arrow function in argument then binding is not required.
+
+not getElementById, instead use JSX in tag property
+
+binding methods:http://stackinsight.blogspot.com/2019/01/handle-events-react.html
+
+installed babel/sublime extension and esLint (for error checking)
+
+props passing in constructor is used to use of props in state in constructor. without it props can be undefined.
+
+JSX is converted to React.createElement('div',{class},React.getElementById...) So importing React is must.
+
+Component name should be start with capital character.
+
+Don't directly assign current to obj because it create reference which changes both when we change a single
+
+Functional Components (also called presentational, dumb, stateless) (Class based components may also be stateless)
+Class based Components (also called containers, smart, stateful)
+user Functional Components as many as possible.
+
+onClick={this.funName} ...dont do '()' after function name because it would execute method when render() is called.
+we only pass the reference.
+another way is to use like onClick={() => this.funName(arg)} when we want to pass arguments. (inefficient)
+
+CSS Style auto add styles for all browsers. (lik webkit,..etc)

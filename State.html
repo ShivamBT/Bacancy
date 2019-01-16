@@ -1,0 +1,48 @@
+<!DOCType html>
+<html>
+
+<head>
+    <title>State</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+    
+    <style>
+        .style{
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 30px;
+            text-shadow: 1px 1px darkgray;
+            border: 2px solid;
+            color: white;
+            background-color: grey;
+            width: fit-content;
+            border-radius: 8px;
+            padding: 10px;
+        }
+    </style>
+    </head>
+    
+    <body>
+        <div id="main"></div>
+        <script type="text/babel">
+            class ReactEg extends React.Component {
+                constructor(){
+                    super();
+                    this.state={name:''};
+                }
+               
+                render(){
+                    return(
+                        <div>
+                        <textarea placeholder='Type here.' onChange={e => this.setState({name:e.target.value})} /><br /><br />
+                        <div className="style">{this.state.name}</div>
+                        </div>
+                    )
+                }
+            }
+            
+            ReactDOM.render(<ReactEg /> ,document.querySelector('#main'));
+        </script>
+    </body>
+
+</html >

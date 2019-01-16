@@ -1,0 +1,39 @@
+31/12/18
+simple react program
+css styling in react
+
+1/1/19
+Render function should be Pure function
+state prop
+arrow function
+jsx
+render
+onchange example
+
+task=>login page, validation onBlur
+
+2/1/19
+function binding
+props as event
+
+3/1/19
+different binding ways
+callback fn
+disable btn after timeout
+
+4/1/19
+create react project
+package.json
+
+7/1/19
+react project with two forms submitting value to the parent.
+
+8/1/19
+same project, optimize
+
+9/1/19
+Multiuser in forms
+React Developer Tools
+
+10/1/19
+life cycle

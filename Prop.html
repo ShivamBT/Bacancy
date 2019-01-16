@@ -1,0 +1,47 @@
+<!DOCType html>
+<html>
+
+<head>
+    <title>State</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+
+</head>
+
+<body>
+    <div id="main"></div>
+    <script type="text/babel">
+        class Foo extends React.Component {
+            render() {
+                return <h1>Hello, {this.props.city}</h1>;
+            }
+        }
+        function Doo(props) {
+                    return <h1>Selected city: {props.city} </h1>;
+                }
+            class ReactEg extends React.Component {
+                
+                constructor(){
+                    super();
+                    this.a = 1;
+                }
+                
+               
+                render(){
+                    
+                    return(
+                        <div>
+                        <Foo city="Rajkot"/>
+
+                        {1==1 ? <Doo city="Ahmedabad"/> : null}
+                        </div>
+                    )
+                }
+            }
+            
+            ReactDOM.render(<ReactEg /> ,document.querySelector('#main'));
+        </script>
+</body>
+
+</html>

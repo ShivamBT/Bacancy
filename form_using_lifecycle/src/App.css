@@ -1,0 +1,10 @@
+.App {
+  margin: auto;
+  width: 400px;
+  margin-top: 50px;
+}
+
+input{
+  margin: 8px;
+  padding : 10px;
+}

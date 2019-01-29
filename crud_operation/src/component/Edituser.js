@@ -3,7 +3,7 @@ import Axios from 'axios';
 import PropTypes from 'prop-types';
 import {editData} from './apiCall';
 
-class Edit extends Component {
+class Edituser extends Component {
 
   constructor(props) {
     super(props);
@@ -63,8 +63,8 @@ class Edit extends Component {
   }
 }
 
-Edit.propTypes = {
+Edituser.propTypes = {
   match: PropTypes.object,
 };
 
-export default Edit;
+export default Edituser;

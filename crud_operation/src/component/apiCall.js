@@ -16,7 +16,6 @@ export const postData = (first_name,last_name) =>{
         console.log()
     })
 
-    console.log("this is called");
 }
 
 export const editData= (Id,first_name,last_name) =>
@@ -46,6 +45,18 @@ export const deleteRecord=async (Id)=> {
   }
 
 
+export const deleteRecord1=(Id)=>{
+    return axios.delete(`https://reqres.in/api/users/${Id}`)
+    .then((res)=> {
+        console.log('User Deleted: ', res);
+        return res;
+    })
+    .catch(function (error){
+        console.log("Error : ",error);
+    })
+}
+
+
   export const getData= async (current_page)=>{
     return new Promise((resolve, reject) => {
         axios.get(`https://reqres.in/api/users?page=${current_page}`)
@@ -57,5 +68,16 @@ export const deleteRecord=async (Id)=> {
           alert("Error!!");
         });
     })
+}
+  
+export const getData1=(current_page)=>{ 
+  return  axios.get(`https://reqres.in/api/users?page=${current_page}`)
+        .then(res => {
+            console.log("Data:", res);
+            return res;
+        })
+        .catch(function (error) {
+          alert("Error!!");
+        });
 }
   

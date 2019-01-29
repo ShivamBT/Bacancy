@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-import {deleteRecord} from './apiCall';
+import {deleteRecord,deleteRecord1} from './apiCall';
 
-class Delete extends Component {
+class Deleteuser extends Component {
 
   constructor(props) {
     super(props);
@@ -21,10 +21,10 @@ class Delete extends Component {
 
   
   confirmDelete() {
-      console.log("deleted");
+      console.log("Deletion Prompt");
     if (window.confirm('Are you sure you want to delete this user?')) {
       let Id=this.props.match.params.id;
-      deleteRecord(Id)
+      deleteRecord1(Id)
       .then(res => {
         this.setState({delete:true});
       })
@@ -43,8 +43,8 @@ class Delete extends Component {
   }
 }
 
-Delete.propTypes = {
+Deleteuser.propTypes = {
   match: PropTypes.object,
 };
 
-export default Delete;
+export default Deleteuser;

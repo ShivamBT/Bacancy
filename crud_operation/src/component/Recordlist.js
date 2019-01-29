@@ -3,6 +3,8 @@ import { NavLink } from 'react-router-dom';
 import axios from 'axios';
 import './Recordlist.css';
 import {getData} from './apiCall';
+import {getData1} from './apiCall';
+import {editData} from './apiCall';
 
 class Recordlist extends Component {
 
@@ -22,12 +24,17 @@ class Recordlist extends Component {
   onClick(e) {
     this.setState({ current_page: e.target.value},
        () => {
-      this.getData();
+        getData1(this.state.current_page)
+        .then(res => {
+          console.log('res', res)
+          this.setState({ users: res.data.data || [], load: false, pages: res.data })
+        })
+
     });
   }
 
  
-
+  
   pagination() {
     var page = [];
         for (var i = 1; i <= this.state.pages.total_pages; i++) {
@@ -43,14 +50,14 @@ class Recordlist extends Component {
 
   componentDidMount() {
     this.setState({ load: true });
-    getData(this.state.current_page)
+    getData1(this.state.current_page)
     .then(res => {
       console.log('res', res)
       this.setState({ users: res.data.data || [], load: false, pages: res.data })
     })
-   .catch(function (Error){
+   /*.catch(function (Error){
       console.log("Return error");
-    })
+    })*/
   }
 
   render() {
@@ -76,9 +83,9 @@ class Recordlist extends Component {
                     <div className="table-Data rightB"> {u.last_name} </div>
                     <div className="table-Data rightB"> <img src={u.avatar} alt="Profile" className='image' /> </div>
                     <div className="table-Data">
-                      <NavLink to={`/edit/${i + 1}`} className='link1'>Edit</NavLink>
-                      |
-                      <NavLink to={`/delete/${i + 1}`} className='link1'>Delete</NavLink>
+                      <NavLink to={`/edit/${i + 1}`} className='link1' activeStyle={{color:"red"}}>Edit</NavLink>
+                      &nbsp;|&nbsp;
+                      <NavLink to={`/delete/${i + 1}`} className='link1'activeStyle={{color:"red"}}>Delete</NavLink>
                     </div>
                   </div>
                 </div>

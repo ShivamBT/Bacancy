@@ -19,19 +19,19 @@
     margin-left: 11%;
 }
 
-.topBorder{
+.topB{
     border-top: 1px solid lightgrey;
 }
 
-.leftBorder{
+.leftB{
     border-left: 1px solid lightgrey;
 }
 
-.rightBorder{
+.rightB{
     border-right: 1px solid lightgrey;
 }
 
-.bottomBorder{
+.bottomB{
     border-bottom: 1px solid lightgrey;
 }
 

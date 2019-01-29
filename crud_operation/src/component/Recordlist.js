@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import axios from 'axios';
 import './Recordlist.css';
+import {getData} from './apiCall';
 
 class Recordlist extends Component {
 
@@ -15,7 +16,6 @@ class Recordlist extends Component {
     };
     this.pagination = this.pagination.bind(this);
     this.onClick = this.onClick.bind(this);
-    this.getData = this.getData.bind(this);
 
   }
 
@@ -26,15 +26,7 @@ class Recordlist extends Component {
     });
   }
 
-  getData() {
-    axios.get(`https://reqres.in/api/users?page=${this.state.current_page}`)
-      .then(res => {
-        this.setState({ users: res.data.data || [], load: false, pages: res.data });
-      })
-      .catch(function (error) {
-        alert("Error!!");
-      });
-  }
+ 
 
   pagination() {
     var page = [];
@@ -51,7 +43,14 @@ class Recordlist extends Component {
 
   componentDidMount() {
     this.setState({ load: true });
-    this.getData();
+    getData(this.state.current_page)
+    .then(res => {
+      console.log('res', res)
+      this.setState({ users: res.data.data || [], load: false, pages: res.data })
+    })
+   .catch(function (Error){
+      console.log("Return error");
+    })
   }
 
   render() {
@@ -63,19 +62,19 @@ class Recordlist extends Component {
       <div className="App1">
         <div className='load'>
           <div>
-            <div className="tableContent bottomBorder leftBorder rightBorder ">
-              <div className="headerData topBorder headingBottom">
-                <div className="table-Data rightBorder"> Firstname </div>
-                <div className="table-Data rightBorder"> Lastname </div>
-                <div className="table-Data rightBorder"> Avtar </div>
+            <div className="tableContent bottomB leftB rightB ">
+              <div className="headerData topB headingBottom">
+                <div className="table-Data rightB"> Firstname </div>
+                <div className="table-Data rightB"> Lastname </div>
+                <div className="table-Data rightB"> Avtar </div>
                 <div className="table-Data"> Action </div>
               </div>
               {this.state.users.map((u, i) =>
                 <div key={i}>
-                  <div className="topBorder">
-                    <div className="table-Data rightBorder"> {u.first_name} </div>
-                    <div className="table-Data rightBorder"> {u.last_name} </div>
-                    <div className="table-Data rightBorder"> <img src={u.avatar} alt="Profile" className='image' /> </div>
+                  <div className="topB">
+                    <div className="table-Data rightB"> {u.first_name} </div>
+                    <div className="table-Data rightB"> {u.last_name} </div>
+                    <div className="table-Data rightB"> <img src={u.avatar} alt="Profile" className='image' /> </div>
                     <div className="table-Data">
                       <NavLink to={`/edit/${i + 1}`} className='link1'>Edit</NavLink>
                       |

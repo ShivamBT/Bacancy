@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import PropTypes from 'prop-types';
+import {deleteRecord} from './apiCall';
 
 class Delete extends Component {
 
@@ -11,7 +12,6 @@ class Delete extends Component {
       delete: false,
       cancel: false,
     };
-    this.deleteRecord = this.deleteRecord.bind(this);
     this.confirmDelete = this.confirmDelete.bind(this);
   }
 
@@ -19,20 +19,15 @@ class Delete extends Component {
     this.confirmDelete();
   }
 
-  deleteRecord() {
-    axios.delete(`https://reqres.in/api/users/${this.props.match.params.id}`)
-      .then((json) => {
-        console.log('User deleted : ', json);
-        this.setState({ delete: true });
-      }).catch((err) => {
-        console.log("Error : ", err);
-      });
-  }
-
+  
   confirmDelete() {
       console.log("deleted");
     if (window.confirm('Are you sure you want to delete this user?')) {
-      this.deleteRecord();
+      let Id=this.props.match.params.id;
+      deleteRecord(Id)
+      .then(res => {
+        this.setState({delete:true});
+      })
     } else {
       this.setState({ cancel: true });
     }

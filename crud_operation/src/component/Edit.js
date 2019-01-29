@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Axios from 'axios';
 import PropTypes from 'prop-types';
+import {editData} from './apiCall';
 
 class Edit extends Component {
 
@@ -26,13 +27,8 @@ class Edit extends Component {
   }
 
   editData() {
-    Axios.post(`https://reqres.in/api/users/${this.props.match.params.id}`, { first_name: this.state.first_name, last_name: this.state.last_name })
-      .then(function (res) {
-        console.log("Data Edited: ", res);
-      })
-      .catch(function (error) {
-        alert("Error");
-      });
+    let Id=this.props.match.params.id;
+    editData(Id,this.state.first_name,this.state.last_name);
   }
 
   getData() {

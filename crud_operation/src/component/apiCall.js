@@ -1,68 +1,47 @@
 import React,{Component} from 'react';
-import axios from 'axios';
-import { reject } from 'q';
+import { postInterceptor,putInterceptor,deleteInterceptor,getInterceptor } from './HttpInterceptor';
+// import { postInterceptor,putInterceptor,deleteInterceptor,getInterceptor } from './';
 
-export const postData = (first_name,last_name) =>{
-    
-    axios.post('https://reqres.in/api/users',
-    {first_name:first_name,
-
-    last_name:last_name}
-    )
-    .then(json => {
-        console.log("User Added: " , json);
-    })
-    .catch(function (error){
-        console.log("Error of post data");
-    })
-
-}
-
-export const editData= (Id,first_name,last_name) =>
+const postData = (first_name,last_name) =>
 {
-    axios.post(`https://reqres.in/api/users/${Id}`, { first_name:first_name, last_name: last_name })
-      .then(function (res) {
-        console.log("Data Edited: ", res);
-      })
-      .catch(function (error) {
-        alert("Error of editdata");
-      });
+
+  let urlfinal=`/users/${first_name}${last_name}`;
+    return postInterceptor(urlfinal);
+
 }
 
 
 
-export const deleteRecord=(id)=>{
-    return (
-        axios.delete(`https://reqres.in/api/users/${id}`)
-    .then((res)=> {
-        return res;
-    })
-    )
-    .catch(function (error){
-        console.log("error of deleteRecord");
-    })
+const editData= (Id,first_name,last_name) =>
+{
+  let urlfinal=`/users/${Id}${first_name}${last_name}`;
+     return putInterceptor(urlfinal);
+}
+
+
+
+const deleteRecord=(id)=>
+{
+
+ let urlfinal=`/users${id}`;
+   return deleteInterceptor(urlfinal);
 }
 
 
   
-export const getData=(current_page)=>{ 
-  return  axios.get(`https://reqres.in/api/users?page=${current_page}`)
-        .then(res => {
-            console.log("Data:", res);
-            return res;
-        })
-        .catch(function (error) {
-          alert("Error of getData!!");
-        });
+const getData=(current_page)=>
+{ 
+    console.log("function called");
+       let urlfinal=`/users?page=${current_page}`;
+       return getInterceptor(urlfinal);
 }
   
 
-export const getUserData=(id) =>{
-      return axios.get(`https://reqres.in/api/users/${id}`)
-      .then(res => {
-          return res;
-      })
-      .catch(function (error){
-          alert("Error of edit user!!");
-      })
+const getUserData=(id) =>
+{
+      
+      let urlfinal=`/users/${id}`;
+    return getInterceptor(urlfinal);
 }
+
+export {postData,editData,deleteRecord,getData,getUserData};

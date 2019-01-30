@@ -14,7 +14,7 @@ class Routing extends Component {
           <div>
             <Switch>
               <Route exact path="/" component={Recordlist} />
-              <Route exact path='/edit/:id/:flag' component={Edituser} />
+              <Route exact path="/edit/:id/:flag" component={Edituser} />
             </Switch>
           </div>
         </div>

@@ -15,6 +15,7 @@ class Recordlist extends Component {
       load: false,
       current_page: 1,
       pages: [],
+      flag:1
     };
     this.pagination = this.pagination.bind(this);
     this.onClick = this.onClick.bind(this);
@@ -101,7 +102,7 @@ class Recordlist extends Component {
                     <div className="table-Data rightB"> {u.last_name} </div>
                     <div className="table-Data rightB"> <img src={u.avatar} alt="Profile" className='image' /> </div>
                     <div className="table-Data">
-                      <NavLink to={`/edit/${i + 1}/1`} className='link1' >Edit</NavLink>
+                      <NavLink to={`/edit/${u.id}/${this.state.flag}`} className='link1' >Edit</NavLink>
                       &nbsp;|&nbsp;
                       <NavLink to={`/`} className='link1' onClick={() => this.deleteUser(u.id)} >Delete</NavLink>
                     </div>

@@ -13,7 +13,7 @@ export const postData = (first_name,last_name) =>{
         console.log("User Added: " , json);
     })
     .catch(function (error){
-        console.log()
+        console.log("Error of post data");
     })
 
 }
@@ -25,59 +25,44 @@ export const editData= (Id,first_name,last_name) =>
         console.log("Data Edited: ", res);
       })
       .catch(function (error) {
-        alert("Error");
+        alert("Error of editdata");
       });
 }
 
 
-export const deleteRecord=async (Id)=> {
-    return new Promise((resolve, reject) => {
-        axios.delete(`https://reqres.in/api/users/${Id}`)
-         .then((res) => {
-           console.log('User deleted : ', res);
 
-          resolve(res);
-      })
-       .catch((err) => {
-        console.log("Error : ", err);
-      });
-    });
-  }
-
-
-export const deleteRecord1=(Id)=>{
-    return axios.delete(`https://reqres.in/api/users/${Id}`)
+export const deleteRecord=(id)=>{
+    return (
+        axios.delete(`https://reqres.in/api/users/${id}`)
     .then((res)=> {
-        console.log('User Deleted: ', res);
         return res;
     })
+    )
     .catch(function (error){
-        console.log("Error : ",error);
+        console.log("error of deleteRecord");
     })
 }
 
 
-  export const getData= async (current_page)=>{
-    return new Promise((resolve, reject) => {
-        axios.get(`https://reqres.in/api/users?page=${current_page}`)
-        .then(res => {
-            console.log("Data:", res);
-         resolve(res);
-        })
-        .catch(function (error) {
-          alert("Error!!");
-        });
-    })
-}
   
-export const getData1=(current_page)=>{ 
+export const getData=(current_page)=>{ 
   return  axios.get(`https://reqres.in/api/users?page=${current_page}`)
         .then(res => {
             console.log("Data:", res);
             return res;
         })
         .catch(function (error) {
-          alert("Error!!");
+          alert("Error of getData!!");
         });
 }
   
+
+export const getUserData=(id) =>{
+      return axios.get(`https://reqres.in/api/users/${id}`)
+      .then(res => {
+          return res;
+      })
+      .catch(function (error){
+          alert("Error of edit user!!");
+      })
+}

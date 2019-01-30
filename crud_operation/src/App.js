@@ -15,7 +15,7 @@ class App extends Component {
           <NavLink exact to='/' className='link'>Record List</NavLink>
           &nbsp;|&nbsp;
           <span>
-            <NavLink exact to='/list/new' className='link'>Add Record</NavLink>
+            <NavLink exact to='/edit/0/0' className='link'>Add Record</NavLink>
           </span>
           &nbsp;|&nbsp;
          

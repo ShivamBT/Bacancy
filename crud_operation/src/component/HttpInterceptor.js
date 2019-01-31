@@ -2,48 +2,44 @@ import axios from 'axios';
 const url="https://reqres.in/api";
 
 
-export const postInterceptor=(urlfinal) =>{
+export const postInterceptor=(argument) =>{
 
-    let complete_url=`${url}${urlfinal}`;
-
+  
     return (
-        axios.post(complete_url)
+        axios.post("https://reqres.in/api/users/",argument)
         .then(json => {
         console.log("User Added: " , json);
-    })
-    .catch(function (error){
-        alert("Error of post data");
-    })
+        })
+        .catch(function (error){
+            alert("Error of post data");
+        })
 
     )
 }
 
 
-export const putInterceptor=(urlfinal) =>{
-
-    let complete_url=`${url}${urlfinal}`;
+export const putInterceptor=(argument) =>{
 
     return(
-        axios.put(complete_url)
-      .then(res => {
-        console.log("Data Edited: ", res);
-      })
-      .catch(function (error) 
-      {
-        alert("Error of editdata");
-      })
+        axios.put("https://reqres.in/api/users/",argument)
+       .then(res => {
+        console.log("User Edited: ", res);
+       })
+        .catch(function (error) 
+       {
+         alert("Error of editdata");
+       })
     );
 }
 
 
-export const deleteInterceptor=(urlfinal) =>{
+export const deleteInterceptor=(argument) =>{
 
-    let complete_url=`${url}${urlfinal}`;
 
     return (
-        axios.delete(complete_url)
-    .then(res=> {
-         return res;
+        axios.delete("https://reqres.in/api/users/",argument)
+        .then(res=> {
+            return res;
         })
      
     .catch(function (error)
@@ -54,11 +50,11 @@ export const deleteInterceptor=(urlfinal) =>{
 }
 
 
-export const getInterceptor = (urlfinal) =>{
+export const getInterceptor = (urlfinal,argument) =>{
 
     let complete_url=`${url}${urlfinal}`;
 
-    return axios.get(complete_url)
+    return axios.get(complete_url,argument)
         .then(res => {
             console.log("Data:", res);
             return res;
@@ -70,4 +66,3 @@ export const getInterceptor = (urlfinal) =>{
     
 }
   
-// export {postInterceptor,putInterCeptor,deleteInterceptor,getInterCeptor}; 

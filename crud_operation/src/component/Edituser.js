@@ -24,6 +24,7 @@ class Edituser extends Component {
       this.getValues();
   }
 
+  
   componentDidUpdate(prevProps, prevState){
     if(prevProps !== this.props){
       this.setState({
@@ -42,6 +43,7 @@ class Edituser extends Component {
   editData() {
     let Id=this.props.match.params.id;
     editData(Id,this.state.first_name,this.state.last_name);
+    this.props.history.push("/");
   }
 
   getValues() {
@@ -60,6 +62,7 @@ class Edituser extends Component {
   putData()
   {
     postData(this.state.first_name,this.state.last_name);
+    this.props.history.push("/");
   }
 
   render() {

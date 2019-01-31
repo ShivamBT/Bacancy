@@ -1,21 +1,30 @@
 import React,{Component} from 'react';
+import axios from 'axios';
 import { postInterceptor,putInterceptor,deleteInterceptor,getInterceptor } from './HttpInterceptor';
 // import { postInterceptor,putInterceptor,deleteInterceptor,getInterceptor } from './';
 
 const postData = (first_name,last_name) =>
 {
-
-  let urlfinal=`/users/${first_name}${last_name}`;
-    return postInterceptor(urlfinal);
-
+  
+  let argument = {
+      first_name:first_name,
+      last_name:last_name
+    }
+    
+    return postInterceptor(argument);
+  
 }
 
 
 
 const editData= (Id,first_name,last_name) =>
 {
-  let urlfinal=`/users/${Id}${first_name}${last_name}`;
-     return putInterceptor(urlfinal);
+  let argument = {
+    id:Id,
+    first_name:first_name,
+    last_name:last_name
+  }
+     return putInterceptor(argument);
 }
 
 
@@ -23,25 +32,31 @@ const editData= (Id,first_name,last_name) =>
 const deleteRecord=(id)=>
 {
 
- let urlfinal=`/users${id}`;
-   return deleteInterceptor(urlfinal);
+ let argument={
+   id:id
+ }
+   return deleteInterceptor(argument);
 }
 
 
   
 const getData=(current_page)=>
-{ 
-    console.log("function called");
-       let urlfinal=`/users?page=${current_page}`;
-       return getInterceptor(urlfinal);
+{       
+  let urlfinal="/users/?page=";
+  let argument={
+    page:current_page
+  }
+       return getInterceptor(urlfinal,argument);
 }
   
 
 const getUserData=(id) =>
 {
-      
-      let urlfinal=`/users/${id}`;
-    return getInterceptor(urlfinal);
+    let urlfinal="/users/";
+    let argument={
+      id:id
+    }
+    return getInterceptor(urlfinal,argument);
 }
 
 export {postData,editData,deleteRecord,getData,getUserData};

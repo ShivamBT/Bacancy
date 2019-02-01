@@ -1,0 +1,24 @@
+.heading{
+  margin-left: 11%;
+  font-size: 25px;
+  margin-top: 0%;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.subheading{
+  font-family: Arial, Helvetica, sans-serif;
+  margin-left: 11%;
+}
+.link{
+  color:gray;
+  text-decoration-line: none;
+}
+.link1{
+  text-decoration-line: none;
+  color: black;
+}
+.active{
+    color: black;
+}
+.loading{
+  margin-left: 11%;
+}

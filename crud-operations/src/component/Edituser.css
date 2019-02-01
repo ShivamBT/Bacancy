@@ -1,0 +1,31 @@
+.subhead{
+    margin-left: 100px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.form{
+    font-family: Arial, Helvetica, sans-serif;
+    margin-left: 11%;
+}
+input{
+    border: 1px solid rgb(150, 150, 150);
+    padding: 10px;
+    border-radius: 5px;
+    width: 250px;  
+}
+button{
+    border: none;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    border-radius: 5px;
+}
+.submit{
+    background-color: gray;
+    color: white;
+}
+.cancel{
+    background-color: whitesmoke;
+}

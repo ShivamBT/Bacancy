@@ -6,58 +6,134 @@ const myFunc=async () =>
   /* let value =await axios.get("https://reqres.in/api/users/");
    console.log("Result: ", value);
    return value;*/
-   
+
+
 
    let value2=await Promise.all([axios.get("https://reqres.in/api/users/4"),
    axios.get("https://reqres.in/api/users/5"),
    axios.get("https://reqres.in/api/users/6"),
    axios.get("https://reqres.in/api/users/7")]);
 
+
+  
+ 
    return value2;
 
- /*.then(res => {
-       console.log("Result: ",res);
-       return res;
-     })
-   )*/
+
     }
 
 const chain1=()=>
 {
-  return "Hello";
+  return new Promise((resolve,reject)=> {
+    resolve("Hello");
+  })
+  
 }
+
+
+
 
 const chain2=(x)=>
 {
-  return x + " my";
+  return new Promise((resolve,reject)=> {
+    resolve (x + " my");
+  }) 
+  
 }
 
 const chain3=(x)=>
 {
-  return x + " name";
+  return new Promise((resolve,reject) =>{
+    resolve(x + " name");
+  }
+)
 }
 
 const chain4=(x)=>
 {
-  return x + " is";
+  return new Promise((resolve,reject) => {
+    resolve(x + " is");
+  })
 }
 
 const chain5=(x)=>
 {
-  return x + " Shivam";
+  return new Promise((resolve,reject) => {
+    resolve(x + " Shivam");
+  })
+  
 }
 
 
 
-const chaining=async ()=>{
+
+
+
+
+
+const promiseChain=() =>{
+ 
+   return (
+      chain1()
+      .then(res1 => {
+        return chain2(res1);
+      })
+       .then(res2 => {
+         return chain3(res2);
+      })
+       .then(res3 => {
+         return chain4(res3);
+      })
+        .then(res4 => {
+          return chain5(res4);
+       })
+         .then(res5 => {
+            console.log("Result of Promise Chain: ", res5);
+           return (res5);
+        }))
+  
+  
+}
+  /*
+  chain1()
+  .then(res1 => {
+    return chain2(res1);
+  })
+  .then(res2 => {
+    return chain3(res2);
+  })
+  .then(res3 => {
+    return chain4(res3);
+  })
+  .then(res4 => {
+    return chain5(res4);
+  })
+  .then(res5 => {
+    console.log("Result of Promise Chain: ", res5);
+    return res5;
+  })
+  .catch(function (error){
+    console.log("Error")
+  })
+}*/
+
+
+
+
+
+
+
+const asyncAwaitChain=async ()=>{
 
   let res1=await chain1();
   let res2=await chain2(res1);
   let res3=await chain3(res2);
   let res4=await chain4(res3);
   let res5=await chain5(res4);
+  
+  
 
-  console.log("Final string is :",res5);
+  console.log("Result Of Async Await Chain :",res5);
   return res5;
 
 } 
@@ -83,10 +159,16 @@ class App extends Component {
   myData=async() =>
   {
     let value =await myFunc();
-    console.log("results are:" , value);
+    console.log("[Promise.all] : " , value);
 
-    let value2=await chaining();
-    console.log("final string: ",value2); 
+   let value2=await asyncAwaitChain();
+    console.log("Async Await Final string: ",value2); 
+
+    promiseChain()
+    .then(res =>{
+      console.log("Promise Final String: ",res);
+    })
+    
   }
 
 

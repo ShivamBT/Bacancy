@@ -1,0 +1,44 @@
+.main{
+  padding-left: 8em;
+}
+.page{
+  color: #4c4c4c;
+  width: 40px;
+  text-decoration: none;
+  padding: 10px;
+  margin: 2px;
+  height: 2.4em;
+  font-size: 1em;
+  background-color: #e4e4e4;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+}
+
+.pages:hover{
+  color: #111111;
+  background: #a7a7a7;
+  font-weight: bold;
+}
+
+.activePage{
+  color:#ffffff;
+  font-weight: bold;
+  background: #585858;
+}
+
+.pagination{
+  padding: 15px 15px 15px 0px;
+  width: fit-content;
+  margin: 0px;
+  float: left;
+}
+
+.active{
+  font-weight: bold;
+}
+.fetching{
+  position: absolute;
+  margin: 25px;
+  color: #535353;
+}

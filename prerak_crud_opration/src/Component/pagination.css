@@ -1,0 +1,25 @@
+
+.pagination {
+    display: inline-block;
+    
+  }
+  
+  .link {
+    display: inline-block;
+    color: black;
+    padding: 8px 16px;
+    margin: 0.2em;
+    text-decoration: none;
+    border-radius: 0.1em;
+  }
+  
+  .activeLink {
+    background-color: blue;
+    color: white;
+  }
+
+  
+  .link:hover:not(.activeLink) {background-color: #ddd;}
+
+ 
+  

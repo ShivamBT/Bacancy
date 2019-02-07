@@ -1,0 +1,63 @@
+.add_user{
+    padding-top: 1em;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+p{
+    padding-top: 0.5em;
+    font-size: 1.5em;
+    
+}
+.Navlink{
+      text-decoration: none;
+      color: gray;
+      font-size: 1.2em;
+      font-weight: 500;
+    }
+  .action{
+    color: black;
+  }
+  .active{
+    color:black;
+    text-decoration: none;
+  }  
+  .Navlink:hover:not(.active) {
+    color: black;
+    text-decoration: none;
+  }
+input{
+    margin-block-start: 0em;
+    width: 37em;
+    height: 2.6em;
+    border-radius: 2%;
+    font-size: 1em;
+    box-shadow: none;
+    border-style: solid ;
+    border-width: 0.095em;
+    border-color: gray;
+  }
+  
+
+  .buttonSub{
+    margin-block-start: 1%; 
+    font-size: 1.1em;
+    border-radius: 4px;
+    height: 2em;
+    width: auto;
+    border-style: none;
+    margin-right: 1%;
+    background-color: darkgray;
+  }
+  .buttonCan{
+    margin-block-start: 1%; 
+    font-size: 1.1em;
+    border-radius: 4px;
+    height: 2em;
+    width: auto;
+    border-style: none;
+    margin-right: 1%;
+    background-color: #e4e4e4;
+  }
+  img{
+    height: 110px;
+}

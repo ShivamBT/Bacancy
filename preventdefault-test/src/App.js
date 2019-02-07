@@ -9,9 +9,8 @@ import { Form, FormGroup, Label } from "reactstrap";
 const pstyle={
   color: 'blue',
   textAlign: 'center'
-};
+}
 
-let signup=[];
 
 
 
@@ -29,28 +28,34 @@ export class App extends Component {
       phone_number: "",
       gender: "",
       like: [],
-      submit: false,
+      valid_name: false,
+      valid_email:false,
+      valid_password:false,
+      valid_number:false
 
     },
-
+      signup:[]
 
     }
 
     this.changeValue=this.changeValue.bind(this);
     this.changeValue2=this.changeValue2.bind(this);
     this.submitValue=this.submitValue.bind(this);
-
+    this.validateName=this.validateName.bind(this);
+    this.validateEmail=this.validateEmail.bind(this);
+    this.validatePassword=this.validatePassword.bind(this);
+    this.validateNUmber=this.validateNUmber.bind(this);
   }
 
 
   changeValue(e)
   {
   
-    let data=this.state.data;
+    let data={...this.state.data};
 
     data[e.target.name]=e.target.value;
     
-   /* let argument={...this.state[e.target.className],[e.target.name]:e.target.value}*/
+   
     
 
     this.setState({data});
@@ -61,7 +66,7 @@ export class App extends Component {
   {
   
 
-    let data=this.state.data;
+    let data={...this.state.data};
   
     
     data[e.target.name]=[...this.state.data.like,e.target.value];
@@ -71,25 +76,27 @@ export class App extends Component {
   }
 
 
-  submitValue(e)
+  
+
+  async submitValue(e)
   {
 
-   //let signup=[...this.state.signup,this.state.data];
-    
-     /* let signup=(this.state.signup).concat(Object(this.state.data));
-
-      this.setState({signup});*/
-
-      let data=this.state.data;
-
-      signup=[...signup,this.state.data];
-
-      //this.setState({data});
-      
-
-    console.log("Value Submitted: " , this.state, signup);
    
+
+ // let signup=[...this.state.signup,{...this.state.data}];
+  
+     await this.setState({signup : [...this.state.signup,this.state.data]});
+
+    console.log("Value Submitted: " , this.state)
+     
   }
+
+  
+
+  /*validateName()
+  {
+
+  }*/
 
  
 
@@ -100,8 +107,10 @@ export class App extends Component {
         
        
           <FormGroup>
-          
+              <Label>
               <InputComponent label="Name "   type="text" name="name" onChange={e => this.changeValue(e)}/>
+              </Label>
+              
           
           </FormGroup>
 
@@ -109,35 +118,41 @@ export class App extends Component {
 
 
           <FormGroup>
-            
+              <Label>
               <Textarea label="Address"  type="textarea" name="address" onChange={e => this.changeValue(e)}/>
+              </Label>
+              
           
           </FormGroup>
 
 
        
           <FormGroup>
-         
-              <InputComponent   label="E-Mail" type="email" name="email" onChange={e => this.changeValue(e)}/>
+            <Label>
+            <InputComponent   label="E-Mail" type="email" name="email" onChange={e => this.changeValue(e)} onBlur/>
+            </Label>
+              
            
           </FormGroup>
 
           <FormGroup>
-           
-              <InputComponent
+                <Label>
+                <InputComponent
                 
                 label="Phone Number"
                 type="number"
                 name="phone_number"
 
-                onChange={e => this.changeValue(e)}
-              />
+                onChange={e => this.changeValue(e)}/>
+                </Label>
+              
           
           </FormGroup>
 
 
           <FormGroup>
-          
+              <Label>
+
               <InputComponent
                 
                 label="Password"
@@ -146,20 +161,24 @@ export class App extends Component {
 
                 onChange={e => this.changeValue(e)}
               />
+              </Label>
+              
           
           </FormGroup>
 
           <FormGroup>
-            
+              <Label>
+
               <InputComponent
 
-                
                 label="Confirm Password"
                 type="password"
                 name="confirm_password"
 
                 onChange={e => this.changeValue(e)}
               />
+              </Label>
+              
            
           </FormGroup>
 

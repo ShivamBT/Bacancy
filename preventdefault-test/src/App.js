@@ -4,7 +4,7 @@ import { Textarea } from "./Components/Textarea";
 
 import "./App.css";
 import { Button } from "reactstrap";
-import { Form, FormGroup, Label , Container ,Row,Col} from "reactstrap";
+import { Form, FormGroup, Label , Container ,Row,Col,Badge} from "reactstrap";
 
 const pstyle={
   color: 'blue',
@@ -16,7 +16,19 @@ const dstyle={
 }
 
 
-
+const Badge1 = () =>
+{
+  return(
+    <div>
+      <h1>
+      <Badge color="primary">
+      Registration Form
+      </Badge>
+      </h1>
+      
+    </div>
+  )
+}
 
 
 export class App extends Component {
@@ -342,7 +354,9 @@ export class App extends Component {
         <Container>
         <Row>
           <Col>
-            <h1 style={pstyle}>Registration Form</h1>
+             <h1 style={{textAlign:'center'}}>
+             <Badge1/>
+             </h1>
             <h2>{this.state.field ? null : <p style={dstyle}>All Fields except Likes and Address are compulsory</p>}</h2>
      
           </Col>

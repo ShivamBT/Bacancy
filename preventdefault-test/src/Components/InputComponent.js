@@ -1,28 +1,24 @@
 import React,{Component}  from 'react';
 import { InputGroup, InputGroupAddon,InputGroupText,Input} from 'reactstrap';
 import './InputComponent.css';
+import PropTypes from 'prop-types';
 
-const pstyle={
-    fontSize: '15px',
-    color: 'red',
-}
 
-export class InputComponent extends Component
+
+export const InputComponent=(props)=>
 {
 
   
     
-    render()
-    {     
-        
+    
         return ( 
         <div>
 
             <InputGroup>
               
                    <InputGroupAddon addonType="prepend">
-                        <InputGroupText>
-                          {this.props.label}
+                        <InputGroupText color="primary">
+                          {props.label}
                         </InputGroupText>
                      
                     </InputGroupAddon> 
@@ -31,7 +27,7 @@ export class InputComponent extends Component
                    
                    
                    
-                    <input type={this.props.type}   name={this.props.name} value={this.props.value}  onChange={this.props.onChange} onBlur={this.props.onBlur}/>
+                    <input type={props.type}   name={props.name} value={props.value}  onChange={props.onChange} onBlur={props.onBlur}/>
                     
                   
                   
@@ -48,7 +44,4 @@ export class InputComponent extends Component
           
       );
   
-    }
-     
-    
 }

@@ -1,13 +1,18 @@
 import React from "react";
-import { InputGroup, InputGroupAddon, Input } from "reactstrap";
+import { InputGroup, InputGroupAddon,Badge } from "reactstrap";
 
-export const Textarea = props => {
+export const Textarea = (props) => {
   return (
     <div>
       <InputGroup>
-        <InputGroupAddon addonType="prepend">{props.label}</InputGroupAddon>
+        <InputGroupAddon addonType="prepend">
+        <Badge color="secondary">
+        {props.label}
+        </Badge>
+        
+        </InputGroupAddon>
 
-        <Input type="textarea" name={props.name} onChange={props.onChange} />
+        <input type="textarea" name={props.name} onChange={props.onChange} />
       </InputGroup>
     </div>
   );

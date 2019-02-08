@@ -19,7 +19,7 @@ const Badge1 = () =>
   return(
     <div>
       <h1>
-      <Badge color="primary">
+      <Badge color="secondary">
       Registration Form
       </Badge>
       </h1>
@@ -27,6 +27,88 @@ const Badge1 = () =>
     </div>
   )
 }
+
+const Badge2 = () =>
+{
+  return(
+    <Badge color="secondary">
+      Gender
+    </Badge>
+  )
+  }
+
+const Badge3 = () =>
+{
+  return(
+    <Badge color="secondary">
+      Likes
+    </Badge>
+  )
+}
+
+
+const Badge4 = () =>
+{
+  return(
+  <Badge color="danger">
+  All Fields except Likes and Address are compulsory
+  </Badge>)
+}
+
+const Badge5=()=>
+{
+  return(
+    <Badge color="danger">
+      Invalid Name
+    </Badge>
+  )
+}
+
+const Badge6=()=>
+{
+  return(
+    <Badge color="danger">
+      Invalid Email
+    </Badge>
+  )
+}
+
+const Badge7=()=>
+{
+  return(
+    <Badge color="danger">
+      Invalid Password
+    </Badge>
+  )
+}
+
+const Badge8=()=>
+{
+  return(
+    <Badge color="danger">
+      Invalid Confirm Password
+    </Badge>
+  )
+}
+
+const Badge9=()=>
+{
+  return(
+    <Badge color="danger">
+      Passwords do not match
+    </Badge>
+  )
+}
+
+const Badge10=()=>
+{
+  return(
+    <Badge color="danger">
+      Invalid Phone Number
+    </Badge>
+  )
+}
+
 
 
 export class App extends Component {
@@ -353,12 +435,18 @@ export class App extends Component {
         
         <Container>
         <Row>
-          <Col>
-             <h1 style={{textAlign:'center'}}>
+          <Col md={{offset:4}}>
+             <h1 >
              <Badge1/>
              </h1>
-            <h2>{this.state.field ? null : <p style={dstyle}>All Fields except Likes and Address are compulsory</p>}</h2>
+           
+          </Col>
+
+          <Col md={{offset:2}}>
+
+          <h2>{this.state.field ? null : <Badge4 />}</h2>
      
+
           </Col>
         </Row>
          <Form>
@@ -368,7 +456,7 @@ export class App extends Component {
               <Label>
               <InputComponent label="Name"  id="1"  type="text" name="name" onChange={e => this.changeValue(e)} onBlur={e => this.validate(e)}/>
               </Label>
-              {this.state.valid_name ? null : <p style={dstyle}><br/> Invalid Name</p>}
+              {this.state.valid_name ? null : <Badge5 /> }
               
               
           
@@ -380,7 +468,7 @@ export class App extends Component {
               <Label>
               <InputComponent   label="E-Mail" type="email" name="email" onChange={e => this.changeValue(e)} onBlur={e => this.validate(e)}/>
               </Label>
-              {this.state.valid_email ? null : <p style={dstyle}><br/> Invalid Email</p>}
+              {this.state.valid_email ? null : <Badge6 />}
            
             </FormGroup>
             </Col>
@@ -411,7 +499,7 @@ export class App extends Component {
                 onBlur={e => this.validate(e)}
               />
               </Label>
-              {this.state.valid_password ? null : <p style={dstyle}><br/> Invalid Password</p>}
+              {this.state.valid_password ? null : <Badge7 />}
           
           </FormGroup>
 
@@ -435,8 +523,8 @@ export class App extends Component {
                 
               />
               </Label>
-              {this.state.valid_confirm_password ? null : <p style={dstyle}><br/> Invalid Confirm Password</p>}
-              { this.state.valid_password_match ? null : <p style={dstyle}><br/> Passwords do not match</p>} 
+              {this.state.valid_confirm_password ? null : <Badge8 />}
+              { this.state.valid_password_match ? null : <Badge9 />} 
            
           </FormGroup>
 
@@ -465,7 +553,7 @@ export class App extends Component {
                 onBlur={e => this.validate(e)}
                 />
                 </Label>
-              {this.state.valid_phone_number ? null : <p style={dstyle}><br/> Invalid Phone Number</p>}
+              {this.state.valid_phone_number ? null : <Badge10 />}
 
           </FormGroup>  
 
@@ -493,7 +581,7 @@ export class App extends Component {
            <Row form> 
              <Col>
              <FormGroup tag="fieldset">
-            <legend>Gender</legend>
+            <legend><Badge2 /></legend>
             {/* {this.state.radio ? null : <p style={dstyle}> Please select one of the Gender</p>} */}
             <FormGroup check>
               <Label>
@@ -529,7 +617,7 @@ export class App extends Component {
 
              <Col>
              <FormGroup tag="fieldset">
-            <legend>Likes</legend>
+            <legend><Badge3 /></legend>
 
             <FormGroup check>
               <Label>

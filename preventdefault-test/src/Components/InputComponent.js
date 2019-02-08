@@ -1,5 +1,5 @@
-import React,{Component}  from 'react';
-import { InputGroup, InputGroupAddon,InputGroupText,Input} from 'reactstrap';
+import React  from 'react';
+import { InputGroup, InputGroupAddon,InputGroupText} from 'reactstrap';
 import './InputComponent.css';
 import PropTypes from 'prop-types';
 
@@ -44,4 +44,12 @@ export const InputComponent=(props)=>
           
       );
   
+}
+
+InputComponent.propTypes={
+  type:PropTypes.string.isRequired,
+  name:PropTypes.string.isRequired,
+  value:PropTypes.string.isRequired,
+  onChange:PropTypes.func.isRequired,
+  onBlur:PropTypes.func
 }

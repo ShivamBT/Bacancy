@@ -6,14 +6,12 @@ import "./App.css";
 import { Button } from "reactstrap";
 import { Form, FormGroup, Label , Container ,Row,Col,Badge} from "reactstrap";
 
-const pstyle={
-  color: 'blue',
-  textAlign: 'center'
-}
 
 const dstyle={
   color: 'red',
 }
+
+
 
 
 const Badge1 = () =>
@@ -115,6 +113,12 @@ export class App extends Component {
 //Submit Function Start
   async submitValue(e)
   {
+    // if(this.state.signup.length===0)
+    //   {
+    //     alert("Fields empty!!")
+    //     return false;
+    //   }
+      
     let data={...this.state.data};
   
     if(this.submitValidation() && this.userCheck(data))
@@ -255,53 +259,53 @@ export class App extends Component {
     }
 
   
-    async submitValidation()
+     submitValidation()
     {
       console.log("Submit Validation called");
 
-      await this.setState({field:false});
+       this.setState({field:false});
 
-      if(this.state.data.name=='')
+      if(this.state.data.name==='')
       {
         console.log("If called");
-          await this.setState({field:false});
+           this.setState({field:false});
           return false;
       } 
       
       
-      else if(this.state.data.email=='')
+      else if(this.state.data.email==='')
       {
         console.log("If called");
-          await this.setState({field:false});
+           this.setState({field:false});
           return false;
       }
 
-      else if(this.state.data.password=='')
+      else if(this.state.data.password==='')
       {
         console.log("If called");
-          await this.setState({field:false});
+          this.setState({field:false});
           return false;
       } 
       
        
-      else if(this.state.data.confirm_password=='') 
+      else if(this.state.data.confirm_password==='') 
       {
         console.log("If called");
-          await this.setState({field:false});
+           this.setState({field:false});
           return false;
       }
       
-      else if(this.state.data.phone_number=='')
+      else if(this.state.data.phone_number==='')
       {
         console.log("If called");
-          await this.setState({field:false});
+          this.setState({field:false});
           return false;
       } 
       
-      else if(this.state.data.gender=='')
+      else if(this.state.data.gender==='')
       {
         console.log("If called");
-          await this.setState({field:false});
+           this.setState({field:false});
           return false;
       } 
       
@@ -309,7 +313,7 @@ export class App extends Component {
       else
       {
         console.log("else called");
-        await this.setState({field:true});
+         this.setState({field:true});
 
         return true;
       }
@@ -319,14 +323,10 @@ export class App extends Component {
     userCheck(data)
     {
 
-      if(this.state.signup.length===0)
-      {
-        alert("Fields empty!!")
-        return false;
-      }
+      
       for(let i=0 ; i<this.state.signup.length ; i++)
       {
-        if(data.email==this.state.signup[i].email)
+        if(data.email===this.state.signup[i].email)
         {
           alert("This user is already registered");
           console.log("User already registered");

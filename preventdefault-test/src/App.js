@@ -333,7 +333,7 @@ export class App extends Component {
         <h2>{this.state.field ? null : <p style={dstyle}>All Fields except Likes and Address are compulsory</p>}</h2>
         
         
-        <Container>
+        <Container fluid>
           <Form>        
           <Row>
             <Col>
@@ -463,8 +463,9 @@ export class App extends Component {
           
         
  
-
-          <FormGroup tag="fieldset">
+           <Row >
+             <Col>
+             <FormGroup tag="fieldset">
             <legend>Gender</legend>
             {/* {this.state.radio ? null : <p style={dstyle}> Please select one of the Gender</p>} */}
             <FormGroup check>
@@ -497,8 +498,10 @@ export class App extends Component {
               </Label>
             </FormGroup>
           </FormGroup>
+             </Col>
 
-          <FormGroup tag="fieldset">
+             <Col>
+             <FormGroup tag="fieldset">
             <legend>Likes</legend>
 
             <FormGroup check>
@@ -547,7 +550,19 @@ export class App extends Component {
             </FormGroup>
           </FormGroup>
 
-          <Button color="primary" name="signup"  onClick={e => this.submitValue(e)}>SignUp</Button>
+             </Col>
+           </Row>
+
+
+          
+
+          <Row>
+            <Col xs="6">
+            <Button color="primary" name="signup"  onClick={e => this.submitValue(e)}>SignUp</Button>
+         
+            </Col>
+          </Row>
+          
         </Form>
 
         </Container>

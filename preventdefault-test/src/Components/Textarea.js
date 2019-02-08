@@ -6,9 +6,12 @@ export const Textarea = (props) => {
     <div>
       <InputGroup>
         <InputGroupAddon addonType="prepend">
+        <h4>
         <Badge color="secondary">
         {props.label}
         </Badge>
+        </h4>
+        
         
         </InputGroupAddon>
 

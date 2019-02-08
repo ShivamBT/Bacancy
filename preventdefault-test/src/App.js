@@ -451,7 +451,7 @@ export class App extends Component {
         </Row>
          <Form>
          <Row form>
-            <Col>
+            <Col >
             <FormGroup>
               <Label>
               <InputComponent label="Name"  id="1"  type="text" name="name" onChange={e => this.changeValue(e)} onBlur={e => this.validate(e)}/>

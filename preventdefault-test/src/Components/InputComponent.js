@@ -1,5 +1,5 @@
 import React  from 'react';
-import { InputGroup, InputGroupAddon,InputGroupText,Badge} from 'reactstrap';
+import { InputGroup, InputGroupAddon,InputGroupText,Input,Badge} from 'reactstrap';
 import './InputComponent.css';
 import PropTypes from 'prop-types';
 
@@ -17,11 +17,13 @@ export const InputComponent=(props)=>
             <InputGroup>
               
                    <InputGroupAddon addonType="prepend">
-                        
+                        <h4>
                           <Badge color="secondary">
                           {props.label}
                           </Badge>
-                       
+
+                        </h4>
+                                                 
                      
                     </InputGroupAddon> 
                     
@@ -29,7 +31,7 @@ export const InputComponent=(props)=>
                    
                    
                    
-                    <input type={props.type}   name={props.name} value={props.value}  onChange={props.onChange} onBlur={props.onBlur}/>
+                    <Input type={props.type}   name={props.name} value={props.value}  onChange={props.onChange} onBlur={props.onBlur}/>
                     
                   
                   

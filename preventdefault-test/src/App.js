@@ -306,6 +306,12 @@ export class App extends Component {
 
     userCheck(data)
     {
+
+      if(this.state.signup.length===0)
+      {
+        alert("Fields empty!!")
+        return false;
+      }
       for(let i=0 ; i<this.state.signup.length ; i++)
       {
         if(data.email==this.state.signup[i].email)
@@ -329,13 +335,20 @@ export class App extends Component {
    render() {
     return (
       <div className="App">
-        <h1 style={pstyle}>Registration Form</h1>
+        {/* <h1 style={pstyle}>Registration Form</h1>
         <h2>{this.state.field ? null : <p style={dstyle}>All Fields except Likes and Address are compulsory</p>}</h2>
+         */}
         
-        
-        <Container fluid>
-          <Form>        
-          <Row>
+        <Container>
+        <Row>
+          <Col>
+            <h1 style={pstyle}>Registration Form</h1>
+            <h2>{this.state.field ? null : <p style={dstyle}>All Fields except Likes and Address are compulsory</p>}</h2>
+     
+          </Col>
+        </Row>
+         <Form>
+         <Row form>
             <Col>
             <FormGroup>
               <Label>
@@ -367,7 +380,7 @@ export class App extends Component {
           
           
 
-         <Row>
+         <Row form>
            <Col>
 
            <FormGroup>
@@ -423,7 +436,7 @@ export class App extends Component {
         
 
 
-        <Row>
+        <Row form>
           <Col>
 
           <FormGroup>
@@ -463,7 +476,7 @@ export class App extends Component {
           
         
  
-           <Row >
+           <Row form> 
              <Col>
              <FormGroup tag="fieldset">
             <legend>Gender</legend>
@@ -556,8 +569,8 @@ export class App extends Component {
 
           
 
-          <Row>
-            <Col xs="6">
+          <Row form>
+            <Col xs={{size: 'auto' , offset: 5}}>
             <Button color="primary" name="signup"  onClick={e => this.submitValue(e)}>SignUp</Button>
          
             </Col>

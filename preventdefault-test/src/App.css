@@ -1,6 +1,6 @@
 .App {
-  text-align: left;
-  border:3px black solid;
+  text-align: center;
+  border:3px black;
 }
 
 .App-logo {
@@ -34,6 +34,7 @@
 
 .fieldset {
   border: 1px black solid;
+  padding:30px;
 }
 
 .Form{
@@ -43,4 +44,23 @@
 .h1{
   color:blue;
   text-align:center;
+}
+
+
+.inner{
+  border:1px black solid;
+}
+
+.struct{
+  text-align: center;
+}
+
+.container{
+  display:flex;
+  flex-direction: column;
+  align-content: space-between;
+}
+
+.button{
+  margin-left:55px;
 }

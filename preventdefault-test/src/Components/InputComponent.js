@@ -1,5 +1,5 @@
 import React  from 'react';
-import { InputGroup, InputGroupAddon,InputGroupText,Input,Badge} from 'reactstrap';
+import { InputGroup, InputGroupAddon,InputGroupText,Input,Badge,FormFeedback} from 'reactstrap';
 import './InputComponent.css';
 import PropTypes from 'prop-types';
 
@@ -31,8 +31,8 @@ export const InputComponent=(props)=>
                    
                    
                    
-                    <Input type={props.type}   name={props.name} value={props.value}  onChange={props.onChange} onBlur={props.onBlur}/>
-                    
+                    <Input type={props.type}  invalid={props.invalid} name={props.name} value={props.value}  onChange={props.onChange} onBlur={props.onBlur}/>
+                    <FormFeedback invalid>That's wrong input</FormFeedback>
                   
                   
                    
@@ -53,7 +53,7 @@ export const InputComponent=(props)=>
 InputComponent.propTypes={
   type:PropTypes.string.isRequired,
   name:PropTypes.string.isRequired,
-  value:PropTypes.string.isRequired,
+  value:PropTypes.string,
   onChange:PropTypes.func.isRequired,
   onBlur:PropTypes.func
 }

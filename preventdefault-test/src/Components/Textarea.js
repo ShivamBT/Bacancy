@@ -15,7 +15,7 @@ export const Textarea = (props) => {
         
         </InputGroupAddon>
 
-        <input type="textarea" name={props.name} onChange={props.onChange} />
+        <textarea rows="4" cols="30" name={props.name} onChange={props.onChange} />
       </InputGroup>
     </div>
   );

@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { InputComponent } from "./Components/InputComponent";
 import { Textarea } from "./Components/Textarea";
 
+
+
 import "./App.css";
 import { Button } from "reactstrap";
 import { Form, FormGroup, Label , Container ,Row,Col,Badge} from "reactstrap";
@@ -142,7 +144,7 @@ export class App extends Component {
     this.changeValue=this.changeValue.bind(this);
     this.changeValue2=this.changeValue2.bind(this);
     this.submitValue=this.submitValue.bind(this);
-    this.validate=this.validate.bind(this);
+    //this.validate=this.validate.bind(this);
     this.validateName=this.validateName.bind(this);
     this.validateEmail=this.validateEmail.bind(this);
     this.validatePassword=this.validatePassword.bind(this);
@@ -196,13 +198,11 @@ export class App extends Component {
   async submitValue(e)
   {
     // if(this.state.signup.length===0)
-    //   {
-    //     alert("Fields empty!!")
-    //     return false;
-    //   }
+
       
     let data={...this.state.data};
-  
+
+     
     if(this.submitValidation() && this.userCheck(data))
     {
       await this.setState({signup : [...this.state.signup,this.state.data]});
@@ -214,96 +214,61 @@ export class App extends Component {
     
      
   }
+  
 
  //Submit Function end
 
-  // Main Validation Function starts here
-
-  async validate(e)
-  {
-      if(e.target.name==="name")
-      {
-          let x=e.target.value;
-
-          this.validateName(x);
-      }
-
-      else if(e.target.name==="email")
-      {
-          let x=e.target.value;
-
-          this.validateEmail(x);
-      }
-
-     else if(e.target.name==="password")
-      {
-          let x=e.target.value;
-
-          this.validatePassword(x);
-      }
-
-      else if(e.target.name==="confirm_password")
-      {
-          let x=e.target.value;
-          
-          this.validateConfirmPassword(x);
-
-           
-     }
-
-      else if(e.target.name==="phone_number")
-      {
-          let x=e.target.value;
-
-          this.validateNumber(x);
-      }
-  }
-
-//Main Validation function ends here
-
+  
 
 
 //Individual Validation methods start here
 
-  async validateName(x)
-    {   
-       await this.setState({valid_name:false});
+   validateName(e)
+    { 
+      let x=e.target.value;
+
+       this.setState({valid_name:false});
 
        let regex= /^[a-zA-Z ]{2,30}$/.test(x);
              
-       await this.setState({valid_name:regex});
+        this.setState({valid_name:regex});
 
        console.log("regex is: ",regex);
     }
 
-    async validateEmail(x)
+     validateEmail(e)
     {
-        await this.setState({valid_email:false});
+      let x=e.target.value;
+
+         this.setState({valid_email:false});
         
         let regex= /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(x);
 
-        await this.setState({valid_email:regex});
+         this.setState({valid_email:regex});
 
         console.log("regex is: ",regex);
     }
 
-   async validatePassword(x)
+    validatePassword(e)
     {
-        await this.setState({valid_password:false});
+      let x=e.target.value;
+         this.setState({valid_password:false});
        
         console.log("Value of password: ",x);
 
         let regex= /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/.test(x);
 
-        await this.setState({valid_password:regex});
+         this.setState({valid_password:regex});
 
         console.log("regex is: ",regex);
     }
 
 
-    async validateConfirmPassword(x)
+      validateConfirmPassword(e)
     {
-        await this.setState({valid_confirm_password:false,valid_password_match:false});
+      let x=e.target.value;
+
+         this.setState({valid_confirm_password:false,valid_password_match:false});
 
         let regex= /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/.test(x);
 
@@ -314,7 +279,7 @@ export class App extends Component {
         {
                         
           
-          await this.setState({valid_confirm_password:regex,valid_password_match:true});
+           this.setState({valid_confirm_password:regex,valid_password_match:true});
         }
 
         else if(regex)
@@ -322,20 +287,22 @@ export class App extends Component {
 
          // alert("Passwords Do Not Match");
                
-          await this.setState({valid_confirm_password:regex});
+           this.setState({valid_confirm_password:regex});
 
         }
 
     }
     
 
-    async validateNumber(x)
+     validateNumber(e)
     {
-        await this.setState({valid_phone_number:false});
+      let x=e.target.value;
+
+         this.setState({valid_phone_number:false});
 
         let regex= /^(?:(?:\+|0{0,2})91(\s*[\ -]\s*)?|[0]?)?[789]\d{9}|(\d[ -]?){10}\d$/.test(x);
 
-        await this.setState({valid_phone_number:regex});
+         this.setState({valid_phone_number:regex});
 
         console.log("regex is: ",regex);
     }
@@ -434,27 +401,42 @@ export class App extends Component {
          */}
         
         <Container>
+        <div className="inner">
+
         <Row>
-          <Col md={{offset:4}}>
+          <Col md={{offset:5}}>
+            
              <h1 >
              <Badge1/>
              </h1>
+
+             <br/>
            
           </Col>
 
-          <Col md={{offset:2}}>
+          <Col md={{offset:3}}>
 
           <h2>{this.state.field ? null : <Badge4 />}</h2>
-     
-
+  
+                <br/>
           </Col>
         </Row>
-         <Form>
+
+
+     
+
+            
+            <Form>
+         <FormGroup tag="fieldset">
+
+         <div className="container">
+
+         <div>
          <Row form>
             <Col >
             <FormGroup>
               <Label>
-              <InputComponent label="Name"  id="1"  type="text" name="name" onChange={e => this.changeValue(e)} onBlur={e => this.validate(e)}/>
+              <InputComponent label="Name" invalid={!this.state.valid_name} id="1"  type="text" name="name" onChange={e => this.changeValue(e)} onBlur={e => this.validateName(e)}/>
               </Label>
               {this.state.valid_name ? null : <Badge5 /> }
               
@@ -463,10 +445,15 @@ export class App extends Component {
             </FormGroup>
 
             </Col>
+           </Row>
+
+         </div>
+          <div>
+          <Row form>
             <Col>
             <FormGroup>
               <Label>
-              <InputComponent   label="E-Mail" type="email" name="email" onChange={e => this.changeValue(e)} onBlur={e => this.validate(e)}/>
+              <InputComponent   label="E-Mail" invalid={!this.state.valid_email} type="email" name="email" onChange={e => this.changeValue(e)} onBlur={e => this.validateEmail(e)}/>
               </Label>
               {this.state.valid_email ? null : <Badge6 />}
            
@@ -475,14 +462,16 @@ export class App extends Component {
           </Row>
          
           
-      
+ 
+          </div>         
+                
           
 
           
           
           
-
-         <Row form>
+          <div>
+          <Row form>
            <Col>
 
            <FormGroup>
@@ -493,10 +482,11 @@ export class App extends Component {
                 label="Password"
                 type="password"
                 name="password"
+                invalid={!this.state.valid_password}
                 value={this.state.password}
 
                 onChange={e => this.changeValue(e)}
-                onBlur={e => this.validate(e)}
+                onBlur={e => this.validatePassword(e)}
               />
               </Label>
               {this.state.valid_password ? null : <Badge7 />}
@@ -505,6 +495,13 @@ export class App extends Component {
 
            </Col>
 
+          </Row>
+
+            
+          </div>
+
+          <div>
+          <Row form>
            <Col>
            <FormGroup>
               <Label>
@@ -514,11 +511,12 @@ export class App extends Component {
                 label="Confirm Password"
                 type="password"
                 name="confirm_password"
+                invalid={!this.state.valid_confirm_password}
                 value={this.state.confirm_password}
                
 
                 onChange={e => this.changeValue(e)}
-                onBlur={e => this.validate(e)}
+                onBlur={e => this.validateConfirmPassword(e)}
               
                 
               />
@@ -535,10 +533,13 @@ export class App extends Component {
          
 
           
-        
+ 
+
+          </div>
 
 
-        <Row form>
+          <div>
+          <Row form>
           <Col>
 
           <FormGroup>
@@ -548,9 +549,9 @@ export class App extends Component {
                 label="Phone Number"
                 type="number"
                 name="phone_number"
-
+                invalid={!this.state.valid_phone_number}
                 onChange={e => this.changeValue(e)}
-                onBlur={e => this.validate(e)}
+                onBlur={e => this.validateNumber(e)}
                 />
                 </Label>
               {this.state.valid_phone_number ? null : <Badge10 />}
@@ -559,26 +560,37 @@ export class App extends Component {
 
           </Col>
 
-          <Col>
-           
-          <FormGroup>
-              <Label>
-              <Textarea label="Address"  type="textarea" name="address" onChange={e => this.changeValue(e)} onBlur={e => this.validate(e)}/>
-              </Label>
-            
-              
-          
-          </FormGroup>
+         
 
-          </Col>
-        </Row>
-                    
-          
-          
-          
-        
+          </Row>         
+          </div>
+   
+          <div>
+          <Row form>
+
+           <Col>
  
-           <Row form> 
+             <FormGroup>
+              <Label>
+               <Textarea label="Address"  type="textarea" name="address" onChange={e => this.changeValue(e)} onBlur={e => this.validate(e)}/>
+               </Label>
+  
+    
+
+               </FormGroup>
+
+               </Col>
+              </Row>
+          
+
+
+
+          </div>
+
+                    
+        
+            <div>
+            <Row form> 
              <Col>
              <FormGroup tag="fieldset">
             <legend><Badge2 /></legend>
@@ -613,8 +625,14 @@ export class App extends Component {
               </Label>
             </FormGroup>
           </FormGroup>
-             </Col>
+          </Col>
 
+
+          </Row>
+
+
+          </div>
+          <Row form>
              <Col>
              <FormGroup tag="fieldset">
             <legend><Badge3 /></legend>
@@ -671,15 +689,25 @@ export class App extends Component {
 
           
 
+          <div>
+
+          </div>
+           
           <Row form>
             <Col xs={{size: 'auto' , offset: 5}}>
-            <Button color="primary" name="signup"  onClick={e => this.submitValue(e)}>SignUp</Button>
+            
+            <Button color="primary" name="signup" className="button"  onClick={e => this.submitValue(e)}>SignUp</Button>
          
             </Col>
           </Row>
-          
+          </div>
+       
+  
+         </FormGroup>
         </Form>
-
+        </div>
+            
+        
         </Container>
              
       </div>

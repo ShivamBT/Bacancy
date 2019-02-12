@@ -8,10 +8,7 @@ import {FaEnvelope,FaUserAlt,FaKey,FaPhone} from 'react-icons/fa';
 
 export const InputComponent=(props)=>
 {
-
-  
-    
-      return ( 
+    return ( 
         <div>
              <InputGroup>
               
@@ -30,8 +27,8 @@ export const InputComponent=(props)=>
                         </h4>
                    </InputGroupAddon> 
                     
-                     <Input type={props.type}  name={props.name} value={props.value}  onChange={props.onChange} onBlur={props.onBlur}/>
-                      
+                     <Input type={props.type} invalid={props.invalid} name={props.name} value={props.value}  onChange={props.onChange} onBlur={props.onBlur}/>
+                      <FormFeedback invalid>That's wrong input</FormFeedback>
                   
              </InputGroup>
          </div>
@@ -47,5 +44,11 @@ InputComponent.propTypes={
   onChange:PropTypes.func.isRequired,
   onBlur:PropTypes.func,
   invalid:PropTypes.bool
+}
+
+InputComponent.defaultProps={
+  type:"text",
+  name:"input",
+  invalid:false
 }
 

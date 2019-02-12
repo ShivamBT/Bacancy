@@ -1,5 +1,6 @@
 import React from "react";
 import { InputGroup, InputGroupAddon,Badge } from "reactstrap";
+import PropTypes from 'prop-types';
 
 export const Textarea = (props) => {
   return (
@@ -20,3 +21,13 @@ export const Textarea = (props) => {
     </div>
   );
 };
+
+Textarea.defaultProps={
+  label:"Address",
+  name:"address"
+}
+
+Textarea.PropTypes={
+  label:PropTypes.string.isRequired,
+  name:PropTypes.string.isRequired
+}

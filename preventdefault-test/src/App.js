@@ -1,18 +1,9 @@
 import React, { Component } from "react";
 import { InputComponent } from "./Components/InputComponent";
 import { Textarea } from "./Components/Textarea";
-import {FaEnvelope} from "react-icons/fa";
-
-
-
 import "./App.css";
 import { Button } from "reactstrap";
 import { Form, FormGroup, Label , Container ,Row,Col,Badge,InputGroup} from "reactstrap";
-
-
-
-
-
 
 const Badge1 = () =>
 {
@@ -342,6 +333,7 @@ export class App extends Component {
       <div className="App">
         <Container>
           <div className="inner">
+          
              <h1 className="h1">
                <Badge1/>
              </h1>
@@ -361,7 +353,7 @@ export class App extends Component {
               <Col>
                <FormGroup>
                 <Label>
-                  <InputComponent label="Name"  invalid={!this.state.valid_name} id="1"  type="text" name="name" onChange={e => this.changeValue(e)} onBlur={e => this.validateName(e)}/>
+                  <InputComponent label="Name"  invalid={!this.state.valid_name}  type="text" name="name" onChange={e => this.changeValue(e)} onBlur={e => this.validateName(e)}/>
                 </Label>
               {this.state.valid_name ? null : <Badge5 /> }
                </FormGroup>

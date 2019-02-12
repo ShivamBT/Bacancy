@@ -348,8 +348,8 @@ export class App extends Component {
              <br/>
              
              <Row>
-              <Col md={{offset:3}}>
-                <h2>{this.state.field ? null : <Badge4 />}</h2>
+              <Col md={{offset:1}}>
+                <h5>{this.state.field ? null : <Badge4 />}</h5>
                 <br/>
               </Col>
              </Row>
@@ -478,8 +478,11 @@ export class App extends Component {
              
              
              <Row form>
-              <Col xs={{size: 'auto' , offset: 5}}>
+              <Col xs={{size: 'auto', offset:3}}>
+               
                 <Button color="primary" name="signup" className="button"  onClick={e => this.submitValue(e)}>SignUp</Button>
+              
+                
               </Col>
              </Row>
             

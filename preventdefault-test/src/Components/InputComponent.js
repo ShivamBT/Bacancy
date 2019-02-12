@@ -11,46 +11,30 @@ export const InputComponent=(props)=>
 
   
     
-        return ( 
+      return ( 
         <div>
-
-            <InputGroup>
+             <InputGroup>
               
                    <InputGroupAddon addonType="prepend">
                         <h4>
-                          <Badge color="secondary">
+                         <Badge color="secondary">
                           <div>
                             {props.type=="text" ? <div><FaUserAlt />  {props.label}</div>:null}
                             {props.type=="email" ? <div><FaEnvelope />  {props.label}</div>:null}
                             {props.type=="password" ? <div><FaKey />  {props.label}</div>:null}
                             {props.type=="number" ? <div><FaPhone />  {props.label}</div>:null}   
                             {props.type=="radio" ? <div>{props.label}</div>:null}
-                            {props.type=="checkbox" ? <div>{props.label}</div>:null}                      
-                         </div>
-                          </Badge>
-
+                           {props.type=="checkbox" ? <div>{props.label}</div>:null}                      
+                          </div>
+                         </Badge>
                         </h4>
-                                                 
-                     
-                    </InputGroupAddon> 
+                   </InputGroupAddon> 
                     
+                     <Input type={props.type} invalid={props.invalid} name={props.name} value={props.value}  onChange={props.onChange} onBlur={props.onBlur}/>
+                      <FormFeedback invalid>That's wrong input</FormFeedback>
                   
-                   
-                   
-                   
-                    <Input type={props.type} invalid={props.invalid} name={props.name} value={props.value}  onChange={props.onChange} onBlur={props.onBlur}/>
-                    <FormFeedback invalid>That's wrong input</FormFeedback>
-                  
-                   
-                    
-              
-
-                   
-               </InputGroup>
-         
-
-            
-        </div>
+             </InputGroup>
+         </div>
           
       );
   

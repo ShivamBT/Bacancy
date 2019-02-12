@@ -1,5 +1,5 @@
 .App {
-  text-align: center;
+  text-align: left;
   border:3px black;
 }
 
@@ -43,24 +43,32 @@
 
 .h1{
   color:blue;
+  margin-left:20px;
   text-align:center;
 }
 
 
 .inner{
   border:1px black solid;
+
 }
 
 .struct{
   text-align: center;
 }
 
-.container{
-  display:flex;
-  flex-direction: column;
-  align-content: space-between;
+.row{
+  margin-left:20px;
 }
 
 .button{
-  margin-left:55px;
+  margin-left:70px;
+}
+
+.legend{
+  margin-left:15px;
+}
+
+.genderlegend{
+  margin-left:5px;
 }

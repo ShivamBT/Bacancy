@@ -1,7 +1,8 @@
 import React  from 'react';
-import { InputGroup, InputGroupAddon,InputGroupText,Input,Badge,FormFeedback} from 'reactstrap';
+import { InputGroup, InputGroupAddon,Input,Badge,FormFeedback} from 'reactstrap';
 import './InputComponent.css';
 import PropTypes from 'prop-types';
+import {FaEnvelope,FaUserAlt,FaKey,FaPhone} from 'react-icons/fa';
 
 
 
@@ -9,7 +10,6 @@ export const InputComponent=(props)=>
 {
 
   
-    
     
         return ( 
         <div>
@@ -19,7 +19,14 @@ export const InputComponent=(props)=>
                    <InputGroupAddon addonType="prepend">
                         <h4>
                           <Badge color="secondary">
-                          {props.label}
+                          <div>
+                            {props.type=="text" ? <div><FaUserAlt />  {props.label}</div>:null}
+                            {props.type=="email" ? <div><FaEnvelope />  {props.label}</div>:null}
+                            {props.type=="password" ? <div><FaKey />  {props.label}</div>:null}
+                            {props.type=="number" ? <div><FaPhone />  {props.label}</div>:null}   
+                            {props.type=="radio" ? <div>{props.label}</div>:null}
+                            {props.type=="checkbox" ? <div>{props.label}</div>:null}                      
+                         </div>
                           </Badge>
 
                         </h4>
@@ -27,18 +34,17 @@ export const InputComponent=(props)=>
                      
                     </InputGroupAddon> 
                     
+                  
                    
                    
                    
-                   
-                    <Input type={props.type}  invalid={props.invalid} name={props.name} value={props.value}  onChange={props.onChange} onBlur={props.onBlur}/>
+                    <Input type={props.type} invalid={props.invalid} name={props.name} value={props.value}  onChange={props.onChange} onBlur={props.onBlur}/>
                     <FormFeedback invalid>That's wrong input</FormFeedback>
                   
-                  
                    
-             
+                    
               
-               
+
                    
                </InputGroup>
          
@@ -55,5 +61,7 @@ InputComponent.propTypes={
   name:PropTypes.string.isRequired,
   value:PropTypes.string,
   onChange:PropTypes.func.isRequired,
-  onBlur:PropTypes.func
+  onBlur:PropTypes.func,
+  invalid:PropTypes.bool
 }
+

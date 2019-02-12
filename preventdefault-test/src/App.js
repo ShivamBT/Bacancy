@@ -1,17 +1,15 @@
 import React, { Component } from "react";
 import { InputComponent } from "./Components/InputComponent";
 import { Textarea } from "./Components/Textarea";
+import {FaEnvelope} from "react-icons/fa";
 
 
 
 import "./App.css";
 import { Button } from "reactstrap";
-import { Form, FormGroup, Label , Container ,Row,Col,Badge} from "reactstrap";
+import { Form, FormGroup, Label , Container ,Row,Col,Badge,InputGroup} from "reactstrap";
 
 
-const dstyle={
-  color: 'red',
-}
 
 
 
@@ -144,7 +142,6 @@ export class App extends Component {
     this.changeValue=this.changeValue.bind(this);
     this.changeValue2=this.changeValue2.bind(this);
     this.submitValue=this.submitValue.bind(this);
-    //this.validate=this.validate.bind(this);
     this.validateName=this.validateName.bind(this);
     this.validateEmail=this.validateEmail.bind(this);
     this.validatePassword=this.validatePassword.bind(this);
@@ -165,28 +162,16 @@ export class App extends Component {
 
   changeValue(e)
   {
-  
     let data={...this.state.data};
-
     data[e.target.name]=e.target.value;
-    
-   
-    
-
     this.setState({data});
   }
 
 
   changeValue2(e)
   {
-  
-
     let data={...this.state.data};
-  
-    
     data[e.target.name]=[...this.state.data.like,e.target.value];
-
-    
     this.setState({data});
   }
 
@@ -197,18 +182,11 @@ export class App extends Component {
 //Submit Function Start
   async submitValue(e)
   {
-    // if(this.state.signup.length===0)
-
-      
     let data={...this.state.data};
-
-     
     if(this.submitValidation() && this.userCheck(data))
     {
       await this.setState({signup : [...this.state.signup,this.state.data]});
-
       console.log("Value Submitted: " , this.state)
-      
       alert("User registed Successfully !!");
     }
     
@@ -226,154 +204,121 @@ export class App extends Component {
    validateName(e)
     { 
       let x=e.target.value;
-
        this.setState({valid_name:false});
-
        let regex= /^[a-zA-Z ]{2,30}$/.test(x);
-             
-        this.setState({valid_name:regex});
-
+       this.setState({valid_name:regex});
        console.log("regex is: ",regex);
     }
 
+
      validateEmail(e)
-    {
-      let x=e.target.value;
-
-         this.setState({valid_email:false});
-        
+     {
+        let x=e.target.value;
+        this.setState({valid_email:false});
         let regex= /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(x);
-
-         this.setState({valid_email:regex});
-
+        this.setState({valid_email:regex});
         console.log("regex is: ",regex);
-    }
+      }
 
     validatePassword(e)
     {
       let x=e.target.value;
          this.setState({valid_password:false});
-       
-        console.log("Value of password: ",x);
-
-        let regex= /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/.test(x);
-
+         console.log("Value of password: ",x);
+         let regex= /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/.test(x);
          this.setState({valid_password:regex});
-
-        console.log("regex is: ",regex);
+         console.log("regex is: ",regex);
     }
 
 
       validateConfirmPassword(e)
-    {
-      let x=e.target.value;
-
-         this.setState({valid_confirm_password:false,valid_password_match:false});
-
+      {
+        let x=e.target.value;
+        this.setState({valid_confirm_password:false,valid_password_match:false});
         let regex= /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/.test(x);
-
         console.log("Value of password: ", this.state.data.password);
         console.log("Value of confirm password: ",x);
 
         if(regex && this.state.data.password===this.state.data.confirm_password)
         {
-                        
-          
-           this.setState({valid_confirm_password:regex,valid_password_match:true});
+          this.setState({valid_confirm_password:regex,valid_password_match:true});
         }
 
         else if(regex)
-        {
-
-         // alert("Passwords Do Not Match");
-               
+        {               
            this.setState({valid_confirm_password:regex});
-
         }
 
-    }
+       }
     
-
-     validateNumber(e)
-    {
-      let x=e.target.value;
-
+      validateNumber(e)
+       {
+         let x=e.target.value;
          this.setState({valid_phone_number:false});
-
-        let regex= /^(?:(?:\+|0{0,2})91(\s*[\ -]\s*)?|[0]?)?[789]\d{9}|(\d[ -]?){10}\d$/.test(x);
-
+         let regex= /^(?:(?:\+|0{0,2})91(\s*[\ -]\s*)?|[0]?)?[789]\d{9}|(\d[ -]?){10}\d$/.test(x);
          this.setState({valid_phone_number:regex});
-
         console.log("regex is: ",regex);
-    }
+       }
 
   
-     submitValidation()
-    {
-      console.log("Submit Validation called");
-
-       this.setState({field:false});
-
-      if(this.state.data.name==='')
+      submitValidation()
       {
-        console.log("If called");
+        console.log("Submit Validation called");
+        this.setState({field:false});
+        if(this.state.data.name==='')
+        {
+           console.log("If called");
            this.setState({field:false});
-          return false;
-      } 
+           return false;
+        } 
       
-      
-      else if(this.state.data.email==='')
-      {
-        console.log("If called");
+        else if(this.state.data.email==='')
+        {
+           console.log("If called");
            this.setState({field:false});
-          return false;
-      }
+           return false;
+        }
 
-      else if(this.state.data.password==='')
-      {
-        console.log("If called");
+        else if(this.state.data.password==='')
+        {
+          console.log("If called");
           this.setState({field:false});
           return false;
-      } 
+        } 
       
-       
-      else if(this.state.data.confirm_password==='') 
-      {
-        console.log("If called");
-           this.setState({field:false});
-          return false;
-      }
-      
-      else if(this.state.data.phone_number==='')
-      {
-        console.log("If called");
+        else if(this.state.data.confirm_password==='') 
+        {
+          console.log("If called");
           this.setState({field:false});
           return false;
-      } 
+        }
       
-      else if(this.state.data.gender==='')
-      {
-        console.log("If called");
-           this.setState({field:false});
+        else if(this.state.data.phone_number==='')
+        {
+          console.log("If called");
+          this.setState({field:false});
           return false;
-      } 
+        } 
       
-
-      else
-      {
-        console.log("else called");
-         this.setState({field:true});
-
-        return true;
-      }
-    }
+        else if(this.state.data.gender==='')
+        {
+          console.log("If called");
+          this.setState({field:false});
+          return false;
+        }   
+      
+        else
+        {
+          console.log("else called");
+          this.setState({field:true});
+          return true;
+        }
+     }
 
 
     userCheck(data)
     {
-
-      
-      for(let i=0 ; i<this.state.signup.length ; i++)
+     for(let i=0 ; i<this.state.signup.length ; i++)
       {
         if(data.email===this.state.signup[i].email)
         {
@@ -382,7 +327,6 @@ export class App extends Component {
           return false;
         }
        }
-       
        return true;
     }
 
@@ -396,320 +340,153 @@ export class App extends Component {
    render() {
     return (
       <div className="App">
-        {/* <h1 style={pstyle}>Registration Form</h1>
-        <h2>{this.state.field ? null : <p style={dstyle}>All Fields except Likes and Address are compulsory</p>}</h2>
-         */}
-        
         <Container>
-        <div className="inner">
-
-        <Row>
-          <Col md={{offset:5}}>
-            
-             <h1 >
-             <Badge1/>
+          <div className="inner">
+             <h1 className="h1">
+               <Badge1/>
              </h1>
-
              <br/>
-           
-          </Col>
-
-          <Col md={{offset:3}}>
-
-          <h2>{this.state.field ? null : <Badge4 />}</h2>
-  
+             
+             <Row>
+              <Col md={{offset:3}}>
+                <h2>{this.state.field ? null : <Badge4 />}</h2>
                 <br/>
-          </Col>
-        </Row>
+              </Col>
+             </Row>
 
-
-     
-
-            
             <Form>
-         <FormGroup tag="fieldset">
-
-         <div className="container">
-
-         <div>
-         <Row form>
-            <Col >
-            <FormGroup>
-              <Label>
-              <InputComponent label="Name" invalid={!this.state.valid_name} id="1"  type="text" name="name" onChange={e => this.changeValue(e)} onBlur={e => this.validateName(e)}/>
-              </Label>
+             <FormGroup tag="fieldset">
+             
+             <Row form className="row">
+              <Col>
+               <FormGroup>
+                <Label>
+                  <InputComponent label="Name"  invalid={!this.state.valid_name} id="1"  type="text" name="name" onChange={e => this.changeValue(e)} onBlur={e => this.validateName(e)}/>
+                </Label>
               {this.state.valid_name ? null : <Badge5 /> }
-              
-              
-          
-            </FormGroup>
-
-            </Col>
-           </Row>
-
-         </div>
-          <div>
-          <Row form>
-            <Col>
-            <FormGroup>
-              <Label>
-              <InputComponent   label="E-Mail" invalid={!this.state.valid_email} type="email" name="email" onChange={e => this.changeValue(e)} onBlur={e => this.validateEmail(e)}/>
-              </Label>
+               </FormGroup>
+              </Col>
+             </Row>
+             
+             
+             <Row form className="row">
+              <Col>
+               <FormGroup>
+                <Label>
+                  <InputComponent   label="E-Mail"  invalid={!this.state.valid_email} type="email" name="email" onChange={e => this.changeValue(e)} onBlur={e => this.validateEmail(e)}/>
+                </Label>
               {this.state.valid_email ? null : <Badge6 />}
-           
-            </FormGroup>
-            </Col>
-          </Row>
-         
-          
- 
-          </div>         
-                
-          
-
-          
-          
-          
-          <div>
-          <Row form>
-           <Col>
-
-           <FormGroup>
-              <Label>
-
-              <InputComponent
-                
-                label="Password"
-                type="password"
-                name="password"
-                invalid={!this.state.valid_password}
-                value={this.state.password}
-
-                onChange={e => this.changeValue(e)}
-                onBlur={e => this.validatePassword(e)}
-              />
-              </Label>
-              {this.state.valid_password ? null : <Badge7 />}
-          
-          </FormGroup>
-
-           </Col>
-
-          </Row>
-
-            
-          </div>
-
-          <div>
-          <Row form>
-           <Col>
-           <FormGroup>
-              <Label>
-
-              <InputComponent
-
-                label="Confirm Password"
-                type="password"
-                name="confirm_password"
-                invalid={!this.state.valid_confirm_password}
-                value={this.state.confirm_password}
-               
-
-                onChange={e => this.changeValue(e)}
-                onBlur={e => this.validateConfirmPassword(e)}
+               </FormGroup>
+              </Col>
+            </Row>
               
-                
-              />
+              
+            <Row form className="row">
+              <Col>
+               <FormGroup>
+                <Label>
+                  <InputComponent label="Password" type="password" name="password"  invalid={!this.state.valid_password} value={this.state.password} onChange={e => this.changeValue(e)} onBlur={e => this.validatePassword(e)}/>
+                </Label>
+              {this.state.valid_password ? null : <Badge7 />}
+               </FormGroup>
+              </Col>
+             </Row>
+             
+             
+             <Row form className="row">
+              <Col>
+               <FormGroup>
+                <Label>
+                  <InputComponent label="Confirm Password" type="password" name="confirm_password"  invalid={!this.state.valid_confirm_password} value={this.state.confirm_password} onChange={e => this.changeValue(e)} onBlur={e => this.validateConfirmPassword(e)} />
               </Label>
               {this.state.valid_confirm_password ? null : <Badge8 />}
               { this.state.valid_password_match ? null : <Badge9 />} 
-           
-          </FormGroup>
+               </FormGroup>
+              </Col>
+             </Row>
 
-           </Col>
-         </Row>
-
-
-         
-
-          
- 
-
-          </div>
-
-
-          <div>
-          <Row form>
-          <Col>
-
-          <FormGroup>
+             
+             <Row form className="row">
+              <Col>
+               <FormGroup>
                 <Label>
-                <InputComponent
-                
-                label="Phone Number"
-                type="number"
-                name="phone_number"
-                invalid={!this.state.valid_phone_number}
-                onChange={e => this.changeValue(e)}
-                onBlur={e => this.validateNumber(e)}
-                />
+                  <InputComponent label="Phone Number" type="number" name="phone_number"  invalid={!this.state.valid_phone_number} onChange={e => this.changeValue(e)} onBlur={e => this.validateNumber(e)} />
                 </Label>
               {this.state.valid_phone_number ? null : <Badge10 />}
-
-          </FormGroup>  
-
-          </Col>
-
-         
-
-          </Row>         
-          </div>
-   
-          <div>
-          <Row form>
-
-           <Col>
- 
-             <FormGroup>
-              <Label>
-               <Textarea label="Address"  type="textarea" name="address" onChange={e => this.changeValue(e)} onBlur={e => this.validate(e)}/>
-               </Label>
-  
-    
-
+               </FormGroup>  
+              </Col>
+             </Row>         
+          
+          
+             <Row form className="row">
+              <Col>
+               <FormGroup>
+                <Label>
+                  <Textarea label="Address"  type="textarea" name="address" onChange={e => this.changeValue(e)} onBlur={e => this.validate(e)}/>
+                </Label>
                </FormGroup>
-
+              </Col>
+             </Row>
+          
+          
+             <Row form> 
+               <legend className="genderlegend"><Badge2 /></legend>
+               <Col >
+                <FormGroup check>
+                 <Label>
+                   <InputComponent label="Male" type="radio" name="gender" value="male" onChange={e => this.changeValue(e)} />
+                 </Label>
+                </FormGroup>
                </Col>
-              </Row>
-          
-
-
-
-          </div>
-
-                    
-        
-            <div>
-            <Row form> 
-             <Col>
-             <FormGroup tag="fieldset">
-            <legend><Badge2 /></legend>
-            {/* {this.state.radio ? null : <p style={dstyle}> Please select one of the Gender</p>} */}
-            <FormGroup check>
-              <Label>
-                <InputComponent
-
-                  
-                  label="Male"
-                  type="radio"
-                  name="gender"
-                  value="male"
-
-                  onChange={e => this.changeValue(e)}
-                />
-              </Label>
-            </FormGroup>
-
-            <FormGroup check>
-              <Label>
-                <InputComponent
-
-                  
-                  label="Female"
-                  type="radio"
-                  name="gender"
-                  value="female"
-
-                  onChange={e => this.changeValue(e)}
-                />
-              </Label>
-            </FormGroup>
-          </FormGroup>
-          </Col>
-
-
-          </Row>
-
-
-          </div>
-          <Row form>
-             <Col>
-             <FormGroup tag="fieldset">
-            <legend><Badge3 /></legend>
-
-            <FormGroup check>
-              <Label>
-                <InputComponent
-
-                  
-                  label="I Like ReactJS"
-                  type="checkbox"
-                  name="like"
-                  value="reactjs"
-
-                  onChange={e => this.changeValue2(e)}
-                />
-              </Label>
-            </FormGroup>
-
-            <FormGroup check>
-              <Label>
-                <InputComponent
-
-                  
-                  label="I Like AngularJS"
-                  type="checkbox"
-                  name="like"
-                  value="angularjs"
-
-                  onChange={e => this.changeValue2(e)}
-                />
-              </Label>
-            </FormGroup>
-
-            <FormGroup check>
-              <Label>
-                <InputComponent
-
-                  
-                  label="I Like VueJS"
-                  type="checkbox"
-                  name="like"
-                  value="vuejs"
-
-                  onChange={e => this.changeValue2(e)}
-                />
-              </Label>
-            </FormGroup>
-          </FormGroup>
-
-             </Col>
-           </Row>
-
-
-          
-
-          <div>
-
-          </div>
-           
-          <Row form>
-            <Col xs={{size: 'auto' , offset: 5}}>
-            
-            <Button color="primary" name="signup" className="button"  onClick={e => this.submitValue(e)}>SignUp</Button>
-         
-            </Col>
-          </Row>
-          </div>
-       
-  
-         </FormGroup>
-        </Form>
-        </div>
-            
-        
-        </Container>
              
+               <Col >
+                <FormGroup check>
+                 <Label>
+                   <InputComponent label="Female" type="radio" name="gender" value="female" onChange={e => this.changeValue(e)} />
+                 </Label>
+                </FormGroup>
+               </Col>
+             </Row>
+         
+
+             <Row>
+               <legend className="legend"><Badge3 /></legend>
+               <Col>
+                <FormGroup check>
+                 <Label>
+                   <InputComponent label="I Like ReactJS" type="checkbox" name="like" value="reactjs" onChange={e => this.changeValue2(e)} />
+                 </Label>
+                </FormGroup>
+               </Col>
+
+               <Col>
+                <FormGroup check>
+                 <Label>
+                   <InputComponent label="I Like AngularJS" type="checkbox" name="like" value="angularjs" onChange={e => this.changeValue2(e)} />
+                 </Label>
+                </FormGroup>
+               </Col>
+
+               <Col>
+                <FormGroup check>
+                 <Label>
+                   <InputComponent label="I Like VueJS" type="checkbox" name="like" value="vuejs" onChange={e => this.changeValue2(e)} />
+                 </Label>
+                </FormGroup>
+               </Col>
+             </Row>
+             
+             
+             <Row form>
+              <Col xs={{size: 'auto' , offset: 5}}>
+                <Button color="primary" name="signup" className="button"  onClick={e => this.submitValue(e)}>SignUp</Button>
+              </Col>
+             </Row>
+            
+            </FormGroup>
+           </Form>
+          </div>
+        </Container>
       </div>
     );
   }

@@ -1,6 +1,7 @@
 import React from "react";
 import { InputGroup, InputGroupAddon,Badge } from "reactstrap";
 import PropTypes from 'prop-types';
+import {FaAddressCard} from 'react-icons/fa';
 
 export const Textarea = (props) => {
   return (
@@ -9,7 +10,7 @@ export const Textarea = (props) => {
         <InputGroupAddon addonType="prepend">
         <h4>
         <Badge color="secondary">
-        {props.label}
+          <FaAddressCard /> {props.label}
         </Badge>
         </h4>
         

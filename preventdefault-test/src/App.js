@@ -3,7 +3,8 @@ import { InputComponent } from "./Components/InputComponent";
 import { Textarea } from "./Components/Textarea";
 import "./App.css";
 import { Button } from "reactstrap";
-import { Form, FormGroup, Label , Container ,Row,Col,Badge,InputGroup} from "reactstrap";
+import { Form, FormGroup, Label , Container ,Row,Col,Badge,FormText} from "reactstrap";
+import {FaUserPlus} from 'react-icons/fa';
 
 const Badge1 = () =>
 {
@@ -11,7 +12,7 @@ const Badge1 = () =>
     <div>
       <h1>
       <Badge color="secondary">
-      Registration Form
+      <FaUserPlus /> Registration Form
       </Badge>
       </h1>
       
@@ -338,6 +339,7 @@ export class App extends Component {
                <Badge1/>
              </h1>
              <br/>
+            
              
              <Row>
               <Col md={{offset:1}}>
@@ -353,8 +355,11 @@ export class App extends Component {
               <Col>
                <FormGroup>
                 <Label>
-                  <InputComponent label="Name"  invalid={!this.state.valid_name}  type="text" name="name" onChange={e => this.changeValue(e)} onBlur={e => this.validateName(e)}/>
+                  <InputComponent label="Name"  invalid={!this.state.valid_name} placeholder="Shivam" type="text" name="name" onChange={e => this.changeValue(e)} onBlur={e => this.validateName(e)}/>
                 </Label>
+                <FormText>
+                  Enter both your First Name and Last name here with a space
+                </FormText>
               {this.state.valid_name ? null : <Badge5 /> }
                </FormGroup>
               </Col>
@@ -365,8 +370,11 @@ export class App extends Component {
               <Col>
                <FormGroup>
                 <Label>
-                  <InputComponent   label="E-Mail"  invalid={!this.state.valid_email} type="email" name="email" onChange={e => this.changeValue(e)} onBlur={e => this.validateEmail(e)}/>
+                  <InputComponent   label="E-Mail"  invalid={!this.state.valid_email} placeholder="john@example.com" type="email" name="email" onChange={e => this.changeValue(e)} onBlur={e => this.validateEmail(e)}/>
                 </Label>
+                <FormText>
+                  Enter any valid e-mail here.
+                </FormText>
               {this.state.valid_email ? null : <Badge6 />}
                </FormGroup>
               </Col>
@@ -379,6 +387,9 @@ export class App extends Component {
                 <Label>
                   <InputComponent label="Password" type="password" name="password"  invalid={!this.state.valid_password} value={this.state.password} onChange={e => this.changeValue(e)} onBlur={e => this.validatePassword(e)}/>
                 </Label>
+                <FormText>
+                  Enter a password with alphabets, number and special characters
+                </FormText>
               {this.state.valid_password ? null : <Badge7 />}
                </FormGroup>
               </Col>
@@ -391,6 +402,9 @@ export class App extends Component {
                 <Label>
                   <InputComponent label="Confirm Password" type="password" name="confirm_password"  invalid={!this.state.valid_confirm_password} value={this.state.confirm_password} onChange={e => this.changeValue(e)} onBlur={e => this.validateConfirmPassword(e)} />
               </Label>
+              <FormText>
+                Enter the password matching above password
+              </FormText>
               {this.state.valid_confirm_password ? null : <Badge8 />}
               { this.state.valid_password_match ? null : <Badge9 />} 
                </FormGroup>
@@ -402,8 +416,12 @@ export class App extends Component {
               <Col>
                <FormGroup>
                 <Label>
-                  <InputComponent label="Phone Number" type="number" name="phone_number"  invalid={!this.state.valid_phone_number} onChange={e => this.changeValue(e)} onBlur={e => this.validateNumber(e)} />
+                  <InputComponent label="Phone Number" type="number" name="phone_number" placeholder="7359955607" invalid={!this.state.valid_phone_number} onChange={e => this.changeValue(e)} onBlur={e => this.validateNumber(e)} />
                 </Label>
+                <FormText>
+                  Enter any Valid Mobile Number
+                </FormText>
+
               {this.state.valid_phone_number ? null : <Badge10 />}
                </FormGroup>  
               </Col>
@@ -416,18 +434,32 @@ export class App extends Component {
                 <Label>
                   <Textarea label="Address"  type="textarea" name="address" onChange={e => this.changeValue(e)} onBlur={e => this.validate(e)}/>
                 </Label>
+                <FormText>
+                  Enter your Permanent Living Address here
+                </FormText>
                </FormGroup>
               </Col>
              </Row>
           
           
              <Row form> 
-               <legend className="genderlegend"><Badge2 /></legend>
+               
+               <legend className="genderlegend">
+                 <Badge2 />
+                  <h6>
+                   <FormText>
+                     Please select one of the genders.It's not optional
+                   </FormText>
+                  </h6>
+                </legend>
                <Col >
+               
                 <FormGroup check>
+                
                  <Label>
                    <InputComponent label="Male" type="radio" name="gender" value="male" onChange={e => this.changeValue(e)} />
                  </Label>
+                 
                 </FormGroup>
                </Col>
              
@@ -442,7 +474,14 @@ export class App extends Component {
          
 
              <Row>
-               <legend className="legend"><Badge3 /></legend>
+               <legend className="legend">
+                <Badge3 />
+                 <h6>
+                  <FormText>
+                    Please select one of the Likes.It's optional
+                  </FormText>
+                 </h6>
+               </legend>
                <Col>
                 <FormGroup check>
                  <Label>

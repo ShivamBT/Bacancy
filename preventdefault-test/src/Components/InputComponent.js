@@ -2,7 +2,7 @@ import React  from 'react';
 import { InputGroup, InputGroupAddon,Input,Badge,FormFeedback} from 'reactstrap';
 import './InputComponent.css';
 import PropTypes from 'prop-types';
-import {FaEnvelope,FaUserAlt,FaKey,FaPhone} from 'react-icons/fa';
+import {FaEnvelope,FaUserAlt,FaKey,FaPhone,FaMale,FaFemale} from 'react-icons/fa';
 
 
 
@@ -19,15 +19,17 @@ export const InputComponent=(props)=>
                             {props.type=="text" ? <div><FaUserAlt />  {props.label}</div>:null}
                             {props.type=="email" ? <div><FaEnvelope />  {props.label}</div>:null}
                             {props.type=="password" ? <div><FaKey />  {props.label}</div>:null}
-                            {props.type=="number" ? <div><FaPhone />  {props.label}</div>:null}   
-                            {props.type=="radio" ? <div>{props.label}</div>:null}
-                           {props.type=="checkbox" ? <div>{props.label}</div>:null}                      
+                            {props.type=="number" ? <div><FaPhone />  {props.label}</div>:null}    
+                            {props.type=="radio" && props.value=="male"  ?<div><FaMale />{props.label}</div>:null}
+                            {props.type=="radio" && props.value=="female"  ?<div><FaFemale />{props.label}</div>:null} 
+                            {props.type=="checkbox" ? <div>{props.label}</div>:null}
+                      
                           </div>
                          </Badge>
                         </h4>
                    </InputGroupAddon> 
                     
-                     <Input type={props.type} invalid={props.invalid} name={props.name} value={props.value}  onChange={props.onChange} onBlur={props.onBlur}/>
+                     <Input type={props.type} invalid={props.invalid} name={props.name} placeholder={props.placeholder} value={props.value}  onChange={props.onChange} onBlur={props.onBlur}/>
                       <FormFeedback invalid>That's wrong input</FormFeedback>
                   
              </InputGroup>

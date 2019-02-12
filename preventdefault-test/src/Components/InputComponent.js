@@ -30,8 +30,8 @@ export const InputComponent=(props)=>
                         </h4>
                    </InputGroupAddon> 
                     
-                     <Input type={props.type} invalid={props.invalid} name={props.name} value={props.value}  onChange={props.onChange} onBlur={props.onBlur}/>
-                      <FormFeedback invalid>That's wrong input</FormFeedback>
+                     <Input type={props.type}  name={props.name} value={props.value}  onChange={props.onChange} onBlur={props.onBlur}/>
+                      
                   
              </InputGroup>
          </div>

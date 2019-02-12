@@ -3,103 +3,8 @@ import { InputComponent } from "./Components/InputComponent";
 import { Textarea } from "./Components/Textarea";
 import "./App.css";
 import { Button } from "reactstrap";
-import { Form, FormGroup, Label , Container ,Row,Col,Badge,FormText} from "reactstrap";
-import {FaUserPlus} from 'react-icons/fa';
-
-const Badge1 = () =>
-{
-  return(
-    <div>
-      <h1>
-      <Badge color="secondary">
-      <FaUserPlus /> Registration Form
-      </Badge>
-      </h1>
-      
-    </div>
-  )
-}
-
-const Badge2 = () =>
-{
-  return(
-    <Badge color="secondary">
-      Gender
-    </Badge>
-  )
-  }
-
-const Badge3 = () =>
-{
-  return(
-    <Badge color="secondary">
-      Likes
-    </Badge>
-  )
-}
-
-
-const Badge4 = () =>
-{
-  return(
-  <Badge color="danger">
-  All Fields except Likes and Address are compulsory
-  </Badge>)
-}
-
-const Badge5=()=>
-{
-  return(
-    <Badge color="danger">
-      Invalid Name
-    </Badge>
-  )
-}
-
-const Badge6=()=>
-{
-  return(
-    <Badge color="danger">
-      Invalid Email
-    </Badge>
-  )
-}
-
-const Badge7=()=>
-{
-  return(
-    <Badge color="danger">
-      Invalid Password
-    </Badge>
-  )
-}
-
-const Badge8=()=>
-{
-  return(
-    <Badge color="danger">
-      Invalid Confirm Password
-    </Badge>
-  )
-}
-
-const Badge9=()=>
-{
-  return(
-    <Badge color="danger">
-      Passwords do not match
-    </Badge>
-  )
-}
-
-const Badge10=()=>
-{
-  return(
-    <Badge color="danger">
-      Invalid Phone Number
-    </Badge>
-  )
-}
+import { Form, FormGroup, Label , Container ,Row,Col,FormText} from "reactstrap";
+import {Badge1,Badge2,Badge3,Badge4,Badge5,Badge6,Badge7,Badge8,Badge9,Badge10} from "./Components/Badges";
 
 
 
@@ -128,6 +33,7 @@ export class App extends Component {
       valid_phone_number:true,
       valid_password_match:true,
       field:true,
+      user_check:true
 
     }
 

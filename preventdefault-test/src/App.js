@@ -8,6 +8,7 @@ import {Badge1,Badge2,Badge3,Badge4,Badge5,Badge6,Badge7,Badge8,Badge9,Badge10} 
 import {Radio} from "./Components/Radio/Radio";
 import { Checkbox } from "./Components/Checkbox/Checkbox";
 import { Password } from "./Components/Password/Password";
+import { submitValidation, userCheck,getValidation } from "./Components/Validation/Validation";
 
 
 
@@ -17,91 +18,62 @@ export class App extends Component {
     this.state = {
       data: { //Data Object is used to store data temporarily
         name: "",
-        address: "",
         email: "",
+        phone_number: "",
         password: "",
         confirm_password: "",
-        phone_number: "",
+        address: "",
         gender: "",
         like: [],
-
       },
-      signup: [], //Signup array Stores User Data in each of its element
-
+      valid:{
+        name: true,
+        email: true,
+        phone_number:true,
+        password: true,
+        confirm_password: true,
+        gender:true,
+        field: true,
+        userCheck:true
+      },
+      signup: [], //Signup array Stores Single User Data in each of its element
      
-      valid_password: true,
-      valid_confirm_password: true,
-      valid_password_match: true,
-      field: true,
-      user_check: true,
-      checkbox_value: [{
-        id: "1",
-        label: "I Like ReactJs"
-      }, {
-        id: "2",
-        label: "I Like AngularJs"
-      }, {
-        id: "3",
-        label: "I Like VueJS"
-      }],
-      radio_value: [{
-        id: "4",
-        label: "Male",
-        name: "gender"
-      }, {
-        id: "4",
-        label: "Female",
-        name: "gender"
-      }]
+      checkbox_value:[{ id: "1", label: "I Like ReactJs" },
+        { id: "2", label: "I Like AngularJs" },
+        {id: "3",label: "I Like VueJS"}],
+      
+      radio_value: [{ id: "4", label: "Male", name: "gender" },
+      { id: "5", label: "Female", name: "gender" }]
     }
 
     this.changeValue = this.changeValue.bind(this);
-    this.changeValue2 = this.changeValue2.bind(this);
+    this.changeCheckbox = this.changeCheckbox.bind(this);
     this.submitValue = this.submitValue.bind(this);
-   
-    this.validateConfirmPassword = this.validateConfirmPassword.bind(this);
-    this.validateNumber = this.validateNumber.bind(this);
-    this.submitValidation = this.submitValidation.bind(this);
-    this.userCheck = this.userCheck.bind(this);
-
+    this.validMain = this.validMain.bind(this);
   }
-
-
-
-
-
-
-
-  //Change Value Functions Start here
 
   changeValue(e) {
-    let data = {
-      ...this.state.data
-    };
+    let data = {...this.state.data};
     data[e.target.name] = e.target.value;
-    this.setState({
-      data
-    });
+    this.setState({data});
   }
 
-  changeValue2(e) {
-    let data = {
-      ...this.state.data
-    };
+  changeCheckbox(e) {
+    let data = {...this.state.data};
     data[e.target.name] = [...this.state.data.like, e.target.value];
-    this.setState({
-      data
-    });
+    this.setState({data});
   }
 
-  //Change Value Functions end here
-
-  //Submit Function Start
   async submitValue(e) {
-    let data = {
-      ...this.state.data
-    };
-    if (this.submitValidation() && this.userCheck(data)) {
+    let data = { ...this.state.data };
+    let valid = { ...this.state.valid };
+    valid=Object.assign(...Object.keys(valid).map(k => ({[k]: false})));
+    this.setState({ valid });
+    let x = submitValidation(data);
+    valid=Object.assign(...Object.keys(valid).map(k => ({[k]: x})));
+    this.setState({ valid });
+    let y = userCheck(data,this.state.signup);
+    if (x && y){
       await this.setState({
         signup: [...this.state.signup, this.state.data]
       });
@@ -109,154 +81,60 @@ export class App extends Component {
       alert("User registed Successfully !!");
     }
   }
-  //Submit Function end
-
-  //Individual Validation methods start here
-
-  validateName(e) {
-    let x = e.target.value;
-    this.setState({
-      valid_name: false
-    });
-    let regex = /^[a-zA-Z ]{2,30}$/.test(x);
-    this.setState({
-      valid_name: regex
-    });
-    console.log("regex is: ", regex);
-  }
 
 
-  validateEmail(e) {
-    let x = e.target.value;
-    this.setState({
-      valid_email: false
-    });
-    let regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(x);
-    this.setState({
-      valid_email: regex
-    });
-    console.log("regex is: ", regex);
-  }
-
-  validatePassword(e) {
-    let x = e.target.value;
-    this.setState({
-      valid_password: false
-    });
-    console.log("Value of password: ", x);
-    let regex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/.test(x);
-    this.setState({
-      valid_password: regex
-    });
-    console.log("regex is: ", regex);
-  }
-
-
-  validateConfirmPassword(e) {
-    let x = e.target.value;
-    this.setState({
-      valid_confirm_password: false,
-      valid_password_match: false
-    });
-    let regex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/.test(x);
-    console.log("Value of password: ", this.state.data.password);
-    console.log("Value of confirm password: ", x);
-
-    if (regex && this.state.data.password === this.state.data.confirm_password) {
-      this.setState({
-        valid_confirm_password: regex,
-        valid_password_match: true
-      });
-    } else if (regex) {
-      this.setState({
-        valid_confirm_password: regex
-      });
+  validMain(e)
+  {
+    console.log("valid main called");
+    let valid = { ...this.state.valid };
+    let name = e.target.name;
+    let value = e.target.value;
+    if (name === "name")
+    {
+      valid[name] = false;
+      this.setState({ valid });
+      let x = getValidation(name,value); 
+      valid[name] = x;
+      this.setState({ valid });
     }
-
-  }
-
-  validateNumber(e) {
-    let x = e.target.value;
-    this.setState({
-      valid_phone_number: false
-    });
-    let regex = /^(?:(?:\+|0{0,2})91(\s*[\ -]\s*)?|[0]?)?[789]\d{9}|(\d[ -]?){10}\d$/.test(x);
-    this.setState({
-      valid_phone_number: regex
-    });
-    console.log("regex is: ", regex);
-  }
-
-
-  submitValidation() {
-    console.log("Submit Validation called");
-    this.setState({
-      field: false
-    });
-    if (this.state.data.name === '') {
-      console.log("If called");
-      this.setState({
-        field: false
-      });
-      return false;
-    } else if (this.state.data.email === '') {
-      console.log("If called");
-      this.setState({
-        field: false
-      });
-      return false;
-    } else if (this.state.data.password === '') {
-      console.log("If called");
-      this.setState({
-        field: false
-      });
-      return false;
-    } else if (this.state.data.confirm_password === '') {
-      console.log("If called");
-      this.setState({
-        field: false
-      });
-      return false;
-    } else if (this.state.data.phone_number === '') {
-      console.log("If called");
-      this.setState({
-        field: false
-      });
-      return false;
-    } else if (this.state.data.gender === '') {
-      console.log("If called");
-      this.setState({
-        field: false
-      });
-      return false;
-    } else {
-      console.log("else called");
-      this.setState({
-        field: true
-      });
-      return true;
+    else if (name === "email")
+    {
+      valid[name] = false;
+      this.setState({ valid });
+      let x = getValidation(name,value);
+      valid[name] = x;
+      this.setState({ valid });
     }
-  }
-
-  userCheck(data) {
-    for (let i = 0; i < this.state.signup.length; i++) {
-      if (data.email === this.state.signup[i].email) {
-        alert("This user is already registered");
-        console.log("User already registered");
-        return false;
+    else if (name === "phone_number")
+    {
+      valid[name] = false;
+      this.setState({ valid });
+      let x = getValidation(name,value);
+      valid[name] = x;
+      this.setState({ valid });
+    }
+    else if (name === "password")
+    {
+      valid[name] = false;
+      this.setState({ valid });
+      let x = getValidation(name,value);
+      valid[name] = x;
+      this.setState({ valid });
+    }
+    else if (name === "confirm_password")
+    {
+      valid[name] = false;
+      this.setState({ valid });
+      if (this.state.data.password === this.state.data.confirm_password)
+      {
+        valid[name] = true;
+        this.setState({ valid});
       }
-    }
-    return true;
+      
+      }
   }
-
-  //Individual Validation Methods end here
-
-
-
-
-  //Render Function starts from here
-
-  render() {
+  
+ render() {
     return (
       <div className="App" >
         <Container>
@@ -269,7 +147,7 @@ export class App extends Component {
             <Row >
               <Col md={{ offset: 1 }} >
                 <h5 >
-                  {this.state.field ? null : < Badge4 />}
+                  {this.state.valid.field ? null : < Badge4 />}
                 </h5> 
                 <br />
               </Col>
@@ -287,6 +165,8 @@ export class App extends Component {
                           type="text"
                           name="name"
                           value={this.state.data.name}
+                          valid={this.state.valid.name}
+                          onBlur={e => this.validMain(e)}
                           onChange={e => this.changeValue(e)}
                         />
                       </Label>
@@ -307,6 +187,8 @@ export class App extends Component {
                           type="email"
                           name="email"
                           value={this.state.data.email}
+                          valid={this.state.valid.email}
+                          onBlur={e => this.validMain(e)}
                           onChange={e => this.changeValue(e)}
                         />
                       </Label>
@@ -327,6 +209,8 @@ export class App extends Component {
                           type="number"
                           name="phone_number"
                           value={this.state.data.phone_number}
+                          valid={this.state.valid.phone_number}
+                          onBlur={e => this.validMain(e)}
                           onChange={e => this.changeValue(e)}
                         />
                       </Label>
@@ -346,14 +230,15 @@ export class App extends Component {
                           type="password"
                           name="password"
                           value={this.state.password}
+                          valid={this.state.valid.password}
                           onChange={e => this.changeValue(e)}
-                          onBlur={e => this.validatePassword(e)}
+                          onBlur={e => this.validMain(e)}
                         />
                       </Label>
                       <FormText >
                         Enter a password with alphabets, number and special characters
                       </FormText>
-                      {this.state.valid_password ? null : < Badge7 / >} 
+                      {/* {this.state.valid_password ? null : < Badge7 / >}  */}
                     </FormGroup>
                   </Col>
                 </Row>
@@ -367,16 +252,36 @@ export class App extends Component {
                           type="password"
                           name="confirm_password"
                           value={this.state.password}
+                          valid={this.state.valid.confirm_password}
                           onChange={e => this.changeValue(e)}
-                          onBlur={e => this.validatePassword(e)}
+                          onBlur={e => this.validMain(e)}
                         />
                       </Label>
                       <FormText >
                         Enter a password with alphabets, number and special characters
                       </FormText>
-                      {this.state.valid_password ? null : < Badge7 / >} 
+                      {/* {this.state.valid_password_match ? null : < Badge9 / >}  */}
                     </FormGroup>
                   </Col>
+                </Row>
+
+                <Row form >
+                  <legend className="genderlegend" >
+                    <Badge2 />
+                    <h6 >
+                      <FormText >
+                        Please select one of the genders.It 's not optional
+                      </FormText>
+                    </h6>
+                  </legend>
+                  
+                  <div className="genderspace">
+                    <Radio
+                      array={this.state.radio_value}
+                      valid={this.state.valid.gender}
+                      onChange={e => this.changeValue(e)}
+                    />
+                  </div>
                 </Row>
                 
                 <Row form className="row" >
@@ -396,25 +301,6 @@ export class App extends Component {
                   </Col>
                 </Row>
                 
-                
-                <Row form >
-                  <legend className="genderlegend" >
-                    <Badge2 />
-                    <h6 >
-                      <FormText >
-                        Please select one of the genders.It 's not optional
-                      </FormText>
-                    </h6>
-                  </legend>
-                  
-                  <div >
-                    <Radio
-                      array={this.state.radio_value}
-                      onChange={e => this.changeValue(e)}
-                    />
-                  </div>
-                </Row>
-                
                 <Row >
                   <legend className="legend" >
                     <Badge3 />
@@ -428,7 +314,7 @@ export class App extends Component {
                   <div >
                     <Checkbox
                       array={this.state.checkbox_value}
-                      onChange={e => this.changeValue2(e)}
+                      onChange={e => this.changeCheckbox(e)}
                     />
                   </div>
                 </Row>

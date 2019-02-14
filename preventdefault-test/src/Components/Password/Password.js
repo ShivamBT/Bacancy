@@ -22,10 +22,14 @@ export const Password = (props) =>
                name={props.name}
                placeholder={props.placeholder}
                value={props.value}
+               invalid={!props.valid}
                onChange={props.onChange}
                onBlur={props.onBlur} />
-                  
-             </InputGroup>
+            {props.valid ? null : <div><h5><Badge color="danger">Invalid {props.label}</Badge></h5></div>}
+
+         </InputGroup>
+         
+
          </div>
           
       );

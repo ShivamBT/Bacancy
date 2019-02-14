@@ -48,7 +48,7 @@ export const Badge5=()=>
 {
   return(
     <Badge color="danger">
-      Invalid Name
+      Invalid
     </Badge>
   )
 }
@@ -94,6 +94,15 @@ export const Badge10=()=>
   return(
     <Badge color="danger">
       Invalid Phone Number
+    </Badge>
+  )
+}
+
+export const Badge11 = () =>
+{
+  return (
+    <Badge color="danger">
+      Select One
     </Badge>
   )
 }

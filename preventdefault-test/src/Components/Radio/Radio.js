@@ -1,15 +1,12 @@
 import React from 'react';
-import { InputGroup, InputGroupAddon, CustomInput, Badge ,Row,Col} from 'reactstrap';
+import { InputGroup, InputGroupAddon, CustomInput, Badge} from 'reactstrap';
 import PropTypes from 'prop-types';
 
-
-export const Radio=(props)=>
+export const Radio = (props) =>
 {
   return (
     <div className="container">
-      {console.log("array is:", props.array)}
-      {console.log("Default Props are :",Radio.defaultProps)}
-        {props.array.map(u => {
+      {props.array.map(u => {
           return (
               <div key={u.id}>
               <InputGroup>
@@ -29,11 +26,9 @@ export const Radio=(props)=>
                     </h5>
                 </InputGroupAddon>
               </InputGroup>
-              </div>
-            
-          )
-        })}
-      
+            </div>
+        )
+      })}
     </div>
   );
 }

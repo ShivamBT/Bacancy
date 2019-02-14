@@ -3,7 +3,7 @@ import {InputComponent} from "./Components/Input Component/InputComponent";
 import {Textarea} from "./Components/TextArea/Textarea";
 import "./App.css";
 import {Button} from "reactstrap";
-import {Form,FormGroup,Label,Container,Row,Col,FormText,FormFeedback} from "reactstrap";
+import {Form,FormGroup,Label,Container,Row,Col,FormText} from "reactstrap";
 import {Badge1,Badge2,Badge3,Badge4,Badge5} from "./Components/UI Components/Badges";
 import {Radio} from "./Components/Radio/Radio";
 import { Checkbox } from "./Components/Checkbox/Checkbox";
@@ -56,7 +56,7 @@ export class App extends Component {
     let data = {...this.state.data};
     data[e.target.name] = e.target.value;
     this.setState({ data });
-    if (e.target.name == "gender")
+    if (e.target.name ==="gender")
     {
       let valid = { ...this.state.valid };
       valid[e.target.name] = true;

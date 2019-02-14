@@ -77,19 +77,3 @@ export const getValidation = (name,value) =>
     return regex;
   }
 }
-
-
-/*export const validation = (value, valid) =>
-{
-  console.log("External validation called");
-  if (valid === "false" && value !=="")
-  {
-    return false;
-  }
-  if (valid === "true" && value !=="")
-  {
-    return true;
-    }
-  else
-    return false;
-}*/

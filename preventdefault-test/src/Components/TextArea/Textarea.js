@@ -1,13 +1,6 @@
 import React from "react";
-import {
-  InputGroup,
-  InputGroupAddon,
-  Badge
-} from "reactstrap";
+import { InputGroup,InputGroupAddon,Badge} from "reactstrap";
 import PropTypes from 'prop-types';
-import {
-  FaAddressCard
-} from 'react-icons/fa';
 
 export const Textarea = (props) => {
   return (
@@ -32,12 +25,14 @@ export const Textarea = (props) => {
   );
 };
 
+Textarea.propTypes = {
+  label: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  onChange:PropTypes.func.isRequired
+}
+
 Textarea.defaultProps = {
   label: "Address",
   name: "address"
 }
 
-Textarea.propTypes = {
-  label: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired
-}

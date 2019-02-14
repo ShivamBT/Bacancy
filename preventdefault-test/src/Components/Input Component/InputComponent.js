@@ -3,16 +3,9 @@ import {InputGroup,InputGroupAddon,Input,Badge} from 'reactstrap';
 import './InputComponent.css';
 import PropTypes from 'prop-types';
 
-
-
-
 export const InputComponent = (props) => {
- 
- 
-
   return (
     <div >
-      {console.log("Default Props :",InputComponent.defaultProps)}
       <InputGroup >
           <InputGroupAddon addonType="prepend" >
             <h4 >

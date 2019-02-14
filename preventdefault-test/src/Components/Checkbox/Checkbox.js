@@ -2,23 +2,15 @@ import React from 'react';
 import { InputGroup, InputGroupAddon, Badge, CustomInput, Col } from 'reactstrap';
 import PropTypes from 'prop-types';
 
-
-
-export const Checkbox=(props)=>
+export const Checkbox = (props) =>
 {
   return (
     <div className="container">
-      
-      {console.log("array is:", props.array)}
-       {console.log("Default Props :", Checkbox.defaultProps)}
       <Col>
         {props.array.map(u => {
           return (
-           
             <div key={u.id}>
-
               <InputGroup>
-
                 <CustomInput
                   id={u.id}
                   type="checkbox"

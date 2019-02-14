@@ -3,8 +3,8 @@ import {InputComponent} from "./Components/Input Component/InputComponent";
 import {Textarea} from "./Components/TextArea/Textarea";
 import "./App.css";
 import {Button} from "reactstrap";
-import {Form,FormGroup,Label,Container,Row,Col,FormText} from "reactstrap";
-import {Badge1,Badge2,Badge3,Badge4,Badge5,Badge6,Badge7,Badge8,Badge9,Badge10} from "./Components/UI Components/Badges";
+import {Form,FormGroup,Label,Container,Row,Col,FormText,FormFeedback} from "reactstrap";
+import {Badge1,Badge2,Badge3,Badge4,Badge5} from "./Components/UI Components/Badges";
 import {Radio} from "./Components/Radio/Radio";
 import { Checkbox } from "./Components/Checkbox/Checkbox";
 import { Password } from "./Components/Password/Password";
@@ -38,9 +38,9 @@ export class App extends Component {
       },
       signup: [], //Signup array Stores Single User Data in each of its element
      
-      checkbox_value:[{ id: "1", label: "I Like ReactJs" },
-        { id: "2", label: "I Like AngularJs" },
-        {id: "3",label: "I Like VueJS"}],
+      checkbox_value:[{ id: "1", label: "I Like ReactJs" ,name:"like"},
+        { id: "2", label: "I Like AngularJs" ,name:"like"},
+        {id: "3",label: "I Like VueJS",name:"like"}],
       
       radio_value: [{ id: "4", label: "Male", name: "gender" },
       { id: "5", label: "Female", name: "gender" }]
@@ -55,7 +55,13 @@ export class App extends Component {
   changeValue(e) {
     let data = {...this.state.data};
     data[e.target.name] = e.target.value;
-    this.setState({data});
+    this.setState({ data });
+    if (e.target.name == "gender")
+    {
+      let valid = { ...this.state.valid };
+      valid[e.target.name] = true;
+      this.setState({ valid });
+    }
   }
 
   changeCheckbox(e) {
@@ -145,7 +151,7 @@ export class App extends Component {
             <br />
             
             <Row >
-              <Col md={{ offset: 1 }} >
+              <Col md={{ offset: 2 }} >
                 <h5 >
                   {this.state.valid.field ? null : < Badge4 />}
                 </h5> 
@@ -260,7 +266,6 @@ export class App extends Component {
                       <FormText >
                         Enter a password with alphabets, number and special characters
                       </FormText>
-                      {/* {this.state.valid_password_match ? null : < Badge9 / >}  */}
                     </FormGroup>
                   </Col>
                 </Row>
@@ -269,8 +274,9 @@ export class App extends Component {
                   <legend className="genderlegend" >
                     <Badge2 />
                     <h6 >
-                      <FormText >
+                      <FormText>
                         Please select one of the genders.It 's not optional
+                        {this.state.valid.gender ? null : <h5><div><Badge5 /></div></h5>}
                       </FormText>
                     </h6>
                   </legend>
@@ -282,6 +288,7 @@ export class App extends Component {
                       onChange={e => this.changeValue(e)}
                     />
                   </div>
+                  
                 </Row>
                 
                 <Row form className="row" >

@@ -1,19 +1,18 @@
-import React, {Component} from 'react';
-import {InputGroup,InputGroupAddon,Input,Badge,FormFeedback} from 'reactstrap';
+import React from 'react';
+import {InputGroup,InputGroupAddon,Input,Badge} from 'reactstrap';
 import './InputComponent.css';
 import PropTypes from 'prop-types';
-import { validation } from ".././Validation/Validation";
 
 
 
 
 export const InputComponent = (props) => {
  
-  let valid = props.valid;
-  let value = props.value;
+ 
 
   return (
     <div >
+      {console.log("Default Props :",InputComponent.defaultProps)}
       <InputGroup >
           <InputGroupAddon addonType="prepend" >
             <h4 >
@@ -44,17 +43,22 @@ export const InputComponent = (props) => {
   
 }
 
-          // InputComponent.propTypes={
-          //   type:PropTypes.string.isRequired,
-          //   name:PropTypes.string.isRequired,
-          //   value:PropTypes.string,
-          //   onChange:PropTypes.func.isRequired,
-          //   onBlur:PropTypes.func,
-          //   invalid:PropTypes.bool
-          // }
+InputComponent.propTypes = {
+  type: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  placeholder: PropTypes.string.isRequired,
+  value: PropTypes.string,
+  onChange: PropTypes.func.isRequired,
+  onBlur: PropTypes.func.isRequired,
+  invalid: PropTypes.bool.isRequired
+}
 
-          // InputComponent.defaultProps={
-          //   type:"text",
-          //   name:"input",
-          //   invalid:false
-          // }
+InputComponent.defaultProps = {
+  type: "text",
+  name: "input",
+  placeholder: "Name",
+  value: "testinput",
+  invalid: false
+}
+
+          

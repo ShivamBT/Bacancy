@@ -37,14 +37,15 @@ export const Checkbox = (props) =>
 }
 
 Checkbox.propTypes = {
-  id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
+  array: PropTypes.array.isRequired,   //Here array should be array of objects
   onChange:PropTypes.func.isRequired
 }
 
 Checkbox.defaultProps = {
-  id: "1",
-  name: "Checkbox-1",
-  label: "Checkbox-1"
-}
+  array: [{ id: "1", label: "Value-1", name: "like" },    
+  { id: "2", label: "Value-2", name: "like" },
+  { id: "3", label: "Value-3", name: "like" }]
+ }
+
+
+//name here is name of array in this.state.data where values of checkbox are inserted

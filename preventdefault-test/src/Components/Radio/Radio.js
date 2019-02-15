@@ -38,15 +38,14 @@ export const Radio = (props) =>
 }
 
 Radio.propTypes = {
-  id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
+  array: PropTypes.array.isRequired,  //Here array should be array of objects
+  valid: PropTypes.bool.isRequired,   
   onChange: PropTypes.func.isRequired
 }
 
 Radio.defaultProps = {
-  id: "1",
-  name: "Radio-1",
-  label: "Radio-1"
+  array: [{ id: "4", label: "Radio-1", name: "gender" },
+  { id: "5", label: "Radio-2", name: "gender" }]
 }
 
+//name here is name of array in this.state.data where values of radio are inserted

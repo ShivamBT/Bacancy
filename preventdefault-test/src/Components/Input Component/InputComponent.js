@@ -38,21 +38,25 @@ export const InputComponent = (props) => {
 }
 
 InputComponent.propTypes = {
+  label:PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
   value: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   onBlur: PropTypes.func.isRequired,
-  invalid: PropTypes.bool.isRequired
+  invalid: PropTypes.bool.isRequired,
+  valid: PropTypes.bool.isRequired
 }
 
 InputComponent.defaultProps = {
+  label:"TextBox",
   type: "text",
   name: "input",
   placeholder: "Name",
   value: "testinput",
-  invalid: false
+  invalid: false,
+  valid: true
 }
 
           

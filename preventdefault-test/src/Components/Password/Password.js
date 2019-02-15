@@ -36,18 +36,23 @@ export const Password = (props) =>
 }
 
 Password.propTypes = {
+   label:PropTypes.string.isRequired,
    type: PropTypes.string.isRequired,
    name: PropTypes.string.isRequired,
    placeholder: PropTypes.string.isRequired,
-   value: PropTypes.string,
+   value: PropTypes.string.isRequired,
    invalid: PropTypes.bool.isRequired,
+   valid:PropTypes.bool.isRequired,
    onChange: PropTypes.func.isRequired,
    onBlur:PropTypes.func.isRequired
 }
 
 Password.defaultProps = {
+   label:"Password-Box",
    type: "password",
    name: "password-field",
    placeholder: "Enter Password",
-   invalid:false
+   value:"hello@123",
+   invalid: false,
+   valid:true
 }

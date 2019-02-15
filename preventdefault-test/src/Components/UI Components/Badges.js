@@ -56,8 +56,8 @@ export const Badge5=()=>
 export const Badge6=()=>
 {
   return(
-    <Badge color="danger">
-      Invalid Email
+    <Badge color="success">
+      User Registered Successfully
     </Badge>
   )
 }
@@ -66,7 +66,7 @@ export const Badge7=()=>
 {
   return(
     <Badge color="danger">
-      Invalid Password
+      User with this e-mail already exists
     </Badge>
   )
 }

@@ -1,9 +1,11 @@
 import React from 'react';
 import { InputGroup, InputGroupAddon, Input, Badge } from 'reactstrap';
 import PropTypes from 'prop-types';
-
+import { invalidMessage } from ".././Validation/Validation";
 export const Password = (props) =>
 {
+  
+
    return (
       <div>
          <InputGroup>
@@ -26,10 +28,7 @@ export const Password = (props) =>
                onChange={props.onChange}
                onBlur={props.onBlur}
             />
-            {props.valid ? null :
-               <div>
-                  <h5><Badge color="danger">Invalid {props.label}</Badge></h5>
-               </div>}
+            {<div><h5><Badge color="danger">{invalidMessage(props.name,props.valid)}</Badge></h5></div>}
          </InputGroup>
       
       </div>
@@ -40,7 +39,7 @@ Password.propTypes = {
    type: PropTypes.string.isRequired,
    name: PropTypes.string.isRequired,
    placeholder: PropTypes.string.isRequired,
-   value: PropTypes.string.isRequired,
+   value: PropTypes.string,
    invalid: PropTypes.bool.isRequired,
    onChange: PropTypes.func.isRequired,
    onBlur:PropTypes.func.isRequired
@@ -50,6 +49,5 @@ Password.defaultProps = {
    type: "password",
    name: "password-field",
    placeholder: "Enter Password",
-   value: "hello@123",
    invalid:false
 }

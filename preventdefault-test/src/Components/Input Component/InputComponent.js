@@ -10,9 +10,10 @@ export const InputComponent = (props) => {
           <InputGroupAddon addonType="prepend" >
             <h4 >
               <Badge color="secondary" >
-                <div >
-                  {props.label}
-                </div> </Badge>
+              <div >
+                {props.label}
+                </div>
+            </Badge>
             </h4>
         </InputGroupAddon>
         <Input
@@ -25,7 +26,7 @@ export const InputComponent = (props) => {
           onBlur={props.onBlur}
           />
           
-        {props.valid ? null : <div> <h5><Badge color="danger">Invalid {props.label}</Badge> </h5></div>}
+        {props.valid ? null : <div> <h5><Badge color="danger">Invalid {props.label}</Badge></h5></div>}
         
         
       </InputGroup>

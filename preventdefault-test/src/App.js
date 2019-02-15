@@ -8,7 +8,7 @@ import {Badge1,Badge2,Badge3,Badge4,Badge5} from "./Components/UI Components/Bad
 import {Radio} from "./Components/Radio/Radio";
 import { Checkbox } from "./Components/Checkbox/Checkbox";
 import { Password } from "./Components/Password/Password";
-import { submitValidation, userCheck,getValidation } from "./Components/Validation/Validation";
+import { submitValidation, userCheck,getValidation ,validMain, fieldValidation} from "./Components/Validation/Validation";
 
 
 
@@ -22,8 +22,8 @@ export class App extends Component {
         phone_number: "",
         password: "",
         confirm_password: "",
-        address: "",
         gender: "",
+        address: "",
         like: [],
       },
       valid:{
@@ -49,7 +49,7 @@ export class App extends Component {
     this.changeValue = this.changeValue.bind(this);
     this.changeCheckbox = this.changeCheckbox.bind(this);
     this.submitValue = this.submitValue.bind(this);
-    this.validMain = this.validMain.bind(this);
+    this.validChangeState = this.validChangeState.bind(this);
   }
 
   changeValue(e) {
@@ -75,11 +75,10 @@ export class App extends Component {
     let valid = { ...this.state.valid };
     valid=Object.assign(...Object.keys(valid).map(k => ({[k]: false})));
     this.setState({ valid });
-    let x = submitValidation(data);
-    valid=Object.assign(...Object.keys(valid).map(k => ({[k]: x})));
+    valid = await fieldValidation(data,valid);
     this.setState({ valid });
-    let y = userCheck(data,this.state.signup);
-    if (x && y){
+    let y = userCheck(data, this.state.signup);
+    if (this.state.valid.field && y){
       await this.setState({
         signup: [...this.state.signup, this.state.data]
       });
@@ -89,55 +88,15 @@ export class App extends Component {
   }
 
 
-  validMain(e)
+  validChangeState = (name,value) =>
   {
-    console.log("valid main called");
+    
     let valid = { ...this.state.valid };
-    let name = e.target.name;
-    let value = e.target.value;
-    if (name === "name")
-    {
-      valid[name] = false;
-      this.setState({ valid });
-      let x = getValidation(name,value); 
-      valid[name] = x;
-      this.setState({ valid });
-    }
-    else if (name === "email")
-    {
-      valid[name] = false;
-      this.setState({ valid });
-      let x = getValidation(name,value);
-      valid[name] = x;
-      this.setState({ valid });
-    }
-    else if (name === "phone_number")
-    {
-      valid[name] = false;
-      this.setState({ valid });
-      let x = getValidation(name,value);
-      valid[name] = x;
-      this.setState({ valid });
-    }
-    else if (name === "password")
-    {
-      valid[name] = false;
-      this.setState({ valid });
-      let x = getValidation(name,value);
-      valid[name] = x;
-      this.setState({ valid });
-    }
-    else if (name === "confirm_password")
-    {
-      valid[name] = false;
-      this.setState({ valid });
-      if (this.state.data.password === this.state.data.confirm_password)
-      {
-        valid[name] = true;
-        this.setState({ valid});
-      }
-      
-      }
+    valid[name] = false;
+    this.setState({ valid });
+    let x = validMain(name, value, valid, this.state.data);
+    valid[name] = x;
+    this.setState({ valid });
   }
   
  render() {
@@ -172,7 +131,7 @@ export class App extends Component {
                           name="name"
                           value={this.state.data.name}
                           valid={this.state.valid.name}
-                          onBlur={e => this.validMain(e)}
+                          onBlur={e => this.validChangeState(e.target.name,e.target.value)}
                           onChange={e => this.changeValue(e)}
                         />
                       </Label>
@@ -194,7 +153,7 @@ export class App extends Component {
                           name="email"
                           value={this.state.data.email}
                           valid={this.state.valid.email}
-                          onBlur={e => this.validMain(e)}
+                          onBlur={e => this.validChangeState(e.target.name,e.target.value)}
                           onChange={e => this.changeValue(e)}
                         />
                       </Label>
@@ -216,7 +175,7 @@ export class App extends Component {
                           name="phone_number"
                           value={this.state.data.phone_number}
                           valid={this.state.valid.phone_number}
-                          onBlur={e => this.validMain(e)}
+                          onBlur={e => this.validChangeState(e.target.name,e.target.value)}
                           onChange={e => this.changeValue(e)}
                         />
                       </Label>
@@ -235,16 +194,15 @@ export class App extends Component {
                           label="Password"
                           type="password"
                           name="password"
-                          value={this.state.password}
+                          value={this.state.data.password}
                           valid={this.state.valid.password}
                           onChange={e => this.changeValue(e)}
-                          onBlur={e => this.validMain(e)}
+                          onBlur={e => this.validChangeState(e.target.name,e.target.value)}
                         />
                       </Label>
                       <FormText >
                         Enter a password with alphabets, number and special characters
                       </FormText>
-                      {/* {this.state.valid_password ? null : < Badge7 / >}  */}
                     </FormGroup>
                   </Col>
                 </Row>
@@ -257,14 +215,14 @@ export class App extends Component {
                           label="Confirm Password"
                           type="password"
                           name="confirm_password"
-                          value={this.state.password}
+                          value={this.state.data.confirm_password}
                           valid={this.state.valid.confirm_password}
                           onChange={e => this.changeValue(e)}
-                          onBlur={e => this.validMain(e)}
+                          onBlur={e => this.validChangeState(e.target.name,e.target.value)}
                         />
                       </Label>
                       <FormText >
-                        Enter a password with alphabets, number and special characters
+                        Password should match above password
                       </FormText>
                     </FormGroup>
                   </Col>
@@ -276,7 +234,6 @@ export class App extends Component {
                     <h6 >
                       <FormText>
                         Please select one of the genders.It 's not optional
-                        {this.state.valid.gender ? null : <h5><div><Badge5 /></div></h5>}
                       </FormText>
                     </h6>
                   </legend>

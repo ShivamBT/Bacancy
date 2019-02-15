@@ -5,31 +5,35 @@ import PropTypes from 'prop-types';
 export const Radio = (props) =>
 {
   return (
-    <div className="container">
-      {props.array.map(u => {
+    <div>
+      <div>{props.valid ? null : <div><h5><Badge color="danger">Select One</Badge></h5></div>}</div>
+      <div className="container">
+        {props.array.map(u => {
           return (
-              <div key={u.id}>
+            <div key={u.id}>
               <InputGroup>
                 <CustomInput
-                    id={u.id}
-                    type="radio"
-                    name={u.name}
-                    value={u.label}
-                    invalid={!props.valid}
-                    onChange={props.onChange}
-                  />
-                  <InputGroupAddon addonType="append">
-                    <h5>
-                      <Badge color="secondary">
-                        {u.label}
-                      </Badge>
-                    </h5>
+                  id={u.id}
+                  type="radio"
+                  name={u.name}
+                  value={u.label}
+                  invalid={!props.valid}
+                  onChange={props.onChange}
+                />
+                <InputGroupAddon addonType="append">
+                  <h5>
+                    <Badge color="secondary">
+                      {u.label}
+                    </Badge>
+                  </h5>
                 </InputGroupAddon>
               </InputGroup>
             </div>
-        )
-      })}
+          )
+        })}
+      </div>
     </div>
+    
   );
 }
 

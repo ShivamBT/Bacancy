@@ -9,7 +9,6 @@ import {Radio} from "./Components/Radio/Radio";
 import { Checkbox } from "./Components/Checkbox/Checkbox";
 import { Password } from "./Components/Password/Password";
 import {userCheck,validMain, fieldValidation,signupMessageDisplay} from "./Components/Validation/Validation";
-import Select from 'react-select';
 import { SelectComponent } from "./Components/Select/Select";
 
 
@@ -144,7 +143,10 @@ export class App extends Component {
             <Row >
               <Col md={{ size: 'auto', offset: 3 }}>
                 <h3>
-                  <div>{signupMessageDisplay(this.state.valid.field,this.state.valid.userCheck)}</div>   
+                  <div>
+                    {signupMessageDisplay(this.state.valid.field,
+                      this.state.valid.userCheck)}
+                  </div>   
                 </h3>
               </Col>
             </Row>
@@ -315,14 +317,14 @@ export class App extends Component {
                 </Row>
                 
                 <div className="select">
-                  <legend><Badge8 /></legend>
+                  
                   <SelectComponent
                     isMulti={true}
-                    array={this.state.select_value}
                     onChange={this.changeDropDown}
                   />
                 </div>
-
+                
+               <br/><br/>
                 <Row form >
                   <Col xs={{ size: 'auto', offset: 3 }} >
                     <Button

@@ -28,7 +28,7 @@ export const Password = (props) =>
                onChange={props.onChange}
                onBlur={props.onBlur}
             />
-            {<div><h5><Badge color="danger">{invalidMessage(props.name,props.valid)}</Badge></h5></div>}
+            {<div><h5><Badge color="danger">{invalidMessage(props.name,props.value,props.valid)}</Badge></h5></div>}
          </InputGroup>
       
       </div>

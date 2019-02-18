@@ -1,3 +1,5 @@
+import React from 'react';
+import { Badge } from 'reactstrap';
 
 export const submitValidation = (data) => {
   let arr = [];
@@ -28,7 +30,6 @@ export const fieldValidation = (data,valid) =>
     valid['field'] = n;
     i++;
   }
-  console.log("Values in valid are :", valid);
   return valid;
 }
   
@@ -102,8 +103,7 @@ export const getValidation = (name,value,data) =>
 export const validMain = (name,value,valid,data) =>
 {
   console.log("valid main called");
-  console.log("valid passed:", valid);
-  console.log("data passed:", data);
+  
   if (name === "confirm_password") {
     if (data['password'] === data['confirm_password'])
     {
@@ -123,37 +123,81 @@ export const validMain = (name,value,valid,data) =>
   
 }
 
-export const invalidMessage = (name, valid) =>
+export const invalidMessage = (name,value,valid) =>
 {
   let m,n;
-  if (name === "password")
+  if (name ==="password")
   {
-    if (valid === true)
-    {
+    if (valid === false && value === "") {
+      m = `Enter ${name} into field`;
+      return m;
+    }
+    else if (valid === false && value !== "") {
+      m = `Enter valid ${name}`;
+      return m;
+    }
+    else if (valid === true && value !=="") {
       m = "";
       return m;
     }
-
-    else if(valid === false)
-    {
-      m = "Invalid Password";
-      return m;
-    }
   }
-
-  else if (name === "confirm_password")
+  else if (name ==="confirm_password")
   {
-    if (valid === true)
-    {
+    if (valid === false && value === "") {
+      n = `Enter ${name} into field`;
+      return n;
+    }
+    else if (valid === false && value !== "") {
+      n = `Passwords do not match`;
+      return n;
+    }
+    else if (valid === true && value !=="") {
       n = "";
       return n;
     }
-    
-    else if (valid === false)
-    {
-      n = "Passwords do not match";
-      return n;
-    }
   }
-     
 }
+
+ 
+     
+
+
+export const invalidMessageInputComponent = (name, value, valid) =>
+{
+  let m;
+  if (valid === false && value === "")
+  {
+    m = `Enter ${name} into field`;
+    return m;
+  }
+  else if (valid === false && value !== "")
+  {
+    m = `Enter valid ${name}`;
+    return m;
+  }
+  else if (valid === true && value !=="")
+  {
+    m = "";
+    return m;
+  }
+}
+
+export const signupMessageDisplay = (field,userCheck) =>
+{
+  if (field ===true && userCheck === true)
+  {
+    console.log("true usercheck called");
+    return <Badge color="success">"User Successfully Registered"</Badge>;
+  }
+    
+  else if(field === true && userCheck===false)
+  {
+    console.log("false usercheck called");
+    return <Badge color="danger">"User Already Registered"</Badge>;
+  }
+    
+  else
+    return "";
+}
+
+

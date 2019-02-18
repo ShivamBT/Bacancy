@@ -2,6 +2,7 @@ import React from 'react';
 import {InputGroup,InputGroupAddon,Input,Badge} from 'reactstrap';
 import './InputComponent.css';
 import PropTypes from 'prop-types';
+import {invalidMessageInputComponent} from ".././Validation/Validation";
 
 export const InputComponent = (props) => {
   return (
@@ -26,7 +27,7 @@ export const InputComponent = (props) => {
           onBlur={props.onBlur}
           />
           
-        {props.valid ? null : <div> <h5><Badge color="danger">Invalid {props.label}</Badge></h5></div>}
+        {<div> <h5><Badge color="danger">{invalidMessageInputComponent(props.name,props.value,props.valid)}</Badge></h5></div>}
         
         
       </InputGroup>

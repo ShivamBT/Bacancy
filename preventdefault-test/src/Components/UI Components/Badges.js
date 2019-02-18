@@ -74,8 +74,8 @@ export const Badge7=()=>
 export const Badge8=()=>
 {
   return(
-    <Badge color="danger">
-      Invalid Confirm Password
+    <Badge color="secondary">
+      City
     </Badge>
   )
 }

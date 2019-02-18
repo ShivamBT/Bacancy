@@ -4,13 +4,16 @@ import {Textarea} from "./Components/TextArea/Textarea";
 import "./App.css";
 import {Button} from "reactstrap";
 import {Form,FormGroup,Label,Container,Row,Col,FormText} from "reactstrap";
-import {Badge1,Badge2,Badge3,Badge4,Badge5} from "./Components/UI Components/Badges";
+import {Badge1,Badge2,Badge3,Badge4,Badge8} from "./Components/UI Components/Badges";
 import {Radio} from "./Components/Radio/Radio";
 import { Checkbox } from "./Components/Checkbox/Checkbox";
 import { Password } from "./Components/Password/Password";
-import { submitValidation, userCheck,getValidation ,validMain, fieldValidation} from "./Components/Validation/Validation";
+import {userCheck,validMain, fieldValidation,signupMessageDisplay} from "./Components/Validation/Validation";
+import Select from 'react-select';
+import { SelectComponent } from "./Components/Select/Select";
 
 
+ 
 
 export class App extends Component {
   constructor(props) {
@@ -25,6 +28,7 @@ export class App extends Component {
         gender: "",
         address: "",
         like: [],
+        city:{}
       },
       valid:{
         name: true,
@@ -34,7 +38,7 @@ export class App extends Component {
         confirm_password: true,
         gender:true,
         field: true,
-        userCheck:true
+        userCheck:null
       },
       signup: [], //Signup array Stores Single User Data in each of its element
      
@@ -43,13 +47,20 @@ export class App extends Component {
         {id: "3",label: "I Like VueJS",name:"like"}],
       
       radio_value: [{ id: "4", label: "Male", name: "gender" },
-      { id: "5", label: "Female", name: "gender" }]
+        { id: "5", label: "Female", name: "gender" }],
+
+      select_value : [{ label: "Ahmedababd", value: 1},
+      { label: "Delhi", value: 2},
+      { label: "Mumbai", value: 3},
+      { label: "Chennai", value: 4}]
+      
     }
 
     this.changeValue = this.changeValue.bind(this);
     this.changeCheckbox = this.changeCheckbox.bind(this);
     this.submitValue = this.submitValue.bind(this);
     this.validChangeState = this.validChangeState.bind(this);
+    this.changeDropDown = this.changeDropDown.bind(this);
   }
 
   changeValue(e) {
@@ -70,15 +81,26 @@ export class App extends Component {
     this.setState({data});
   }
 
+  async changeDropDown(city)
+  {
+    console.log("change dropdown called :",city);
+    
+    let data = { ...this.state.data };
+    data['city'] = city;
+    await this.setState({ data });
+    console.log("City after insertion : ",this.state.data.city)
+  }
+
   async submitValue(e) {
     let data = { ...this.state.data };
     let valid = { ...this.state.valid };
     valid=Object.assign(...Object.keys(valid).map(k => ({[k]: false})));
     this.setState({ valid });
-    valid = await fieldValidation(data,valid);
+    valid = await fieldValidation(data, valid);
+    valid['userCheck'] = (await userCheck(data, this.state.signup) && valid['field']);
+    console.log("valid at this point is :", valid);
     this.setState({ valid });
-    let y = userCheck(data, this.state.signup);
-    if (this.state.valid.field && y){
+    if (this.state.valid.field && this.state.valid.userCheck){
       await this.setState({
         signup: [...this.state.signup, this.state.data]
       });
@@ -99,7 +121,8 @@ export class App extends Component {
     this.setState({ valid });
   }
   
- render() {
+  render() {
+
     return (
       <div className="App" >
         <Container>
@@ -110,11 +133,19 @@ export class App extends Component {
             <br />
             
             <Row >
-              <Col md={{ offset: 2 }} >
+              <Col md={{ size : 'auto' , offset: 2 }} >
                 <h5 >
                   {this.state.valid.field ? null : < Badge4 />}
                 </h5> 
                 <br />
+              </Col>
+            </Row>
+
+            <Row >
+              <Col md={{ size: 'auto', offset: 3 }}>
+                <h3>
+                  <div>{signupMessageDisplay(this.state.valid.field,this.state.valid.userCheck)}</div>   
+                </h3>
               </Col>
             </Row>
             
@@ -283,6 +314,15 @@ export class App extends Component {
                   </div>
                 </Row>
                 
+                <div className="select">
+                  <legend><Badge8 /></legend>
+                  <SelectComponent
+                    isMulti={true}
+                    array={this.state.select_value}
+                    onChange={this.changeDropDown}
+                  />
+                </div>
+
                 <Row form >
                   <Col xs={{ size: 'auto', offset: 3 }} >
                     <Button

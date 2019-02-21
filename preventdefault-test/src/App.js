@@ -4,15 +4,16 @@ import {Textarea} from "./Components/TextArea/Textarea";
 import "./App.css";
 import {Button} from "reactstrap";
 import {Form,FormGroup,Label,Container,Row,Col,FormText} from "reactstrap";
-import {Badge1,Badge2,Badge3,Badge4,Badge8} from "./Components/UI Components/Badges";
+import {Badge1,Badge2,Badge3,Badge4} from "./Components/UI Components/Badges";
 import {Radio} from "./Components/Radio/Radio";
 import { Checkbox } from "./Components/Checkbox/Checkbox";
 import { Password } from "./Components/Password/Password";
-import {userCheck,validMain, fieldValidation,signupMessageDisplay} from "./Components/Validation/Validation";
+import {validMain,signupMessageDisplay,setFalse, checkFinalValidation} from "./Components/Validation/Validation";
 import { SelectComponent } from "./Components/Select/Select";
+import { InputSelect } from "./Components/Select/Input";
+import { getCities } from "./Components/ApiCall/apiCall";
 
 
- 
 
 export class App extends Component {
   constructor(props) {
@@ -27,7 +28,9 @@ export class App extends Component {
         gender: "",
         address: "",
         like: [],
-        city:{}
+        city: {},
+        indian_state:"",
+        cities:[]
       },
       valid:{
         name: true,
@@ -47,12 +50,6 @@ export class App extends Component {
       
       radio_value: [{ id: "4", label: "Male", name: "gender" },
         { id: "5", label: "Female", name: "gender" }],
-
-      select_value : [{ label: "Ahmedababd", value: 1},
-      { label: "Delhi", value: 2},
-      { label: "Mumbai", value: 3},
-      { label: "Chennai", value: 4}]
-      
     }
 
     this.changeValue = this.changeValue.bind(this);
@@ -60,18 +57,29 @@ export class App extends Component {
     this.submitValue = this.submitValue.bind(this);
     this.validChangeState = this.validChangeState.bind(this);
     this.changeDropDown = this.changeDropDown.bind(this);
+    this.loadCities = this.loadCities.bind(this);
   }
 
   changeValue(e) {
+    console.log('Change value called')
     let data = {...this.state.data};
     data[e.target.name] = e.target.value;
     this.setState({ data });
+    console.log("Value set is ", data[e.target.name]);
     if (e.target.name ==="gender")
     {
       let valid = { ...this.state.valid };
       valid[e.target.name] = true;
       this.setState({ valid });
     }
+  }
+
+  loadCities = async (e) =>
+  {
+    let data = { ...this.state.data };
+    let x = await getCities(this.state.data.indian_state);
+    data['cities'] = x;
+    this.setState({ data});
   }
 
   changeCheckbox(e) {
@@ -82,22 +90,18 @@ export class App extends Component {
 
   async changeDropDown(city)
   {
-    console.log("change dropdown called :",city);
-    
+    console.log("change dropdown called :", city);
     let data = { ...this.state.data };
     data['city'] = city;
     await this.setState({ data });
-    console.log("City after insertion : ",this.state.data.city)
+    console.log("City after insertion : ", this.state.data.city);
   }
 
   async submitValue(e) {
-    let data = { ...this.state.data };
-    let valid = { ...this.state.valid };
-    valid=Object.assign(...Object.keys(valid).map(k => ({[k]: false})));
+
+    let valid=setFalse({...this.state.valid})
     this.setState({ valid });
-    valid = await fieldValidation(data, valid);
-    valid['userCheck'] = (await userCheck(data, this.state.signup) && valid['field']);
-    console.log("valid at this point is :", valid);
+    valid = checkFinalValidation({ ...this.state.data }, { ...this.state.signup }, valid);
     this.setState({ valid });
     if (this.state.valid.field && this.state.valid.userCheck){
       await this.setState({
@@ -115,8 +119,7 @@ export class App extends Component {
     let valid = { ...this.state.valid };
     valid[name] = false;
     this.setState({ valid });
-    let x = validMain(name, value, valid, this.state.data);
-    valid[name] = x;
+    valid[name] = validMain(name, value, valid, this.state.data);
     this.setState({ valid });
   }
   
@@ -317,13 +320,28 @@ export class App extends Component {
                 </Row>
                 
                 <div className="select">
+                  <FormGroup>
+                    <Label>
+                      <InputSelect
+                        name="indian_state"
+                        type="text"
+                        value={this.state.data.indian_state}
+                        placeholder="Enter the name of state here"
+                        onChange={e => this.changeValue(e)}
+                        onBlur={e => this.loadCities(e)}
+                      />
+
+                    </Label>
+                  </FormGroup>
                   
                   <SelectComponent
+                    name="cities"
                     isMulti={true}
+                    cities={this.state.data.cities}
                     onChange={this.changeDropDown}
                   />
                 </div>
-                
+                 
                <br/><br/>
                 <Row form >
                   <Col xs={{ size: 'auto', offset: 3 }} >

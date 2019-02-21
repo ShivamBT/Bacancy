@@ -1,5 +1,6 @@
 import React from 'react';
-import { InputGroup, InputGroupAddon, CustomInput, Badge} from 'reactstrap';
+import { InputGroup, InputGroupAddon, CustomInput, Badge } from 'reactstrap';
+import "./Radio.css";
 import PropTypes from 'prop-types';
 
 export const Radio = (props) =>

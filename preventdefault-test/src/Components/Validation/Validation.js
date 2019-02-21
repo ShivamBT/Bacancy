@@ -201,3 +201,19 @@ export const signupMessageDisplay = (field,userCheck) =>
 }
 
 
+export const setFalse = (valid) =>
+{
+  valid = Object.assign(...Object.keys(valid).map(k => ({ [k]: false }))); 
+  return valid;
+}
+  
+
+export const checkFinalValidation = (data,signup,valid) =>
+{
+  valid = fieldValidation(data, valid);
+  valid['userCheck'] = ( userCheck(data,signup) && valid['field']);
+  console.log("valid at this point is :", valid);
+  return valid;
+}
+
+

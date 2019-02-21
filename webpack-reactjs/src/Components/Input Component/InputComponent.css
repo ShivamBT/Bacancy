@@ -1,0 +1,4 @@
+.flex-container{
+    display:inline-flex;
+    flex-flow : column wrap;
+}

@@ -34,21 +34,16 @@ export const fieldValidation = (data,valid) =>
 }
   
       
-  
-
-export const userCheck=(data,signup) =>
-{
- for(let i=0 ; i<signup.length ; i++)
+export const userCheck = (user_email, email) => {
+  let x = user_email.indexOf(email);
+  if (x !== -1)
   {
-    if(data.email===signup[i].email)
-    {
-      alert("This user is already registered");
-      console.log("User already registered");
-      return false;
-    }
-   }
-   return true;
+    alert("User regsitered already");
+    console.log("User already regsitered");
+  }
+  return x;
 }
+    
 
 export const getValidation = (name,value,data) =>
 {
@@ -100,7 +95,7 @@ export const getValidation = (name,value,data) =>
   }
 }
 
-export const validMain = (name,value,valid,data) =>
+export const validMain = (name,value,data) =>
 {
   console.log("valid main called");
   
@@ -184,20 +179,22 @@ export const invalidMessageInputComponent = (name, value, valid) =>
 
 export const signupMessageDisplay = (field,userCheck) =>
 {
-  if (field ===true && userCheck === true)
+  if (userCheck === null)
+    return;
+  
+  else if (field ===true && userCheck === -1)
   {
     console.log("true usercheck called");
     return <Badge color="success">"User Successfully Registered"</Badge>;
   }
     
-  else if(field === true && userCheck===false)
+  else if(field === true && userCheck !== -1)
   {
     console.log("false usercheck called");
     return <Badge color="danger">"User Already Registered"</Badge>;
   }
     
-  else
-    return "";
+  
 }
 
 
@@ -211,7 +208,6 @@ export const setFalse = (valid) =>
 export const checkFinalValidation = (data,signup,valid) =>
 {
   valid = fieldValidation(data, valid);
-  valid['userCheck'] = ( userCheck(data,signup) && valid['field']);
   console.log("valid at this point is :", valid);
   return valid;
 }

@@ -8,7 +8,7 @@ import {Badge1,Badge2,Badge3,Badge4} from "./Components/UI Components/Badges";
 import {Radio} from "./Components/Radio/Radio";
 import { Checkbox } from "./Components/Checkbox/Checkbox";
 import { Password } from "./Components/Password/Password";
-import {validMain,signupMessageDisplay,setFalse, checkFinalValidation} from "./Components/Validation/Validation";
+import {validMain,signupMessageDisplay,setFalse, checkFinalValidation,userCheck} from "./Components/Validation/Validation";
 import { SelectComponent } from "./Components/Select/Select";
 import { InputSelect } from "./Components/Select/Input";
 import { getCities } from "./Components/ApiCall/apiCall";
@@ -43,7 +43,7 @@ export class App extends Component {
         userCheck:null
       },
       signup: [], //Signup array Stores Single User Data in each of its element
-     
+      user_email:[],
       checkbox_value:[{ id: "1", label: "I Like ReactJs" ,name:"like"},
         { id: "2", label: "I Like AngularJs" ,name:"like"},
         {id: "3",label: "I Like VueJS",name:"like"}],
@@ -61,11 +61,9 @@ export class App extends Component {
   }
 
   changeValue(e) {
-    console.log('Change value called')
     let data = {...this.state.data};
     data[e.target.name] = e.target.value;
     this.setState({ data });
-    console.log("Value set is ", data[e.target.name]);
     if (e.target.name ==="gender")
     {
       let valid = { ...this.state.valid };
@@ -98,14 +96,15 @@ export class App extends Component {
   }
 
   async submitValue(e) {
-
     let valid=setFalse({...this.state.valid})
     this.setState({ valid });
     valid = checkFinalValidation({ ...this.state.data }, { ...this.state.signup }, valid);
-    this.setState({ valid });
-    if (this.state.valid.field && this.state.valid.userCheck){
+    valid['userCheck'] = userCheck(this.state.user_email,this.state.data.email);
+    await this.setState({ valid });
+    if (this.state.valid.field && this.state.valid.userCheck === -1) {
       await this.setState({
-        signup: [...this.state.signup, this.state.data]
+        signup: [...this.state.signup, this.state.data],
+        user_email:[...this.state.user_email,this.state.data.email]
       });
       console.log("Value Submitted: ", this.state)
       alert("User registed Successfully !!");
@@ -119,7 +118,7 @@ export class App extends Component {
     let valid = { ...this.state.valid };
     valid[name] = false;
     this.setState({ valid });
-    valid[name] = validMain(name, value, valid, this.state.data);
+    valid[name] = validMain(name, value,this.state.data);
     this.setState({ valid });
   }
   
@@ -343,7 +342,7 @@ export class App extends Component {
                 </div>
                  
                <br/><br/>
-                <Row form >
+                <Row className="button">
                   <Col xs={{ size: 'auto', offset: 3 }} >
                     <Button
                       color="primary"

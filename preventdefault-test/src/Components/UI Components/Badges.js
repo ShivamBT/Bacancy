@@ -106,3 +106,12 @@ export const Badge11 = () =>
     </Badge>
   )
 }
+
+export const Badge12 = () =>
+{
+  return (
+    <Badge color="secondart">
+      Date
+    </Badge>
+  )
+}

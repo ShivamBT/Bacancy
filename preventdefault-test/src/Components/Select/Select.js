@@ -1,58 +1,32 @@
 import React from 'react';
-import Select from 'react-select';
-import makeAnimated from 'react-select/lib/animated';
 import { Badge, Row, Col } from 'reactstrap';
-import AsyncSelect from 'react-select/lib/Async';
-import { loadAsyncValues } from '.././ApiCall/apiCall';
-
+import ReactMultiSelectCheckboxes from 'react-multiselect-checkboxes';
+import "./Select.css";
 
 
 
 export const SelectComponent = (props) => {
-    return (
-        <div>
-            <br />
-            <br />
-            <Row>
-                <Col md="1">
-                    <h4>
-                        <Badge color="secondary">
-                            City
-                            </Badge>
-                    </h4>
 
-                </Col>
-
-                <Col md="11">
-                    <Select
-                        id="select"
-                        name={props.name}
-                        components={makeAnimated()}
-                        isMulti={props.isMulti}
-                        options={props.cities}
-                        onChange={props.onChange}
-                    />
-                </Col>
-            </Row>
-
-            <br />
-            <h4>
-                <Badge color="secondary">
-                    Overseas City
+   return (
+       <div>
+           <Row >
+               <h4>
+                   <Badge color="secondary" >
+                       City
                     </Badge>
-            </h4>
+               </h4>
+               <ReactMultiSelectCheckboxes
+                   id="select"
+                   name={props.name}
+                   rightAligned={true}
+                   isMulti={props.isMulti}
+                   closeMenuOnSelect={false}
+                   options={props.cities}
+                   onChange={props.onChange}
+               />
+           </Row>
 
-            <h6>
-                <AsyncSelect
-                    id="asyncSelect"
-                    components={makeAnimated()}
-                    isMulti={props.isMulti}
-                    cacheOptions
-                    defaultOptions={false}
-                    loadOptions={loadAsyncValues}
-                    onChange={props.onChange}
-                />
-            </h6>
+            
         </div>
     );
 

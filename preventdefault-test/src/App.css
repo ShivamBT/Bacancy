@@ -42,7 +42,7 @@
 }
 
 .genderlegend{
-  /* margin-left:5%; */
+   margin-left:1%; 
 }
 
  .genderspace{
@@ -51,4 +51,21 @@
 
 .button{
   text-align: center;
+}
+
+.selectClass{
+  margin-right: 3%;
+}
+
+.select{
+  display:flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.datePicker{
+    display:flex;
+    flex-direction: row;
+    margin-left:2.8%;
+    margin-bottom: 4%;
 }

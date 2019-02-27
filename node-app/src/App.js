@@ -15,14 +15,14 @@ class App extends Component {
         <Navbar>
           <Nav>
             <h4>
-              <Badge color="info">
-                <Link to="/">UserList</Link>
+              <Badge color="primary">
+                <Link to="/" className="Link">UserList</Link>
               </Badge>
             </h4>
             &nbsp;&nbsp;
             <h4>
-              <Badge color="info">
-                <Link to="/edit/0/0">Create User</Link>
+              <Badge color="primary">
+                <Link to="/edit/0/0" className="Link">Create User</Link>
               </Badge>
             </h4>
           </Nav>

@@ -84,11 +84,12 @@ class UserList extends Component {
               <div>
                 <InputGroup>
                   <InputGroupAddon addonType="prepend">
-                    <h5>
-                      <Badge color="info">
+                    
+                    <Badge color="info">
+                      <h6>
                         <Label>Search User:</Label>
-                      </Badge>
-                    </h5>
+                      </h6>
+                    </Badge>
                   </InputGroupAddon>
 
                   <Input type="text" onBlur={e => this.searchValue(e)} />

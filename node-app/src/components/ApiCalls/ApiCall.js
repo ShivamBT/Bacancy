@@ -1,14 +1,15 @@
 import axios from "axios";
+let apiString = "http://localhost:8080/api/students/";
+
 
 export const getStudentList = () => {
-  return axios.get("http://localhost:8080/api/students/list");
+  return axios.get(`${apiString}list`);
 };
 
 export const findUser = id => {
-  return axios.get(`http://localhost:8080/api/students/find/${id}`);
+  return axios.get(`${apiString}find/${id}`);
 };
 
-let apiString = "http://localhost:8080/api/students/";
 
 export const createUser = payload => {
   return axios.post(`${apiString}create`, payload);

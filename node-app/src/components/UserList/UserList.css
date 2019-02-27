@@ -49,6 +49,7 @@
         display: table-row;
         font-weight: bold;
         text-align: center;
+        background-color: 
     }
     .Row
     {
@@ -57,10 +58,9 @@
     .Cell
     {
         display: table-cell;
-        border: solid;
-        border-width: thin;
-        padding-left: 5px;
-        padding-right: 5px;
+        border: 1px solid darkcyan;
+        border-width: thin; 
+        padding: 5px;   
     }
 
    

@@ -4,7 +4,6 @@ import './UserList.css';
 import { getStudentList, deleteUserData ,searchUser} from '.././ApiCalls/ApiCall';
 import { Badge2 } from ".././UI Components/UIComponent";
 import { Badge, InputGroup, Input, InputGroupAddon,Label } from 'reactstrap';
-import axios from 'axios';
 
 
 

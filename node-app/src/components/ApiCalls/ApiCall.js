@@ -14,30 +14,32 @@ export const findUser = (id) =>
     );
 }
 
+let apiString = "http://localhost:8080/api/students/";
+
 export const createUser = (payload) =>
 {
     return (
-        axios.post("http://localhost:8080/api/students/create", payload)
+        axios.post(`${apiString}create`, payload)
     );
 }
 
 export const updateUser = (userID, payload) =>
 {
     return (
-        axios.put(`http://localhost:8080/api/students/update/${userID}`,payload)  
+        axios.put(`${apiString}update/${userID}`,payload)  
     );
 }
 
 export const deleteUserData = (id) =>
 {
     return (
-        axios.delete(`http://localhost:8080/api/students/delete/${id}`)
+        axios.delete(`${apiString}delete/${id}`)
     )
 }
 
 export const searchUser = (value) =>
 {
     return (
-        axios.get(`http://localhost:8080/api/students/list?search=${value}`)
+        axios.get(`${apiString}list?search=${value}`)
     )
 }

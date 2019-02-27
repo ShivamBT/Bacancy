@@ -3,7 +3,6 @@ import { Navbar, Nav, Badge } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import "./App.css";
 import { Badge1 } from "./components/UI Components/UIComponent";
-import { SearchUser} from "./components/SearchComponent/SearchComponent";
 
 class App extends Component {
   render() {

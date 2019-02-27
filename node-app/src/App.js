@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import { Navbar, Nav, Badge } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import React, { Component } from "react";
+import { Navbar, Nav, Badge } from "reactstrap";
+import { Link } from "react-router-dom";
 import "./App.css";
 import { Badge1 } from "./components/UI Components/UIComponent";
 
@@ -8,7 +8,7 @@ class App extends Component {
   render() {
     return (
       <div className="mainHeading">
-        <div >
+        <div>
           <Badge1 />
         </div>
 
@@ -16,7 +16,7 @@ class App extends Component {
           <Nav>
             <h4>
               <Badge color="info">
-                <Link to="/" >UserList</Link>
+                <Link to="/">UserList</Link>
               </Badge>
             </h4>
             &nbsp;&nbsp;
@@ -25,12 +25,8 @@ class App extends Component {
                 <Link to="/edit/0/0">Create User</Link>
               </Badge>
             </h4>
-
           </Nav>
-
-     
         </Navbar>
-
       </div>
     );
   }

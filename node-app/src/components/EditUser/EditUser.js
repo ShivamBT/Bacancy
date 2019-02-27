@@ -60,8 +60,6 @@ class EditUser extends Component {
     }
   }
 
-  
-
   changeValue(e) {
     if (e.target.name === "userID") {
       let userID = e.target.value;
@@ -129,7 +127,7 @@ class EditUser extends Component {
           </h3>
 
           <FormGroup>
-            <Label>First Name:</Label>
+            <Label className="formElement">First Name:</Label>
             <input
               type="text"
               name="fname"
@@ -139,7 +137,7 @@ class EditUser extends Component {
           </FormGroup>
 
           <FormGroup>
-            <Label>Last Name:</Label>
+            <Label className="formElement">Last Name:</Label>
             <input
               type="text"
               name="lname"
@@ -149,7 +147,7 @@ class EditUser extends Component {
           </FormGroup>
 
           <FormGroup>
-            <Label>Email:</Label>
+            <Label className="formElement">Email:</Label>
             <input
               type="email"
               name="email"
@@ -159,7 +157,7 @@ class EditUser extends Component {
           </FormGroup>
 
           <FormGroup>
-            <Label>Mobile:</Label>
+            <Label className="formElement">Mobile:</Label>
             <input
               type="number"
               name="mobile"
@@ -169,7 +167,7 @@ class EditUser extends Component {
           </FormGroup>
 
           <FormGroup>
-            <Label>Age:</Label>
+            <Label className="formElement">Age:</Label>
             <input
               type="number"
               name="age"
@@ -186,9 +184,12 @@ class EditUser extends Component {
               <Button color="primary" onClick={this.submitValue}>
                 Create User
               </Button>
-              )}
-            
-            <Button color="secondary" onClick={this.cancelEvent} className="cancelButton">
+            )}
+
+            <Button
+              color="secondary"
+              onClick={this.cancelEvent}
+              className="cancelButton">
               Cancel
             </Button>
           </div>

@@ -1,0 +1,16 @@
+
+
+.dashboard {
+  color: blue;
+  text-align: center;
+}
+
+ .sidebar{
+  text-align: left;
+  position: absolute;
+} 
+
+.logout{
+  text-align: right;
+  margin-right: 5%;
+}

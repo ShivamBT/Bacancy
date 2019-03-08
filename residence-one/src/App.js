@@ -46,73 +46,58 @@ class App extends Component {
         img: result.data.data.picture
       });
 
-      localStorage.setItem("status", this.state.status);
       localStorage.setItem("token", this.state.token);
-      this.props.history.push(`/loggedin`);
+      this.props.history.push(`/dashboard`);
     }
   }
 
   async componentDidMount() {
-    console.log("Did mount called");
-    let x = localStorage.getItem("status");
-    console.log("x is: ", x);
-    if (x === true) {
-      this.props.history.push("/loggedin");
-    } else if (x === false) {
-      this.props.history.push("/");
-    }
+    let x = localStorage.getItem("token");
+    if (x !== null)
+      this.props.history.push("/dashboard");
+    console.log("x is :", x);
   }
 
   render() {
     return (
       <div className="App">
         <h1 className="h1">
-          <Badge color="info">Residence One</Badge>
+          <b>La Cadenelle</b>
         </h1>
 
-        <Container>
+        <Container className="container" fluid>
           <Form className="form">
-            <h2 className="h2">
-              <Badge color="info">Login</Badge>
-            </h2>
+            <h2 className="h2">Login</h2>
 
             <FormGroup>
-              <InputGroup>
-                <InputGroupAddon addonType="prepend">
-                  <h4>
-                    <Badge color="info">
-                      <Label>Email: </Label>
-                    </Badge>
-                  </h4>
-                </InputGroupAddon>
+              <Label>Email: </Label>
+              <div className="input">
                 <Input
                   type="email"
                   name="email"
                   onChange={e => this.changeValue(e)}
+                  className="input"
                 />
-              </InputGroup>
+              </div>
             </FormGroup>
 
             <FormGroup>
-              <InputGroup>
-                <InputGroupAddon addonType="prepend">
-                  <h4>
-                    <Badge color="info">
-                      <Label>Password : </Label>
-                    </Badge>
-                  </h4>
-                </InputGroupAddon>
-                  <Input
-                    type="password"
-                    name="password"
-                    onChange={e => this.changeValue(e)}
-                  />
-               
-              </InputGroup>
+              <Label>Password: </Label>
+              <div className="input">
+                <Input
+                  type="password"
+                  name="password"
+                  onChange={e => this.changeValue(e)}
+                  className="input"
+                />
+              </div>
             </FormGroup>
 
             <FormGroup>
-              <Button color="info" onClick={this.submitValue} className="loginButton">
+              <Button
+                color="info"
+                onClick={this.submitValue}
+                className="loginButton">
                 Log in
               </Button>
             </FormGroup>

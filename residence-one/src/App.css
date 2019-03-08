@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  position: relative;
 }
 
 .h2{
@@ -10,14 +11,19 @@
 .form{
   text-align: left;
   border:2px solid black; 
+  background-color:white;
   border-radius: 3%;
   margin-left: 28%;
   margin-right: 28%;
-  margin-bottom: 20%;
+  margin-bottom: 40%;
   margin-top: 5%;
 }
 
 .loginButton{
   text-align: center;
-  margin-left:42.5%;
+}
+
+
+.input{
+  
 }

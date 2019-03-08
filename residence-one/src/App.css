@@ -1,0 +1,23 @@
+.App {
+  text-align: center;
+}
+
+.h2{
+  text-align: center;
+}
+
+
+.form{
+  text-align: left;
+  border:2px solid black; 
+  border-radius: 3%;
+  margin-left: 28%;
+  margin-right: 28%;
+  margin-bottom: 20%;
+  margin-top: 5%;
+}
+
+.loginButton{
+  text-align: center;
+  margin-left:42.5%;
+}

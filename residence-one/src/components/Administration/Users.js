@@ -2,12 +2,33 @@ import React, { Component } from "react";
 import axios from "axios";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
-import { Dashboard } from "../Dashboard/Dashboard";
 import "./Users.css";
-import { Button, ButtonGroup, Nav, NavItem, NavLink } from "reactstrap";
+import {
+  Button,
+  Nav,
+  NavItem,
+  NavLink,
+  Dropdown,
+  DropdownMenu,
+  DropdownToggle,
+  DropdownItem,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Form,
+  Label,
+  FormGroup,
+  Input,
+  UncontrolledDropdown,
+  Collapse,
+  Card,
+  CardBody
+} from "reactstrap";
 import { getUserList } from "../ApiCalls/ApiCalls";
 import { Sidebar } from "../Sidebar/Sidebar";
 import { LogOutComponent } from "../LogOutComponent/LogOutComponent";
+import { FaEllipsisV } from "react-icons/fa";
 
 export class Users extends Component {
   constructor(props) {
@@ -20,12 +41,30 @@ export class Users extends Component {
       imagePath: "",
       user_bool: true,
       total_pages: "",
-      current_page: 1
+      current_page: 1,
+      dropdownOpen: false,
+      modal: false,
+      actionDropDownOpen: false,
+      signup: {
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+        //dateOfBirth: "",
+        telephone: ""
+      }
     };
 
     this.clickHandler = this.clickHandler.bind(this);
     this.fetchData = this.fetchData.bind(this);
     this.changeCurrentPage = this.changeCurrentPage.bind(this);
+    this.toggle = this.toggle.bind(this);
+    this.toggleModal = this.toggleModal.bind(this);
+    this.changeValue = this.changeValue.bind(this);
+    this.submitValue = this.submitValue.bind(this);
+    this.updateStatus = this.updateStatus.bind(this);
+    this.toggleAction = this.toggleAction.bind(this);
   }
 
   async clickHandler(e) {
@@ -35,6 +74,7 @@ export class Users extends Component {
       this.state.current_page,
       this.state.token
     );
+
     this.setState({
       data: result.data.data,
       active_bool: !this.state.active_bool,
@@ -43,21 +83,54 @@ export class Users extends Component {
       total_pages: Math.ceil(result.data.totalRecords / 20)
     });
   }
+  toggle() {
+    this.setState({ dropdownOpen: !this.state.dropdownOpen });
+  }
+
+  toggleModal() {
+    this.setState({ modal: !this.state.modal });
+  }
+
+  async toggleAction() {
+    await this.setState({ actionDropDownOpen: !this.state.actionDropDownOpen });
+  }
+
+  changeValue(e) {
+    let signup = { ...this.state.signup };
+    signup[e.target.name] = e.target.value;
+    this.setState({ signup });
+  }
+
+  submitValue(e) {
+    console.log("Submit Value called");
+    axios
+      .post("http://localhost:8080/api/user/signup", this.state.signup)
+      .then(res => {
+        console.log("Result is :", res);
+      })
+      .catch(res => {
+        console.log("Error !!");
+        alert("Error!!");
+      });
+
+    // this.toggleModal();
+  }
+
+  async updateStatus(id) {
+    /*   let result = await axios.get(`http://localhost:8080/api/user/updateStatus/:${id}/:true`, {
+      headers: {
+        token:this.state.token
+      }
+    });
+
+    console.log("Status changed :", result);*/
+
+    return;
+  }
 
   async componentDidMount() {
     await this.setState({ token: localStorage.getItem("token") });
-    let result = await getUserList(
-      true,
-      this.state.current_page,
-      this.state.token
-    );
-    this.setState({
-      data: result.data.data,
-      imagePath: result.data.imagePath,
-      total_pages: Math.ceil(result.data.totalRecords / 20)
-    });
-
-    console.log("Result is : ", result);
+    this.fetchData();
   }
 
   async changeCurrentPage(pageIndex) {
@@ -87,7 +160,8 @@ export class Users extends Component {
         accessor: "fullName",
         width: 250,
         maxWidth: 250,
-        minWidth: 250
+        minWidth: 250,
+        filterable: true
       },
 
       {
@@ -153,6 +227,28 @@ export class Users extends Component {
       {
         Header: "Mobile No",
         accessor: "telephone"
+      },
+
+      {
+        Header: "Actions",
+
+        Cell: row => {
+          return (
+            <UncontrolledDropdown>
+              <DropdownToggle>
+                <FaEllipsisV />
+              </DropdownToggle>
+              <Collapse isOpen={!this.state.isOpen}>
+                <DropdownMenu right className="dropDownMenu">
+                  <DropdownItem onClick={this.updateStatus(row.original.id)}>
+                    Deactivate User
+                </DropdownItem>
+                </DropdownMenu>
+              </Collapse>
+              
+            </UncontrolledDropdown>
+          );
+        }
       }
     ];
     return (
@@ -163,6 +259,81 @@ export class Users extends Component {
 
         <div className="logout">
           <LogOutComponent {...this.props} />
+        </div>
+
+        <div>
+          <Modal isOpen={this.state.modal} toggle={this.toggleModal}>
+            <ModalHeader toggle={this.toggleModal}>Signup Form</ModalHeader>
+            <ModalBody>
+              <Form>
+                <FormGroup>
+                  <Label>First Name:</Label>
+                  <Input
+                    type="text"
+                    name="firstName"
+                    value={this.state.signup.firstName}
+                    onChange={e => this.changeValue(e)}
+                  />
+                </FormGroup>
+
+                <FormGroup>
+                  <Label>Last Name:</Label>
+                  <Input
+                    type="text"
+                    name="lastName"
+                    value={this.state.signup.lastName}
+                    onChange={e => this.changeValue(e)}
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <Label>Email :</Label>
+                  <Input
+                    type="email"
+                    name="email"
+                    value={this.state.signup.email}
+                    onChange={e => this.changeValue(e)}
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <Label>Password :</Label>
+                  <Input
+                    type="password"
+                    name="password"
+                    value={this.state.signup.password}
+                    onChange={e => this.changeValue(e)}
+                  />
+                </FormGroup>
+
+                <FormGroup>
+                  <Label>Confirm Password :</Label>
+                  <Input
+                    type="password"
+                    name="confirmPassword"
+                    value={this.state.signup.confirmPassword}
+                    onChange={e => this.changeValue(e)}
+                  />
+                </FormGroup>
+
+                <FormGroup>
+                  <Label>Mobile Number:</Label>
+                  <Input
+                    type="number"
+                    name="telephone"
+                    value={this.state.signup.telephone}
+                    onChange={e => this.changeValue(e)}
+                  />
+                </FormGroup>
+              </Form>
+            </ModalBody>
+            <ModalFooter>
+              <Button color="primary" onClick={this.submitValue}>
+                Submit
+              </Button>
+              <Button color="secondary" onClick={this.toggleModal}>
+                Cancel
+              </Button>
+            </ModalFooter>
+          </Modal>
         </div>
 
         <div className="userList">
@@ -190,25 +361,17 @@ export class Users extends Component {
               </NavLink>
             </NavItem>
           </Nav>
-          {/* <div>
-            <ButtonGroup>
-              <Button
-                //color="link"
-                onClick={e => this.clickHandler(e)}
-                value={true}
-                active={this.state.active_bool}>
-                Active
-              </Button>
-              <Button
-               // color="link"
-                onClick={e => this.clickHandler(e)}
-                value={false}
-                active={this.state.inactive_bool}>
-                Inactive
-              </Button>
-            </ButtonGroup>
-          </div> */}
-
+          <div>
+            <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+              <DropdownToggle>
+                <FaEllipsisV />
+              </DropdownToggle>
+              <DropdownMenu>
+                <DropdownItem onClick={this.toggleModal}>Add User</DropdownItem>
+                <DropdownItem>Help</DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+          </div>
           <div>
             <ReactTable
               data={this.state.data}

@@ -9,14 +9,11 @@ export class Dashboard extends Component {
     super(props);
   }
 
-  
-  componentWillMount()
-  {
+  componentWillMount() {
     let x = localStorage.getItem("token");
-    if (x === null)
-    {
+    if (x === null) {
       this.props.history.push("/");
-      }
+    }
   }
 
   render() {
@@ -27,15 +24,13 @@ export class Dashboard extends Component {
         </div>
 
         <div className="dashboard">
+          <div className="logout">
+            <LogOutComponent {...this.props} />
+          </div>
           <Jumbotron>
             <h1>Dashboard</h1>
             <p>Logged In</p>
           </Jumbotron>
-          
-        </div>
-
-        <div className="logout">
-          <LogOutComponent {...this.props}/>
         </div>
       </div>
     );

@@ -38,14 +38,14 @@ export class Sidebar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      collapsed:false
+      isOpen:false
     };
     this.toggleNavbar = this.toggleNavbar.bind(this);
   }
 
   toggleNavbar() {
     this.setState({
-      collapsed: !this.state.collapsed
+      isOpen: !this.state.isOpen
     });
   }
 
@@ -143,7 +143,7 @@ export class Sidebar extends Component {
             <Collapse isOpen={!this.state.isOpen} navbar>
               <Nav className="ml-auto" navbar>
                 <UncontrolledDropdown nav inNavbar>
-                  <DropdownToggle nav caret className="col">
+                  <DropdownToggle nav caret className="col" id='link1' isOpen={this.state.isOpen}>
                     Administration
                 </DropdownToggle>
                   <DropdownMenu right id="drop">

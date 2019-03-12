@@ -25,7 +25,7 @@ import {
   Card,
   CardBody
 } from "reactstrap";
-import { getUserList } from "../ApiCalls/ApiCalls";
+import { getUserList, signupUser } from "../ApiCalls/ApiCalls";
 import { Sidebar } from "../Sidebar/Sidebar";
 import { LogOutComponent } from "../LogOutComponent/LogOutComponent";
 import { FaEllipsisV } from "react-icons/fa";
@@ -153,18 +153,9 @@ export class Users extends Component {
     this.setState({ signup });
   }
 
-  submitValue(e) {
+  async submitValue(e) {
     console.log("Submit Value called");
-    axios
-      .post("http://localhost:8080/api/user/signup", this.state.signup)
-      .then(res => {
-        console.log("Result is :", res);
-      })
-      .catch(res => {
-        console.log("Error !!");
-        alert("Error!!");
-      });
-
+    let result = await signupUser(this.state.signup);
     // this.toggleModal();
   }
 

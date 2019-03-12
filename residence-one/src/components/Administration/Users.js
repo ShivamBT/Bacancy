@@ -72,9 +72,7 @@ export class Users extends Component {
     this.updateStatus = this.updateStatus.bind(this);
     this.toggleAction = this.toggleAction.bind(this);
     this.onFilteredChange = this.onFilteredChange.bind(this);
-    this.filterData = this.filterData.bind(this);
     this.toggleRow = this.toggleRow.bind(this);
-  //  this.toggleSelectAll.this.toggleSelectAll.bind(this);
   }
 
   toggleRow(firstName) {
@@ -115,30 +113,17 @@ export class Users extends Component {
 
     await this.setState({ search });
     console.log("e  is :", e);
-    this.filterData();
+    this.fetchData();
   }
 
-  async filterData() {
-    let result = await axios.get(
-      `http://localhost:8080/api/user/list?page=${
-        this.state.current_page
-      }&status=${this.state.user_bool}&${this.state.search.id}=${
-        this.state.search.value
-      }`,
-      {
-        headers: {
-          token: this.state.token
-        }
-      }
-    );
-    this.setState({ data: result.data.data });
-  }
+ 
 
   async clickHandler(e) {
     await this.setState({ user_bool: e.target.value, current_page: 1 });
     let result = await getUserList(
       this.state.user_bool,
       this.state.current_page,
+      this.state.search,
       this.state.token
     );
 
@@ -209,6 +194,7 @@ export class Users extends Component {
     let result = await getUserList(
       this.state.user_bool,
       this.state.current_page,
+      this.state.search,
       this.state.token
     );
     this.setState({
@@ -350,7 +336,7 @@ export class Users extends Component {
     return (
       <div className="main">
         <div className="loggedInPage">
-          <Sidebar />
+          <Sidebar {...this.props}/>
         </div>
 
         <div className="logout">

@@ -9,18 +9,12 @@ export class Dashboard extends Component {
     super(props);
   }
 
-  componentWillMount() {
-    let x = localStorage.getItem("token");
-    if (x === null) {
-      this.props.history.push("/");
-    }
-  }
-
+  
   render() {
     return (
       <div>
         <div className="sidebar">
-          <Sidebar />
+          <Sidebar {...this.props}/>
         </div>
 
         <div className="dashboard">

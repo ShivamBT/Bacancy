@@ -14,6 +14,7 @@ import {
   InputGroupAddon
 } from "reactstrap";
 import axios from "axios";
+import { logIn } from "./components/ApiCalls/ApiCalls";
 
 class App extends Component {
   constructor(props) {
@@ -34,10 +35,7 @@ class App extends Component {
   }
 
   async submitValue(e) {
-    let result = await axios.post(`http://localhost:8080/api/user/login`, {
-      email: this.state.email,
-      password: this.state.password
-    });
+    let result = await logIn(this.state.email, this.state.password);
     console.log("Result is : ", result);
     if (result.data.status === true) {
       await this.setState({

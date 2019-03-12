@@ -1,5 +1,6 @@
 import React, { Component}from "react";
 import { Button } from "reactstrap";
+import { logOut } from "../ApiCalls/ApiCalls";
 
 
 export class LogOutComponent extends Component
@@ -10,10 +11,13 @@ export class LogOutComponent extends Component
         this.logOutHandler = this.logOutHandler.bind(this);
     }
 
-    logOutHandler = () => {
+    logOutHandler = async () => {
         localStorage.removeItem("token");
+        let result = await logOut();
+        console.log("Result is :", result);
         this.props.history.push("/");
     }
+    
     render()
     {
         return (

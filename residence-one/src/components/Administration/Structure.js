@@ -5,6 +5,7 @@ import "react-table/react-table.css";
 import { Sidebar } from "../Sidebar/Sidebar";
 import { LogOutComponent } from "../LogOutComponent/LogOutComponent";
 import "./Structure.css";
+import { getStructureList } from "../ApiCalls/ApiCalls";
 
 export class Structure extends Component {
   constructor(props) {
@@ -24,7 +25,6 @@ export class Structure extends Component {
     this.paginationHandler = this.paginationHandler.bind(this);
     this.fetchData = this.fetchData.bind(this);
     this.onFilteredChange = this.onFilteredChange.bind(this);
-    this.filterData = this.filterData.bind(this);
     this.toggleRow = this.toggleRow.bind(this);
   }
 
@@ -66,38 +66,20 @@ export class Structure extends Component {
 
     await this.setState({ search });
     console.log("e  is :", e);
-    this.filterData();
+    this.fetchData();
   }
 
-  async filterData() {
-    let result = await axios.get(
-      `http://localhost:8080/api/entry/structure?page=${
-        this.state.current_page
-      }&${this.state.search.id}=${this.state.search.value}`,
-      {
-        headers: {
-          token: this.state.token
-        }
-      }
-    );
-    this.setState({ data: result.data.data });
-  }
-
+ 
   async paginationHandler(pageIndex) {
     await this.setState({ current_page: pageIndex + 1 });
     this.fetchData();
   }
 
   async fetchData() {
-    let result = await axios.get(
-      `http://localhost:8080/api/entry/structure?page=${
-        this.state.current_page
-      }`,
-      {
-        headers: {
-          token: this.state.token
-        }
-      }
+    let result = await getStructureList(
+      this.state.current_page,
+      this.state.search,
+      this.state.token
     );
 
     this.setState({
@@ -173,7 +155,7 @@ export class Structure extends Component {
     return (
       <div className="structure">
         <div className="sidebar">
-          <Sidebar />
+                <Sidebar {...this.props}/>
         </div>
 
         <div className="logout">

@@ -49,6 +49,14 @@ export class Sidebar extends Component {
     });
   }
 
+  componentWillMount() {
+    let x = localStorage.getItem("token");
+    if (x === null) {
+      this.props.history.push("/");
+    }
+  }
+
+
   render() {
     return (
       <div>

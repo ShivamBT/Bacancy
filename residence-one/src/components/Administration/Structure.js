@@ -14,6 +14,8 @@ export class Structure extends Component {
       data: [],
       total_pages: "",
       current_page: 1,
+      selected: {},
+      selectAll: 0,
       search: {
         id: null,
         value: null
@@ -21,22 +23,42 @@ export class Structure extends Component {
     };
     this.paginationHandler = this.paginationHandler.bind(this);
     this.fetchData = this.fetchData.bind(this);
-    this.displayProps = this.displayProps.bind(this);
     this.onFilteredChange = this.onFilteredChange.bind(this);
     this.filterData = this.filterData.bind(this);
+    this.toggleRow = this.toggleRow.bind(this);
   }
 
-  displayProps(e) {
-    console.log("Display Props are :", e);
+  toggleRow(name) {
+    const newSelected = Object.assign({}, this.state.selected);
+    newSelected[name] = !this.state.selected[name];
+    this.setState({
+      selected: newSelected,
+      selectAll: 2
+    });
+  }
+
+  toggleSelectAll() {
+    let newSelected = {};
+
+    if (this.state.selectAll === 0) {
+      this.state.data.forEach(x => {
+        newSelected[x.name] = true;
+      });
+    }
+
+    this.setState({
+      selected: newSelected,
+      selectAll: this.state.selectAll === 0 ? 1 : 0
+    });
   }
 
   async onFilteredChange(e) {
     let search = { ...this.state.search };
     let i = e.length - 1;
 
-    if (e.length===0) {
-        search["id"] = "";
-        search["value"] = "";
+    if (e.length === 0) {
+      search["id"] = "";
+      search["value"] = "";
     } else {
       search[`id`] = e[i].id;
       search[`value`] = e[i].value;
@@ -94,16 +116,39 @@ export class Structure extends Component {
   render() {
     let columns = [
       {
+        id: "checkbox",
+        accessor: "",
+        Cell: ({ original }) => {
+          return (
+            <input
+              type="checkbox"
+              checked={this.state.selected[original.name] === true}
+              onChange={() => this.toggleRow(original.name)}
+            />
+          );
+        },
+        Header: x => {
+          return (
+            <input
+              type="checkbox"
+              checked={this.state.selectAll === 1}
+              ref={input => {
+                if (input) {
+                  input.indeterminate = this.state.selectAll === 2;
+                }
+              }}
+              onChange={() => this.toggleSelectAll()}
+            />
+          );
+        },
+        sortable: false,
+        width: 45
+      },
+
+      {
         Header: "Name",
         accessor: "name",
         filterable: true
-        /*Filter: cellInfo => {
-          return (
-            <input 
-              onChange={e => this.onFiltersChange(e.target.value)}
-            />
-          );
-        }*/
       },
       {
         Header: "Building Id",

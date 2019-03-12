@@ -229,7 +229,6 @@ export class Users extends Component {
           return (
             <input
               type="checkbox"
-              className="checkbox"
               checked={this.state.selected[original.firstName] === true}
               onChange={() => this.toggleRow(original.firstName)}
             />
@@ -239,7 +238,6 @@ export class Users extends Component {
           return (
             <input
               type="checkbox"
-              className="checkbox"
               checked={this.state.selectAll === 1}
               ref={input => {
                 if (input) {

@@ -45,6 +45,12 @@ export class Users extends Component {
       dropdownOpen: false,
       modal: false,
       actionDropDownOpen: false,
+      selected: {},
+      selectAll: 0,
+      search: {
+        id: "",
+        value: ""
+      },
       signup: {
         firstName: "",
         lastName: "",
@@ -65,6 +71,67 @@ export class Users extends Component {
     this.submitValue = this.submitValue.bind(this);
     this.updateStatus = this.updateStatus.bind(this);
     this.toggleAction = this.toggleAction.bind(this);
+    this.onFilteredChange = this.onFilteredChange.bind(this);
+    this.filterData = this.filterData.bind(this);
+    this.toggleRow = this.toggleRow.bind(this);
+  //  this.toggleSelectAll.this.toggleSelectAll.bind(this);
+  }
+
+  toggleRow(firstName) {
+    const newSelected = Object.assign({}, this.state.selected);
+    newSelected[firstName] = !this.state.selected[firstName];
+    this.setState({
+      selected: newSelected,
+      selectAll: 2
+    });
+  }
+
+  toggleSelectAll() {
+    let newSelected = {};
+
+    if (this.state.selectAll === 0) {
+      this.state.data.forEach(x => {
+        newSelected[x.firstName] = true;
+      });
+    }
+
+    this.setState({
+      selected: newSelected,
+      selectAll: this.state.selectAll === 0 ? 1 : 0
+    });
+  }
+
+  async onFilteredChange(e) {
+    let search = { ...this.state.search };
+    let i = e.length - 1;
+
+    if (e.length === 0) {
+      search["id"] = "";
+      search["value"] = "";
+    } else {
+      search[`id`] = e[i].id;
+      search[`value`] = e[i].value;
+    }
+
+    await this.setState({ search });
+    console.log("e  is :", e);
+    this.filterData();
+  }
+
+  async filterData() {
+    let result = await axios.get(
+      `http://localhost:8080/api/user/list?page=${
+        this.state.current_page
+      }&status=${this.state.user_bool}&${this.state.search.id}=${
+        this.state.search.value
+      }`,
+      {
+        headers: {
+          token: this.state.token
+        }
+      }
+    );
+    this.setState({ data: result.data.data });
   }
 
   async clickHandler(e) {
@@ -156,6 +223,38 @@ export class Users extends Component {
   render() {
     const columns = [
       {
+        id: "checkbox",
+        accessor: "",
+        Cell: ({ original }) => {
+          return (
+            <input
+              type="checkbox"
+              className="checkbox"
+              checked={this.state.selected[original.firstName] === true}
+              onChange={() => this.toggleRow(original.firstName)}
+            />
+          );
+        },
+        Header: x => {
+          return (
+            <input
+              type="checkbox"
+              className="checkbox"
+              checked={this.state.selectAll === 1}
+              ref={input => {
+                if (input) {
+                  input.indeterminate = this.state.selectAll === 2;
+                }
+              }}
+              onChange={() => this.toggleSelectAll()}
+            />
+          );
+        },
+        sortable: false,
+        width: 45
+      },
+
+      {
         Header: "FullName",
         accessor: "fullName",
         width: 250,
@@ -242,10 +341,9 @@ export class Users extends Component {
                 <DropdownMenu right className="dropDownMenu">
                   <DropdownItem onClick={this.updateStatus(row.original.id)}>
                     Deactivate User
-                </DropdownItem>
+                  </DropdownItem>
                 </DropdownMenu>
               </Collapse>
-              
             </UncontrolledDropdown>
           );
         }
@@ -378,7 +476,8 @@ export class Users extends Component {
               pages={this.state.total_pages}
               page={this.state.current_page - 1}
               columns={columns}
-              filterable
+              filterable={true}
+              onFilteredChange={this.onFilteredChange}
               noDataText="Please Wait ...."
               showPageSizeOptions={false}
               className="-striped -highlight"

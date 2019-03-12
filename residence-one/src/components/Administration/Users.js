@@ -380,7 +380,7 @@ export class Users extends Component {
               columns={columns}
               filterable
               noDataText="Please Wait ...."
-              defaultPageSize={10}
+              showPageSizeOptions={false}
               className="-striped -highlight"
               onPageChange={pageIndex => this.changeCurrentPage(pageIndex)}
               manual

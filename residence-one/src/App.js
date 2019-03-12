@@ -62,7 +62,7 @@ class App extends Component {
     return (
       <div className="App">
         <h1 className="h1">
-          <b>La Cadenelle</b>
+          <center>La Cadenelle</center>
         </h1>
 
         <Container className="container" fluid>

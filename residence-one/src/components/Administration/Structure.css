@@ -1,0 +1,18 @@
+.sidebar{
+    position:absolute;
+}
+
+.structure{
+     background-color: #f9f9f9;
+}
+.logout{
+    text-align: right;
+}
+
+.structureList{
+    margin-left: 10%;
+}
+
+.structureHeading{
+    margin-left: 10%;
+}

@@ -38,7 +38,7 @@ export class Sidebar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isOpen:false
+      isOpen: false
     };
     this.toggleNavbar = this.toggleNavbar.bind(this);
   }
@@ -56,11 +56,9 @@ export class Sidebar extends Component {
     }
   }
 
-
   render() {
     return (
       <div>
-           
         {/* <Navbar
           color="faded"
           light
@@ -135,8 +133,7 @@ export class Sidebar extends Component {
           </Collapse>
         </Navbar>
          */}
-        
-        
+
         <Navbar
           color="faded"
           light
@@ -151,93 +148,98 @@ export class Sidebar extends Component {
             <Collapse isOpen={!this.state.isOpen} navbar>
               <Nav className="ml-auto" navbar>
                 <UncontrolledDropdown nav inNavbar>
-                  <DropdownToggle nav caret className="col" id='link1' isOpen={this.state.isOpen}>
+                  <DropdownToggle
+                    nav
+                    caret
+                    className="col"
+                    id="link1"
+                    isOpen={this.state.isOpen}>
                     Administration
-                </DropdownToggle>
+                  </DropdownToggle>
                   <DropdownMenu right id="drop">
                     <DropdownItem>
                       <FaRegCircle id="link1" />
                       <Link to="/administration/users" className="link">
                         Users
-                    </Link>
+                      </Link>
                     </DropdownItem>
                     <DropdownItem>
                       <FaRegBuilding id="link1" />{" "}
                       <Link to="/administration/structure" className="link">
                         Structure
-                    </Link>
+                      </Link>
                     </DropdownItem>
                     <DropdownItem>
                       <FaUser id="link1" />{" "}
                       <Link to="/administration/units" className="link">
                         Units
-                    </Link>
+                      </Link>
+                    </DropdownItem>
+                    <DropdownItem>
+                      <FaUsers id="link1" />{" "}
+                      <Link to="/administration/families" className="link">
+                        Families
+                      </Link>
                     </DropdownItem>
                     <DropdownItem>
                       <FaAtom id="link1" />{" "}
                       <Link to="/" className="link">
                         Groups
-                    </Link>
-                    </DropdownItem>
-                    <DropdownItem>
-                      <FaUsers id="link1" />{" "}
-                      <Link to="/" className="link">
-                        Families
-                    </Link>
+                      </Link>
                     </DropdownItem>
                     <DropdownItem>
                       <FaUserSecret id="link1" />{" "}
                       <Link to="/" className="link">
                         Owners
-                    </Link>
+                      </Link>
                     </DropdownItem>
                     <DropdownItem>
                       <FaCar id="link1" />{" "}
                       <Link to="/" className="link">
                         Vehicle
-                    </Link>
+                      </Link>
                     </DropdownItem>
                     <DropdownItem>
                       <FaFileAlt id="link1" />{" "}
                       <Link to="/" className="link">
                         Document
-                    </Link>
+                      </Link>
                     </DropdownItem>
                     <DropdownItem>
                       <FaCalendarAlt id="link1" />{" "}
                       <Link to="/" className="link">
                         Event
-                    </Link>
+                      </Link>
                     </DropdownItem>
                     <DropdownItem>
                       <FaRegNewspaper id="link1" />{" "}
                       <Link to="/" className="link">
                         News feed
-                    </Link>
+                      </Link>
                     </DropdownItem>
                     <DropdownItem>
                       <FaSwimmer id="link1" />{" "}
                       <Link to="/" className="link">
                         Pool
-                    </Link>
+                      </Link>
                     </DropdownItem>
                     <DropdownItem>
                       <FaRegCheckCircle id="link1" />{" "}
                       <Link to="/" className="link">
                         Issue Tracking
-                    </Link>
+                      </Link>
                     </DropdownItem>
                     <DropdownItem>
                       <FaRegAddressCard id="link1" />{" "}
                       <Link to="/" className="link">
                         Contact
-                    </Link>
+                      </Link>
                     </DropdownItem>
                     <DropdownItem>
                       <FaCogs id="link1" />
                       <Link to="/" className="link">
                         Settings
-                    </Link>
+                      </Link>
                     </DropdownItem>
                   </DropdownMenu>
                 </UncontrolledDropdown>
@@ -246,55 +248,56 @@ export class Sidebar extends Component {
             <Collapse isOpen={!this.state.isOpen} navbar>
               <Nav className="ml-auto" navbar>
                 <UncontrolledDropdown nav inNavbar>
-                  <DropdownToggle nav caret isOpen={this.state.isOpen} id="link1">
+                  <DropdownToggle
+                    nav
+                    caret
+                    isOpen={this.state.isOpen}
+                    id="link1">
                     Application
-                </DropdownToggle>
+                  </DropdownToggle>
                   <DropdownMenu right id="drop">
+                    <DropdownItem>
+                      <FaGift id="link1" />{" "}
+                      <Link to="/application/reception" className="link">
+                        Reception
+                      </Link>
+                    </DropdownItem>
                     <DropdownItem>
                       <FaSwimmer id="link1" />{" "}
                       <Link to="/apps/pools" className="link">
                         Pool
-                    </Link>
-                    </DropdownItem>
-                    <DropdownItem>
-                      <FaGift id="link1" />{" "}
-                      <Link to="/apps/reception" className="link">
-                        Reception
-                    </Link>
+                      </Link>
                     </DropdownItem>
                     <DropdownItem>
                       <FaFlagCheckered id="link1" />
                       <Link to="/apps/reception" className="link">
                         Notification
-                    </Link>
+                      </Link>
                     </DropdownItem>
                     <DropdownItem>
                       <FaCar id="link1" />{" "}
                       <Link to="/admin/pools" className="link">
                         Vehicle
-                    </Link>
+                      </Link>
                     </DropdownItem>
                     <DropdownItem>
                       <FaRegCheckCircle id="link1" />{" "}
                       <Link to="/admin/pools" className="link">
                         Issue Tracking
-                    </Link>
+                      </Link>
                     </DropdownItem>
                     <DropdownItem>
                       <FaRegAddressCard id="link1" />{" "}
                       <Link to="/admin/pools" className="link">
                         Contact
-                    </Link>
+                      </Link>
                     </DropdownItem>
                   </DropdownMenu>
                 </UncontrolledDropdown>
               </Nav>
             </Collapse>
           </div>
-
-          </Navbar>
-          
-        
+        </Navbar>
       </div>
     );
   }

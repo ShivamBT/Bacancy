@@ -1,0 +1,22 @@
+.sidebar{
+    position:absolute;
+}
+
+.reception{
+     background-color: #f9f9f9;
+}
+.logout{
+    text-align: right;
+}
+
+.receptionList{
+    margin-left: 10%;
+}
+
+.receptionHeading{
+    margin-left: 10%;
+}
+
+.icon{
+    padding:2%;
+}

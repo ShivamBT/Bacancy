@@ -1,0 +1,18 @@
+.sidebar{
+    position:absolute;
+}
+
+.family{
+     background-color: #f9f9f9;
+}
+.logout{
+    text-align: right;
+}
+
+.familyList{
+    margin-left: 10%;
+}
+
+.familyHeading{
+    margin-left: 10%;
+}

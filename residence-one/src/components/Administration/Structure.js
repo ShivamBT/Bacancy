@@ -128,9 +128,10 @@ export class Structure extends Component {
       },
 
       {
+        id:"name",
         Header: "Name",
         accessor: "name",
-        filterable: true
+        
       },
       {
         Header: "Building Id",

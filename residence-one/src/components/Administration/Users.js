@@ -245,6 +245,7 @@ export class Users extends Component {
       },
 
       {
+        id:"name",
         Header: "FullName",
         accessor: "fullName",
         width: 250,

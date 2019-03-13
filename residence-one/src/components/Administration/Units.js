@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { getUnitList, logOut } from "../ApiCalls/ApiCalls";
+import { getUnitList} from "../ApiCalls/ApiCalls";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import { Sidebar } from "../Sidebar/Sidebar";
@@ -105,11 +105,11 @@ export class Units extends Component {
     return (
       <div className="unit">
         <div className="sidebar">
-          <Sidebar />
+                <Sidebar {...this.props}/>
         </div>
 
         <div className="logout">
-          <LogOutComponent />
+                <LogOutComponent {...this.props}/>
         </div>
 
         <div className="unitList">

@@ -6,9 +6,9 @@ import { Council } from "./components/Council/Council";
 import { Blogs } from "./components/Public/Blogs";
 import { Website } from "./components/Public/Website";
 import { Structure } from "./components/Administration/Structure";
-import { Lots } from "./components/Administration/Lots";
 import { Users } from "./components/Administration/Users";
 import { Dashboard } from "./components/Dashboard/Dashboard";
+import { Units } from "./components/Administration/Units";
 
 const Routing = () => {
   return (
@@ -22,7 +22,7 @@ const Routing = () => {
         <Route path="/public/blogs" component={Blogs} />
         <Route path="/public/website" component={Website} />
         <Route path="/administration/structure" component={Structure} />
-        <Route path="/administration/lots" component={Lots} />
+        <Route path="/administration/units" component={Units} />
       </Switch>
     </BrowserRouter>
   );

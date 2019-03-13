@@ -51,6 +51,10 @@ export class Users extends Component {
         id: "",
         value: ""
       },
+      sort_data: {
+        id: "",
+        desc: ""
+      },
       signup: {
         firstName: "",
         lastName: "",
@@ -73,6 +77,19 @@ export class Users extends Component {
     this.toggleAction = this.toggleAction.bind(this);
     this.onFilteredChange = this.onFilteredChange.bind(this);
     this.toggleRow = this.toggleRow.bind(this);
+    this.sortingData = this.sortingData.bind(this);
+    this.fetchSortedData = this.fetchSortedData.bind(this);
+  }
+
+  async sortingData(e) {
+    await this.setState({ sort_data: e });
+    console.log("sorting is: ", this.state.sort_data);
+  }
+
+  async fetchSortedData() {
+    let result = await `http://localhost:8080/api/user/list?page=${
+      this.state.current_page
+    }&status=${this.state.user_bool}&{}`;
   }
 
   toggleRow(firstName) {
@@ -115,8 +132,6 @@ export class Users extends Component {
     console.log("e  is :", e);
     this.fetchData();
   }
-
- 
 
   async clickHandler(e) {
     await this.setState({ user_bool: e.target.value, current_page: 1 });
@@ -327,7 +342,7 @@ export class Users extends Component {
     return (
       <div className="main">
         <div className="loggedInPage">
-          <Sidebar {...this.props}/>
+          <Sidebar {...this.props} />
         </div>
 
         <div className="logout">
@@ -456,6 +471,7 @@ export class Users extends Component {
               noDataText="Please Wait ...."
               showPageSizeOptions={false}
               className="-striped -highlight"
+              onSortedChange={this.sortingData}
               onPageChange={pageIndex => this.changeCurrentPage(pageIndex)}
               manual
               onFetchData={this.fetchData}

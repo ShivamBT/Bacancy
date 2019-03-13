@@ -37,8 +37,15 @@ export const getStructureList = (current_page, search, token) =>
 
 export const signupUser = (signup) =>
 {
-    return axios.post("http://localhost:8080/api/user/signup", signup);
+    return axios.post(`${url}user/signup`, signup);
 }
     
-
+export const getUnitList = (current_page,search,token) =>
+{
+    return axios.get(`${url}unit/list?page=${current_page}&${search.id}=${search.value}`, {
+        headers: {
+            token:token
+        }
+    });
+}
 

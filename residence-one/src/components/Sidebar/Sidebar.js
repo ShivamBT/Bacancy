@@ -169,8 +169,8 @@ export class Sidebar extends Component {
                     </DropdownItem>
                     <DropdownItem>
                       <FaUser id="link1" />{" "}
-                      <Link to="/administration/lots" className="link">
-                        Lots
+                      <Link to="/administration/units" className="link">
+                        Units
                     </Link>
                     </DropdownItem>
                     <DropdownItem>

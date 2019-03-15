@@ -15,6 +15,8 @@ import {
 } from "reactstrap";
 import axios from "axios";
 import { logIn } from "./components/ApiCalls/ApiCalls";
+import { FaLock } from "react-icons/fa";
+import { Footer } from "./components/Footer/Footer";
 
 class App extends Component {
   constructor(props) {
@@ -51,24 +53,21 @@ class App extends Component {
 
   async componentDidMount() {
     let x = localStorage.getItem("token");
-    if (x !== null)
-      this.props.history.push("/dashboard");
+    if (x !== null) this.props.history.push("/dashboard");
     console.log("x is :", x);
   }
 
   render() {
     return (
       <div className="App">
-        <h1 className="h1">
-          <center>La Cadenelle</center>
+        <h1 className="h1" style={{ textAlign: "center" }}>
+          <b>la Cadenelle</b>
         </h1>
-
-        <Container className="container" fluid>
           <Form className="form">
-            <h2 className="h2">Login</h2>
+            <h2 className="h2"><FaLock />Login</h2>
 
             <FormGroup>
-              <Label>Email: </Label>
+              <Label className="label">Email: </Label>
               <div className="input">
                 <Input
                   type="email"
@@ -80,7 +79,7 @@ class App extends Component {
             </FormGroup>
 
             <FormGroup>
-              <Label>Password: </Label>
+            <Label className="label">Password: </Label>
               <div className="input">
                 <Input
                   type="password"
@@ -100,7 +99,7 @@ class App extends Component {
               </Button>
             </FormGroup>
           </Form>
-        </Container>
+          <Footer />
       </div>
     );
   }

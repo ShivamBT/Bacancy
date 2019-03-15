@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { getReceptionList } from "../ApiCalls/ApiCalls";
+import { getReceptionList, getLastPacket } from "../ApiCalls/ApiCalls";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import { Sidebar } from "../Sidebar/Sidebar";
@@ -7,6 +7,7 @@ import { LogOutComponent } from "../LogOutComponent/LogOutComponent";
 import "./Reception.css";
 import { Button } from "reactstrap";
 import { FaMobileAlt, FaEnvelope, FaBirthdayCake } from "react-icons/fa";
+import { Modal, ModalHeader,ModalBody,ModalFooter } from "reactstrap";
 
 export class Reception extends Component {
     constructor(props) {
@@ -20,12 +21,29 @@ export class Reception extends Component {
                 id: "",
                 value: ""
             },
-            imagePath:'',
+            imagePath: '',
+            lastPackerNumber: '',
+            currentPacketNo:'',
+            modal: false
         };
         this.fetchData = this.fetchData.bind(this);
         this.onFilteredChange = this.onFilteredChange.bind(this);
         this.paginationHandler = this.paginationHandler.bind(this);
         this.onFilteredChange = this.onFilteredChange.bind(this);
+        this.toggle = this.toggle.bind(this);
+        this.changePacketNumber = this.changePacketNumber.bind(this);
+    }
+
+    toggle()
+    {
+        this.setState({ modal: !this.state.modal });
+        this.changePacketNumber();
+    }
+
+    changePacketNumber()
+    {
+        let i = this.state.lastPackerNumber.indexOf("-");
+        console.log("index :" ,i);
     }
 
     async paginationHandler(pageIndex) {
@@ -56,13 +74,17 @@ export class Reception extends Component {
             this.state.search,
             this.state.token
         );
-        console.log("Result of Reception is:", result);
 
+        let lastPacket = await getLastPacket(this.state.token);
+        console.log("Result of Reception is:", result);
+        console.log("Last Packet :", lastPacket);
         this.setState({
             data: result.data.data,
             imagePath:result.data.imagePath,
-            total_pages: Math.ceil(result.data.totalRecords / 20)
+            total_pages: Math.ceil(result.data.totalRecords / 20),
+            lastPackerNumber: lastPacket.data.data.maxTempIdNumber
         });
+
 
     }
 
@@ -111,7 +133,7 @@ export class Reception extends Component {
                 Cell: row => {
                     return (
                         <div>
-                            <Button color="success">Receive</Button>
+                            <Button color="success" onClick={this.toggle}>Receive</Button>
                         </div>
                     );
                 }
@@ -120,7 +142,6 @@ export class Reception extends Component {
             {
                 Header: "Complete",
                 Cell: row => {
-                    console.log("Row is :", row);               
                     return (
                         <div key={row.index} >
                             {row.original.telephone ? null : <span className="icon"><FaMobileAlt /></span>}
@@ -145,7 +166,22 @@ export class Reception extends Component {
                 </div>
 
                 
-                
+                <div>
+                    <Modal isOpen={this.state.modal} toggle={this.toggle}>
+                        <ModalHeader toggle={this.toggle}>
+                            Reception and Notification
+                        </ModalHeader>
+                        <ModalBody>
+                            <p>Please write this number on packet or print a label</p>
+
+                            <p>{this.state.currentPacketNo}</p>
+                            ModalBody
+                        </ModalBody>
+                        <ModalFooter>
+                            ModalFooter
+                        </ModalFooter>
+                    </Modal>
+                </div>
                 <div className="receptionList">
                     <h1 className="receptionHeading">Reception</h1>
                     <ReactTable

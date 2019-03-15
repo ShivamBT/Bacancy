@@ -50,9 +50,11 @@ export class Families extends Component {
         if (e.length === 0) {
             search[0]["id"] = "";
             search[0]["value"] = "";
-        } else {
+        }
+        else {
             search = e;
         }
+        
         let string = "";
         
         for (let i = 0; i < search.length; i++)

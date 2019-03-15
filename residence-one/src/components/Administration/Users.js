@@ -28,7 +28,8 @@ import { getUserList, signupUser } from "../ApiCalls/ApiCalls";
 import { Sidebar } from "../Sidebar/Sidebar";
 import { LogOutComponent } from "../LogOutComponent/LogOutComponent";
 import { FaEllipsisV } from "react-icons/fa";
-
+import { Footer } from "../Footer/Footer";
+import { Link } from "react-router-dom";
 export class Users extends Component {
   constructor(props) {
     super(props);
@@ -243,7 +244,15 @@ export class Users extends Component {
         width: 250,
         maxWidth: 250,
         minWidth: 250,
-        filterable: true
+        filterable: true,
+        Cell: row => {
+          return (
+            <div>
+              <Link to={`/administration/users/${row.original.id}`}>{row.original.fullName}</Link>
+            </div>
+          );
+        }
+        
       },
 
       {
@@ -470,6 +479,10 @@ export class Users extends Component {
               onFetchData={this.fetchData}
             />
           </div>
+        </div>
+
+        <div>
+          <Footer />
         </div>
       </div>
     );

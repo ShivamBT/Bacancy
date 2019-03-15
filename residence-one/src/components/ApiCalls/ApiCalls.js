@@ -70,3 +70,21 @@ export const getReceptionList = (current_page,search,token) =>
     }
   });
   }
+
+export const getLastPacket = (token) =>
+{
+  return axios.get(`${url}reception/lastpacket-in`, {
+    headers: {
+      token:token
+    }
+  });
+}
+
+export const getUserDetails = (id, token) =>
+{
+  return axios.get(`${url}user/detail/${id}`, {
+    headers: {
+      token:token
+    }
+  })
+  }

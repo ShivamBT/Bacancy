@@ -1,0 +1,57 @@
+.main {
+  background-color:#f9f9f9;
+  height: 100vh;
+}
+.dot {
+  height: 25px;
+  width: 25px;
+  background-color: green;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+
+.sidebar{
+  position:absolute;
+}
+
+.logout{
+  text-align: right;
+}
+
+
+.mainHeading{
+  margin-left: 20%;
+  font-family: 'Segoe UI',sans-serif;
+  font-size:24px;
+  line-height: 26.4px;
+  text-align: start;
+  letter-spacing: normal;
+
+}
+
+.mainDetails{
+  margin-left: 20%;
+  display:flex;
+  justify-content: space-between;
+  
+}
+
+.familyName{
+  margin-left: 20%;
+}
+/* 
+.resident{
+  margin-left: 40%;
+}
+
+.mainUnitId{
+  text-align: left;
+} */
+
+
+.mainBlock{
+  margin-left: 20%;
+  border: 1px solid black;
+  font-size: 15px;
+}

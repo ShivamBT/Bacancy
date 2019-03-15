@@ -3,6 +3,7 @@ import { Sidebar } from "../Sidebar/Sidebar";
 import { Jumbotron } from "reactstrap";
 import "./Dashboard.css";
 import { LogOutComponent } from "../LogOutComponent/LogOutComponent";
+import { Footer } from "../Footer/Footer";
 
 export class Dashboard extends Component {
   constructor(props) {
@@ -25,6 +26,10 @@ export class Dashboard extends Component {
             <h1>Dashboard</h1>
             <p>Logged In</p>
           </Jumbotron>
+        </div>
+
+        <div>
+          <Footer />
         </div>
       </div>
     );

@@ -10,6 +10,7 @@ import { Users } from "./components/Administration/Users";
 import { Dashboard } from "./components/Dashboard/Dashboard";
 import { Units } from "./components/Administration/Units";
 import { Families } from "./components/Administration/Families";
+import { UserDetails } from "./components/Administration/UserDetails/UserDetails";
 
 const Routing = () => {
   return (
@@ -18,6 +19,7 @@ const Routing = () => {
         <Route exact path="/" component={App} />
         <Route path="/dashboard" component={Dashboard} />
         <Route exact path="/administration/users" component={Users} />
+        <Route exact path="/administration/users/:id" component={UserDetails}/>
         <Route path="/application/reception" component={Reception} />
         <Route path="/council" component={Council} />
         <Route path="/public/blogs" component={Blogs} />

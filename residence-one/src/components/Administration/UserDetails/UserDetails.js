@@ -4,6 +4,7 @@ import "./UserDetails.css";
 import { Sidebar } from ".././.././Sidebar/Sidebar";
 import { LogOutComponent } from ".././.././LogOutComponent/LogOutComponent";
 import { Nav, NavLink, NavItem, Button } from "reactstrap";
+import { DataHandler } from "./DataHandler";
 
 export class UserDetails extends Component {
   constructor(props) {
@@ -12,6 +13,7 @@ export class UserDetails extends Component {
       token: "",
       imagePath: "http://localhost:8080/images/lacadenelle13008fr/users/",
       data: null,
+      current_active: "profile",
       activeStatus: {
         profile: true,
         notifications: false,
@@ -35,7 +37,9 @@ export class UserDetails extends Component {
         activeStatus[x] = false;
       }
     }
-      this.setState({ activeStatus });
+
+    let current_active = e.target.value;
+    this.setState({ activeStatus, current_active });
   }
 
   async componentDidMount() {
@@ -53,11 +57,11 @@ export class UserDetails extends Component {
       return (
         <div className="main">
           <div className="sidebar">
-            <Sidebar />
+            <Sidebar {...this.props} />
           </div>
 
           <div className="logout">
-            <LogOutComponent />
+            <LogOutComponent {...this.props} />
           </div>
 
           <h1 className="mainHeading">
@@ -164,6 +168,10 @@ export class UserDetails extends Component {
                 </NavLink>
               </NavItem>
             </Nav>
+          </div>
+
+          <div className="dislayBlock">
+            <DataHandler active={this.state.current_active} />
           </div>
         </div>
       );

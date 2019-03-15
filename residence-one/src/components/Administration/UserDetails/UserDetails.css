@@ -55,3 +55,8 @@
   border: 1px solid black;
   font-size: 15px;
 }
+
+.displayBlock{
+  margin-left: 20%;
+  border: 1px solid black;
+}

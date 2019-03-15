@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import axios from "axios";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import "./Users.css";
@@ -78,18 +77,11 @@ export class Users extends Component {
     this.onFilteredChange = this.onFilteredChange.bind(this);
     this.toggleRow = this.toggleRow.bind(this);
     this.sortingData = this.sortingData.bind(this);
-    this.fetchSortedData = this.fetchSortedData.bind(this);
   }
 
   async sortingData(e) {
     await this.setState({ sort_data: e });
     console.log("sorting is: ", this.state.sort_data);
-  }
-
-  async fetchSortedData() {
-    let result = await `http://localhost:8080/api/user/list?page=${
-      this.state.current_page
-    }&status=${this.state.user_bool}&{}`;
   }
 
   toggleRow(firstName) {

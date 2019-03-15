@@ -14,15 +14,28 @@ export class Families extends Component {
             data: [],
             current_page: 1,
             total_pages: "",
-            search: {
-                id: "",
-                value: ""
+            search: [],
+            string:"",
+            sorting: {
+                sort: "",
+                field:""
             }
         };
         this.fetchData = this.fetchData.bind(this);
         this.onFilteredChange = this.onFilteredChange.bind(this);
         this.paginationHandler = this.paginationHandler.bind(this);
-        this.onFilteredChange = this.onFilteredChange.bind(this);
+        this.onSortedChange = this.onSortedChange.bind(this);
+    }
+
+    async onSortedChange(e)
+    {
+        let sorting = { ...this.state.sorting };
+        console.log("e is :", e);
+        sorting["sort"] = e[0].desc ? "desc" : "asc";
+
+        sorting["field"] = e[0].id;
+        await this.setState({ sorting: sorting });
+        this.fetchData();        
     }
 
     async paginationHandler(pageIndex) {
@@ -35,14 +48,20 @@ export class Families extends Component {
         let i = e.length - 1;
 
         if (e.length === 0) {
-            search["id"] = "";
-            search["value"] = "";
+            search[0]["id"] = "";
+            search[0]["value"] = "";
         } else {
-            search[`id`] = e[i].id;
-            search[`value`] = e[i].value;
+            search = e;
         }
-
-        await this.setState({ search });
+        let string = "";
+        
+        for (let i = 0; i < search.length; i++)
+        {
+            string = string + `${search[i].id}=${search[i].value}&`;
+        }
+                   
+        
+        await this.setState({ search,string });
         console.log("e  is :", e);
         this.fetchData();
     }
@@ -50,15 +69,16 @@ export class Families extends Component {
     async fetchData() {
         let result = await getFamilyList(
             this.state.current_page,
-            this.state.search,
+            this.state.string,
+            this.state.sorting,
             this.state.token
         );
-        console.log("Result of Family is:", result);
-
         this.setState({
             data: result.data.data,
             total_pages: Math.ceil(result.data.totalRecords / 20)
         });
+
+        console.log("Result is :", result);
 
     }
 
@@ -75,27 +95,33 @@ export class Families extends Component {
                 accessor: "name"
             },
             {
+                id:"mainPerson_name",
                 Header: "Main Person",
                 accessor: "mainPerson.fullName"
             },
             {
+                id:"mainPerson_telephone",
                 Header: "Mobile Number",
                 accessor: "mainPerson.telephone"
             },
 
             {
+                id:'mainPerson_personStatus',
                 Header: "Owner/Renter",
                 accessor: "mainPerson.personStatus"
             },
             {
+                id: 'families_units_unit_officialId',
                 Header: "Main Unit",
                 accessor: "families_units[0].unit.officialId"
             },
             {
+                id:'families_units_unit_building_name',
                 Header: "Building",
                 accessor: "families_units[0].unit.building.name"
             },
             {
+                id:'families_units_unit_shares',
                 Header: "Shares",
                 accessor: "families_units[0].unit.shares"
             },
@@ -124,7 +150,7 @@ export class Families extends Component {
                         manual
                         onPageChange={pageIndex => this.paginationHandler(pageIndex)}
                         onFilteredChange={this.onFilteredChange}
-                        onFetchData={this.fetchData}
+                        onSortedChange={this.onSortedChange}
                         noDataText="Please Wait ..."
                         sortable={true}
                         filterable={true}

@@ -51,9 +51,9 @@ export const getUnitList = (current_page, search, token) => {
   );
 };
 
-export const getFamilyList = (current_page, search, token) => {
+export const getFamilyList = (current_page, string,sorting,token) => {
   return axios.get(
-    `${url}family/list?page=${current_page}&${search.id}=${search.value}`,
+    `${url}family/list?page=${current_page}&${string}sort=${sorting.sort}&field=${sorting.field}`,
     {
       headers: {
         token: token

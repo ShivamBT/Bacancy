@@ -87,4 +87,25 @@ export const getUserDetails = (id, token) =>
       token:token
     }
   })
-  }
+}
+  
+export const getPacketTypes = (token) =>
+{
+  return axios.get(`${url}reception/packetTypes/list`, {
+    headers: {
+      token:token
+    }
+  });
+}
+
+
+export const addPacket = (object, token) =>
+{
+  return axios.post(`${url}reception/add-packet`, object, {
+    headers: {
+      token: token
+    }
+  });
+}
+  
+  

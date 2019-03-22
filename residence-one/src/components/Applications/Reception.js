@@ -12,8 +12,16 @@ import { LogOutComponent } from "../LogOutComponent/LogOutComponent";
 import "./Reception.css";
 import { Button } from "reactstrap";
 import { FaMobileAlt, FaEnvelope, FaBirthdayCake } from "react-icons/fa";
-import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import {
+  Modal,
+  ModalHeader,
+  ModalBody,
+  Nav,
+  NavItem,
+  NavLink
+} from "reactstrap";
 import Select from "react-select";
+import { ModalPacket } from "./Modals";
 
 export class Reception extends Component {
   constructor(props) {
@@ -35,7 +43,15 @@ export class Reception extends Component {
       selected_type: null,
       numberOfSelected_type: null,
       modal: false,
-      index:0
+      modalPacket:false,
+      index: 0,
+      id:null,
+      activeStatus: {
+        reception: true,
+        packet_in: false,
+        packet_out: false
+      },
+      currentActive: "reception"
     };
     this.numberOfPackets = [
       { label: "1", value: "1" },
@@ -60,6 +76,24 @@ export class Reception extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleChange2 = this.handleChange2.bind(this);
     this.sendNotification = this.sendNotification.bind(this);
+    this.clickHandler = this.clickHandler.bind(this);
+    this.toggleNew = this.toggleNew.bind(this);
+  }
+  toggleNew(id)
+  {
+    this.setState({ id , modalPacket:!this.state.modalPacket });
+  }
+  
+  async clickHandler(e) {
+    let activeStatus = { ...this.state.activeStatus };
+    activeStatus[e.target.name] = true;
+    for (let x in activeStatus) {
+      if (x !== e.target.name) {
+        activeStatus[x] = false;
+      }
+    }
+    await this.setState({ activeStatus, currentActive: e.target.name });
+    this.fetchData();
   }
 
   handleChange(value) {
@@ -90,6 +124,7 @@ export class Reception extends Component {
   async sendNotification() {
     let index = this.state.index;
     let object = {
+      noteByGuard: null,
       recipientId: this.state.data[index].id,
       recipientFamilyId: this.state.data[index].familyId,
       dateTimeReceived: Date(),
@@ -100,10 +135,11 @@ export class Reception extends Component {
       tempIdNumber: this.state.currentPacketNo,
       telephone: this.state.data[index].telephone,
       email: this.state.data[index].email,
-      currentHost: "localhost",
+      currentHost: "localhost:3000",
       fullName: this.state.data[index].fullName,
       emailPref: null,
-      smsPref: null
+      smsPref: null,
+      langPref: null
     };
     let result = await addPacket(object, this.state.token);
     console.log("Send Notification Result is : ", result);
@@ -158,6 +194,7 @@ export class Reception extends Component {
     let result = await getReceptionList(
       this.state.current_page,
       this.state.search,
+      this.state.currentActive,
       this.state.token
     );
 
@@ -178,6 +215,13 @@ export class Reception extends Component {
     let date = Date();
     await this.setState({ formattedDate: this.formatDate() });
     console.log("dat is :", this.formatDate());
+    let result = await getReceptionList(
+      this.state.data,
+      this.state.search,
+      "packet_in",
+      this.state.token
+    );
+    console.log("Result of packet in is :", result);
   }
 
   render() {
@@ -218,7 +262,7 @@ export class Reception extends Component {
       {
         Header: "",
         Cell: row => {
-          //console.log("row is :", row);
+          console.log("row is :", row);
           return (
             <div>
               <Button color="success" onClick={() => this.toggle(row.index)}>
@@ -252,6 +296,132 @@ export class Reception extends Component {
           );
         }
       }
+    ];
+
+    let columns2 = [
+      {
+        Header: "Number",
+        accessor: "tempIdNumber",
+        width:180
+      },
+      {
+        Header: "Status",
+        accessor: "",
+        width: 50,
+        Cell : row =>
+        {
+          return (
+            <div>
+              <FaMobileAlt />
+              &nbsp;
+              <FaEnvelope />
+            </div>
+              
+          );
+        },
+        
+      },
+      {
+        Header: "Date in",
+        accessor: "createdAt",
+        Cell: row => {
+          let i = row.original.createdAt.indexOf("T");
+          let date = row.original.createdAt.substring(0, i);
+          return `${date}`;
+        },
+
+        width:100
+      },
+      {
+        Header: "Time in",
+        accessor: "createdAt",
+        Cell: row => {
+          let i = row.original.createdAt.indexOf("T");
+          let time = row.original.createdAt.substring(i + 1, i + 6);
+          return `${time}`;
+        },
+        width:100
+      },
+      {
+        Header: "Name",
+        accessor: "user.fullName",
+        width:200
+      },
+      {
+        Header: "Profile Picture",
+        accessor: "user.picture",
+        Cell: row => {
+          return (
+            <div>
+              <img
+                height="30"
+                src={this.state.imagePath + row.original.picture}
+              />
+            </div>
+          );
+        }
+      },
+      {
+        Header: "Main Unit Id",
+        accessor: "user.family.families_units[0].unit.officialId"
+      },
+      {
+        Header: "Building",
+        accessor: "user.family.families_units[0].unit.building.name"
+      },
+      {
+        Header: "Action",
+        Cell: row => {
+          return <Button color="success" onClick={() => this.toggleNew(row.original.id)}>Receive</Button>;
+        }
+       }
+    ];
+
+    let columns3 = [
+      {
+        Header: "Number",
+        accessor: "tempIdNumber"
+      }
+      // {
+      //   Header: "Date in",
+      //   accessor: "dateTimeReceived",
+      //   // Cell: row => {
+      //   //   let i = row.original.dateTimeReceived.indexOf("T");
+      //   //   let date_in = row.original.dateTimeReceived.substring(0, i);
+      //   //   return { date_in };
+      //   // }
+      // },
+      // {
+      //   Header: "Time in",
+      //   accessor: "dateTimeReceived",
+      //   // Cell: row => {
+      //   //   let i = row.original.dateTimeReceived.indexOf("T");
+      //   //   let time_in = row.original.dateTimeReceived.substring(i + 1);
+      //   //   return { time_in };
+      //   // }
+      // },
+      // {
+      //   Header: "Date out",
+      //   accessor: "dateTimeRecovered",
+      //   // Cell: row => {
+      //   //   let i = row.original.dateTimeRecovered.indexOf("T");
+      //   //   let date_out = row.original.dateTimeRecovered.substring(0, i);
+      //   //   return { date_out };
+      //   // }
+      // },
+      // {
+      //   Header: "Time Out",
+      //   accessor: "dateTimeRecovered",
+      //   // Cell: row => {
+      //   //   let i = row.original.dateTimeRecovered.indexOf("T");
+      //   //   let time_out = row.original.dateTimeRecovered.substring(i + 1);
+      //   //   return { time_out };
+      //   // }
+      // },
+      // {
+      //   Header: "Main Unit Id",
+      //   accessor: "user.family.families_units[0].unit.officialId"
+      // }
     ];
 
     return (
@@ -322,11 +492,59 @@ export class Reception extends Component {
             </ModalBody>
           </Modal>
         </div>
+
+        <div>
+          <ModalPacket isOpen={this.state.modalPacket} toggle={() => this.toggleNew(this.state.id)} id={this.state.id}/>
+        </div>
         <div className="receptionList">
           <h1 className="receptionHeading">Reception</h1>
+          <div class="receptionNavBar">
+            <Nav tabs>
+              <NavItem>
+                <NavLink active={this.state.activeStatus.reception}>
+                  <Button
+                    color="link"
+                    name="reception"
+                    value={1}
+                    onClick={e => this.clickHandler(e)}>
+                    Reception
+                  </Button>
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink active={this.state.activeStatus.packet_in}>
+                  <Button
+                    color="link"
+                    name="packet_in"
+                    value={2}
+                    onClick={e => this.clickHandler(e)}>
+                    Packet In
+                  </Button>
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink active={this.state.activeStatus.packet_out}>
+                  <Button
+                    color="link"
+                    name="packet_out"
+                    value={3}
+                    onClick={e => this.clickHandler(e)}>
+                    Packet Out
+                  </Button>
+                </NavLink>
+              </NavItem>
+            </Nav>
+          </div>
+
           <ReactTable
             data={this.state.data}
-            columns={columns}
+            columns={
+              this.state.currentActive === "reception"
+                ? columns
+                : this.state.currentActive === "packet_in"
+                ? columns2
+                : columns3
+            }
             className="receptionList"
             pages={this.state.total_pages}
             page={this.state.current_page - 1}

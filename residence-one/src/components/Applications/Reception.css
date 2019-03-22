@@ -1,27 +1,31 @@
-.sidebar{
-    position:absolute;
+.sidebar {
+  position: absolute;
 }
 
-.reception{
-     background-color: #f9f9f9;
+.reception {
+  background-color: #f9f9f9;
 }
-.logout{
-    text-align: right;
-}
-
-.receptionList{
-    margin-left: 10%;
+.logout {
+  text-align: right;
 }
 
-.receptionHeading{
-    margin-left: 10%;
+.receptionList {
+  margin-left: 10%;
 }
 
-.icon{
-    padding:2%;
+.receptionHeading {
+  margin-left: 10%;
 }
 
-.modalBody{
-    text-align: center;
-    font-weight: bold;
+.icon {
+  padding: 2%;
+}
+
+.modalBody {
+  text-align: center;
+  font-weight: bold;
+}
+
+.receptionNavBar {
+  margin-left: 10%;
 }

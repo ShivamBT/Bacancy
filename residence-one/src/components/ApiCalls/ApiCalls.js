@@ -127,3 +127,13 @@ export const addPacket = (object, token) => {
     }
   });
 };
+
+export const recoverPacket = (object, token) => {
+  return axios.post(
+    `${url}reception/update-recovered-date/`, object, {
+      headers: {
+        token:token
+      }
+    }
+  );
+}

@@ -1,0 +1,16 @@
+.modalBody{
+    text-align: center;
+    font-weight: bold;
+}
+
+.modalNumber{
+    font-size: 45px;
+}
+
+.mainBlock{
+    font-size:20px;
+}
+
+.sigCanvas{
+    border: 1px solid black;
+}

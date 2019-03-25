@@ -43,9 +43,18 @@ export class Reception extends Component {
       selected_type: null,
       numberOfSelected_type: null,
       modal: false,
-      modalPacket:false,
+      modalPacket: false,
       index: 0,
-      id:null,
+      original: {
+        tempIdNumber: "Temp 1",
+        packet_type: {
+          name: "No type found"
+        },
+        numberOfItems: "1",
+        user: {
+          picture: "abc.jpg"
+        }
+      },
       activeStatus: {
         reception: true,
         packet_in: false,
@@ -79,11 +88,10 @@ export class Reception extends Component {
     this.clickHandler = this.clickHandler.bind(this);
     this.toggleNew = this.toggleNew.bind(this);
   }
-  toggleNew(id)
-  {
-    this.setState({ id , modalPacket:!this.state.modalPacket });
+  toggleNew(original) {
+    this.setState({ original, modalPacket: !this.state.modalPacket });
   }
-  
+
   async clickHandler(e) {
     let activeStatus = { ...this.state.activeStatus };
     activeStatus[e.target.name] = true;
@@ -130,7 +138,7 @@ export class Reception extends Component {
       dateTimeReceived: Date(),
       receivedById: this.state.data[index].updatedBy,
       packetTypeLabel: this.state.selected_type.label,
-      packetType: this.state.data[index].updatedBy,
+      packetType: this.state.selected_type.label,
       numberOfItems: this.state.numberOfSelected_type.label,
       tempIdNumber: this.state.currentPacketNo,
       telephone: this.state.data[index].telephone,
@@ -143,7 +151,7 @@ export class Reception extends Component {
     };
     let result = await addPacket(object, this.state.token);
     console.log("Send Notification Result is : ", result);
-    this.setState({ modal: false });
+    await this.setState({ modal: false });
   }
 
   changePacketNumber() {
@@ -215,13 +223,7 @@ export class Reception extends Component {
     let date = Date();
     await this.setState({ formattedDate: this.formatDate() });
     console.log("dat is :", this.formatDate());
-    let result = await getReceptionList(
-      this.state.data,
-      this.state.search,
-      "packet_in",
-      this.state.token
-    );
-    console.log("Result of packet in is :", result);
+    this.fetchData();
   }
 
   render() {
@@ -262,7 +264,6 @@ export class Reception extends Component {
       {
         Header: "",
         Cell: row => {
-          console.log("row is :", row);
           return (
             <div>
               <Button color="success" onClick={() => this.toggle(row.index)}>
@@ -302,24 +303,21 @@ export class Reception extends Component {
       {
         Header: "Number",
         accessor: "tempIdNumber",
-        width:180
+        width: 180
       },
       {
         Header: "Status",
         accessor: "",
         width: 50,
-        Cell : row =>
-        {
+        Cell: row => {
           return (
             <div>
               <FaMobileAlt />
               &nbsp;
               <FaEnvelope />
             </div>
-              
           );
-        },
-        
+        }
       },
       {
         Header: "Date in",
@@ -330,22 +328,23 @@ export class Reception extends Component {
           return `${date}`;
         },
 
-        width:100
+        width: 100
       },
       {
         Header: "Time in",
         accessor: "createdAt",
         Cell: row => {
+          console.log("Packet list is :", row);
           let i = row.original.createdAt.indexOf("T");
           let time = row.original.createdAt.substring(i + 1, i + 6);
           return `${time}`;
         },
-        width:100
+        width: 100
       },
       {
         Header: "Name",
         accessor: "user.fullName",
-        width:200
+        width: 200
       },
       {
         Header: "Profile Picture",
@@ -372,56 +371,95 @@ export class Reception extends Component {
       {
         Header: "Action",
         Cell: row => {
-          return <Button color="success" onClick={() => this.toggleNew(row.original.id)}>Receive</Button>;
+          return (
+            <Button
+              color="success"
+              onClick={() => this.toggleNew(row.original)}>
+              Receive
+            </Button>
+          );
         }
-       }
+      }
     ];
 
     let columns3 = [
       {
         Header: "Number",
         accessor: "tempIdNumber"
+      },
+      {
+        Header: "Date in",
+        accessor: "dateTimeReceived",
+        Cell: row => {
+          console.log("row is :", row);
+          //return "";
+          if (
+            this.state.data[row.index].dateTimeReceived === null ||
+            this.state.data[row.index].dateTimeReceived === undefined
+          ) {
+            return "";
+          } else {
+            let i = this.state.data[row.index].dateTimeReceived.indexOf("T");
+            let date_in = this.state.data[row.index].dateTimeReceived.substring(
+              0,
+              i
+            );
+            return `${date_in}`;
+          }
+        }
+      },
+      {
+        Header: "Time in",
+        accessor: "dateTimeReceived",
+          Cell: row => {
+            if (this.state.data[row.index].dateTimeReceived === null ||
+              this.state.data[row.index].dateTimeReceived === undefined) {
+              return "";
+            } else {
+              let i = this.state.data[row.index].dateTimeReceived.indexOf("T");
+              let time_in = this.state.data[row.index].dateTimeReceived.substring(
+                i + 1,i+6
+              );
+              return `${time_in}`;
+            }
+          }
+      },
+      {
+        Header: "Date out",
+        accessor: "dateTimeRecovered",
+          Cell: row => {
+            if (this.state.data[row.index].dateTimeRecovered === null ||
+              this.state.data[row.index].dateTimeRecovered === undefined) {
+              return "";
+            } else {
+              let i = this.state.data[row.index].dateTimeRecovered.indexOf("T");
+              let date_out = this.state.data[
+                row.index
+              ].dateTimeRecovered.substring(0, i);
+              return `${date_out}`;
+            }
+          }
+      },
+      {
+        Header: "Time Out",
+        accessor: "dateTimeRecovered",
+          Cell: row => {
+            if (this.state.data[row.index].dateTimeRecovered === null ||
+              this.state.data[row.index].dateTimeRecovered === undefined) {
+              return "";
+            } else {
+              let i = this.state.data[row.index].dateTimeRecovered.indexOf("T");
+              let time_out = this.state.data[
+                row.index
+              ].dateTimeRecovered.substring(i + 1,i+6);
+              return `${time_out}`;
+            }
+          }
+      },
+      {
+        Header: "Main Unit Id",
+        accessor: "user.family.families_units[0].unit.officialId"
       }
-      // {
-      //   Header: "Date in",
-      //   accessor: "dateTimeReceived",
-      //   // Cell: row => {
-      //   //   let i = row.original.dateTimeReceived.indexOf("T");
-      //   //   let date_in = row.original.dateTimeReceived.substring(0, i);
-      //   //   return { date_in };
-      //   // }
-      // },
-      // {
-      //   Header: "Time in",
-      //   accessor: "dateTimeReceived",
-      //   // Cell: row => {
-      //   //   let i = row.original.dateTimeReceived.indexOf("T");
-      //   //   let time_in = row.original.dateTimeReceived.substring(i + 1);
-      //   //   return { time_in };
-      //   // }
-      // },
-      // {
-      //   Header: "Date out",
-      //   accessor: "dateTimeRecovered",
-      //   // Cell: row => {
-      //   //   let i = row.original.dateTimeRecovered.indexOf("T");
-      //   //   let date_out = row.original.dateTimeRecovered.substring(0, i);
-      //   //   return { date_out };
-      //   // }
-      // },
-      // {
-      //   Header: "Time Out",
-      //   accessor: "dateTimeRecovered",
-      //   // Cell: row => {
-      //   //   let i = row.original.dateTimeRecovered.indexOf("T");
-      //   //   let time_out = row.original.dateTimeRecovered.substring(i + 1);
-      //   //   return { time_out };
-      //   // }
-      // },
-      // {
-      //   Header: "Main Unit Id",
-      //   accessor: "user.family.families_units[0].unit.officialId"
-      // }
     ];
 
     return (
@@ -494,8 +532,13 @@ export class Reception extends Component {
         </div>
 
         <div>
-          <ModalPacket isOpen={this.state.modalPacket} toggle={() => this.toggleNew(this.state.id)} id={this.state.id}/>
+          <ModalPacket
+            isOpen={this.state.modalPacket}
+            toggle={() => this.toggleNew()}
+            original={this.state.original}
+          />
         </div>
+
         <div className="receptionList">
           <h1 className="receptionHeading">Reception</h1>
           <div class="receptionNavBar">

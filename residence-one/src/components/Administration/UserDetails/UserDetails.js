@@ -49,7 +49,7 @@ export class UserDetails extends Component {
       this.state.token
     );
     this.setState({ data: result.data.data });
-    console.log("Result is :", result.data.data.fullName);
+    console.log("Result is :", result);
   }
 
   render() {

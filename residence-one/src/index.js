@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Routing from './Routing';
 
 import * as serviceWorker from './serviceWorker';
+import { EditPageModal } from './components/Applications/EditPageModal';
 
 ReactDOM.render(<Routing />, document.getElementById('root'));
 

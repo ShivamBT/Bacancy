@@ -22,6 +22,7 @@ import {
 } from "reactstrap";
 import Select from "react-select";
 import { ModalPacket } from "./Modals";
+import { EditPageModal } from "./EditPageModal";
 
 export class Reception extends Component {
   constructor(props) {
@@ -55,6 +56,8 @@ export class Reception extends Component {
           picture: "abc.jpg"
         }
       },
+      modalEditUser: false,
+      date:new Date(),
       activeStatus: {
         reception: true,
         packet_in: false,
@@ -87,7 +90,20 @@ export class Reception extends Component {
     this.sendNotification = this.sendNotification.bind(this);
     this.clickHandler = this.clickHandler.bind(this);
     this.toggleNew = this.toggleNew.bind(this);
+    this.toggleEditUser = this.toggleEditUser.bind(this);
+    this.changeDate = this.changeDate.bind(this);
   }
+
+  changeDate(value)
+  {
+    this.setState({date: value});
+  }
+
+  toggleEditUser()
+  {
+    this.setState({ modalEditUser: !this.state.modalEditUser });
+  }
+
   toggleNew(original) {
     this.setState({ original, modalPacket: !this.state.modalPacket });
   }
@@ -231,7 +247,16 @@ export class Reception extends Component {
       {
         id: "name",
         Header: "Name",
-        accessor: "fullName"
+        accessor: "fullName",
+        Cell: row =>
+        {
+          console.log("reception row is :", row);
+          return (
+            <Button color="link" onClick={this.toggleEditUser}>
+              {row.original.fullName}
+            </Button>
+          );
+          }
       },
       {
         Header: "Profile Picture",
@@ -310,7 +335,7 @@ export class Reception extends Component {
         accessor: "",
         width: 100,
         Cell: row => {
-          console.log("status row is :", row);
+          
           let color1 = row.original.smsSent ? "green" : "red";
           let color2 = row.original.emailSent ? "green" : "red";
           return (
@@ -544,6 +569,9 @@ export class Reception extends Component {
             toggle={() => this.toggleNew()}
             original={this.state.original}
           />
+        </div>
+        <div>
+          <EditPageModal isOpen={this.state.modalEditUser} toggle={this.toggleEditUser} onChange={this.changeDate}/>
         </div>
 
         <div className="receptionList">

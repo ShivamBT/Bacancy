@@ -13,7 +13,8 @@ export class ModalPacket extends Component {
       imagePath: "http://localhost:8080/images/lacadenelle13008fr/users/",
       picture: "abc.jpeg",
       data: "",
-      noteAfterRecovery:"",
+      noteAfterRecovery: "",
+      invalid: false
     };
     this.clickPad = this.clickPad.bind(this);
     this.submitValue = this.submitValue.bind(this);
@@ -24,9 +25,8 @@ export class ModalPacket extends Component {
     this.sigPad.clear();
   }
 
-  changeValue(value)
-  {
-    this.setState({noteAfterRecovery:value})
+  changeValue(value) {
+    this.setState({ noteAfterRecovery: value });
   }
 
   async submitValue() {
@@ -38,8 +38,14 @@ export class ModalPacket extends Component {
       recoveredById: this.props.original.packetType,
       recoveredBySign: this.state.data
     };
-    let result = await recoverPacket(object, this.state.token);
 
+    let invalid = this.sigPad.isEmpty();
+    let result;
+    if (invalid !== true) {
+      result = await recoverPacket(object, this.state.token);
+    }
+
+    this.setState({ invalid });
     console.log("Result of recover packet is : ", result);
   }
 
@@ -105,13 +111,22 @@ export class ModalPacket extends Component {
                 this.sigPad = ref;
               }}
             />
+            {this.state.invalid === true ? (
+              <div style={{ color: "red" }}>
+                <p>Please provide the signature before submission</p>
+              </div>
+            ) : null}
             <Button color="danger" onClick={this.clickPad}>
               Clear
             </Button>
           </div>
           <div>
             <p style={{ fontSize: "30px" }}>Note after Recovery</p>
-            <textarea rows="5" cols="40" onChange={e => this.changeValue(e.target.value)}/>
+            <textarea
+              rows="5"
+              cols="40"
+              onChange={e => this.changeValue(e.target.value)}
+            />
           </div>
           <div>
             <Button color="success" onClick={this.submitValue}>

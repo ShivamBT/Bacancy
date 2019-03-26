@@ -308,13 +308,22 @@ export class Reception extends Component {
       {
         Header: "Status",
         accessor: "",
-        width: 50,
+        width: 100,
         Cell: row => {
+          console.log("status row is :", row);
+          let color1 = row.original.smsSent ? "green" : "red";
+          let color2 = row.original.emailSent ? "green" : "red";
           return (
             <div>
-              <FaMobileAlt />
+              <span style={{color:color1}}>
+                <FaMobileAlt size={35} />
+              </span>
+              
               &nbsp;
-              <FaEnvelope />
+              <span style={{color:color2}}>
+                <FaEnvelope size={35} />
+              </span>
+              
             </div>
           );
         }
@@ -334,7 +343,6 @@ export class Reception extends Component {
         Header: "Time in",
         accessor: "createdAt",
         Cell: row => {
-          console.log("Packet list is :", row);
           let i = row.original.createdAt.indexOf("T");
           let time = row.original.createdAt.substring(i + 1, i + 6);
           return `${time}`;
@@ -391,7 +399,6 @@ export class Reception extends Component {
         Header: "Date in",
         accessor: "dateTimeReceived",
         Cell: row => {
-          console.log("row is :", row);
           //return "";
           if (
             this.state.data[row.index].dateTimeReceived === null ||

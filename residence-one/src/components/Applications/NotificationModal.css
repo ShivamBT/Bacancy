@@ -1,0 +1,21 @@
+.mainModal{
+    text-align: center;
+}
+
+.upperModal{
+    background-color: #935787;
+    color: #ffffff;
+    border: .5px solid black
+}
+
+.middleModal{
+    background-color: #ffffff;
+    color: #000000;
+    border: .5px solid black;
+}
+
+.lowerModal{
+    background-color: #d8d8d8;
+    color: #000000;
+    border: .5px solid black;
+}

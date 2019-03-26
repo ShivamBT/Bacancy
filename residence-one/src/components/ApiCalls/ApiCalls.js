@@ -137,3 +137,14 @@ export const recoverPacket = (object, token) => {
     }
   );
 }
+
+export const editUserDetails = (id,object, token) =>
+{
+  return axios.post(
+    `${url}pool/editPoolUserDetail/${id}`, object, {
+      headers: {
+        token:token
+      }
+    }
+  );
+  }

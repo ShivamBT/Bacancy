@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import clonedeep from "lodash.clonedeep";
 import {
   getReceptionList,
   getLastPacket,
@@ -23,6 +24,7 @@ import {
 import Select from "react-select";
 import { ModalPacket } from "./Modals";
 import { EditPageModal } from "./EditPageModal";
+import { NotificationModal } from "./NotificationModal";
 
 export class Reception extends Component {
   constructor(props) {
@@ -57,7 +59,21 @@ export class Reception extends Component {
         }
       },
       modalEditUser: false,
-      date:new Date(),
+      modalNotification: false,
+      date: new Date(),
+      editId: "",
+      notificationOriginal: {
+        tempIdNumber: "Temp 1",
+        packet_type: {
+          name: "Test"
+        },
+        numberOfItems: "1",
+        dateTimeReceived: "2019-03-25T05:15:44.000Z",
+        user: {
+          fullName:"Test User"
+        }
+      },
+      notifyIndex:"0",
       activeStatus: {
         reception: true,
         packet_in: false,
@@ -92,16 +108,23 @@ export class Reception extends Component {
     this.toggleNew = this.toggleNew.bind(this);
     this.toggleEditUser = this.toggleEditUser.bind(this);
     this.changeDate = this.changeDate.bind(this);
+    this.toggleNotification = this.toggleNotification.bind(this);
   }
 
-  changeDate(value)
-  {
-    this.setState({date: value});
+async toggleNotification(index) {
+    await this.setState({
+     // notificationOriginal: this.state.data[index],
+      notifyIndex:index,
+      modalNotification: !this.state.modalNotification
+    });
   }
 
-  toggleEditUser()
-  {
-    this.setState({ modalEditUser: !this.state.modalEditUser });
+  changeDate(value) {
+    this.setState({ date: value });
+  }
+
+  toggleEditUser(id) {
+    this.setState({ editId: id, modalEditUser: !this.state.modalEditUser });
   }
 
   toggleNew(original) {
@@ -248,15 +271,15 @@ export class Reception extends Component {
         id: "name",
         Header: "Name",
         accessor: "fullName",
-        Cell: row =>
-        {
-          console.log("reception row is :", row);
+        Cell: row => {
           return (
-            <Button color="link" onClick={this.toggleEditUser}>
+            <Button
+              color="link"
+              onClick={() => this.toggleEditUser(row.original.id)}>
               {row.original.fullName}
             </Button>
           );
-          }
+        }
       },
       {
         Header: "Profile Picture",
@@ -328,27 +351,33 @@ export class Reception extends Component {
       {
         Header: "Number",
         accessor: "tempIdNumber",
-        width: 180
+        width: 180,
+        Cell: row => {
+          return (
+            <div>
+              <Button color="link" onClick={() => this.toggleNotification(row.index)}>
+                {this.state.data[row.index].tempIdNumber}
+              </Button>
+            </div>
+          );
+        }
       },
       {
         Header: "Status",
         accessor: "",
         width: 100,
         Cell: row => {
-          
           let color1 = row.original.smsSent ? "green" : "red";
           let color2 = row.original.emailSent ? "green" : "red";
           return (
             <div>
-              <span style={{color:color1}}>
+              <span style={{ color: color1 }}>
                 <FaMobileAlt size={35} />
               </span>
-              
               &nbsp;
-              <span style={{color:color2}}>
+              <span style={{ color: color2 }}>
                 <FaEnvelope size={35} />
               </span>
-              
             </div>
           );
         }
@@ -357,6 +386,7 @@ export class Reception extends Component {
         Header: "Date in",
         accessor: "createdAt",
         Cell: row => {
+          console.log("row of packet_in :", row);
           let i = row.original.createdAt.indexOf("T");
           let date = row.original.createdAt.substring(0, i);
           return `${date}`;
@@ -443,50 +473,57 @@ export class Reception extends Component {
       {
         Header: "Time in",
         accessor: "dateTimeReceived",
-          Cell: row => {
-            if (this.state.data[row.index].dateTimeReceived === null ||
-              this.state.data[row.index].dateTimeReceived === undefined) {
-              return "";
-            } else {
-              let i = this.state.data[row.index].dateTimeReceived.indexOf("T");
-              let time_in = this.state.data[row.index].dateTimeReceived.substring(
-                i + 1,i+6
-              );
-              return `${time_in}`;
-            }
+        Cell: row => {
+          if (
+            this.state.data[row.index].dateTimeReceived === null ||
+            this.state.data[row.index].dateTimeReceived === undefined
+          ) {
+            return "";
+          } else {
+            let i = this.state.data[row.index].dateTimeReceived.indexOf("T");
+            let time_in = this.state.data[row.index].dateTimeReceived.substring(
+              i + 1,
+              i + 6
+            );
+            return `${time_in}`;
           }
+        }
       },
       {
         Header: "Date out",
         accessor: "dateTimeRecovered",
-          Cell: row => {
-            if (this.state.data[row.index].dateTimeRecovered === null ||
-              this.state.data[row.index].dateTimeRecovered === undefined) {
-              return "";
-            } else {
-              let i = this.state.data[row.index].dateTimeRecovered.indexOf("T");
-              let date_out = this.state.data[
-                row.index
-              ].dateTimeRecovered.substring(0, i);
-              return `${date_out}`;
-            }
+        Cell: row => {
+          if (
+            this.state.data[row.index].dateTimeRecovered === null ||
+            this.state.data[row.index].dateTimeRecovered === undefined
+          ) {
+            return "";
+          } else {
+            let i = this.state.data[row.index].dateTimeRecovered.indexOf("T");
+            let date_out = this.state.data[
+              row.index
+            ].dateTimeRecovered.substring(0, i);
+            return `${date_out}`;
           }
+        }
       },
       {
         Header: "Time Out",
         accessor: "dateTimeRecovered",
-          Cell: row => {
-            if (this.state.data[row.index].dateTimeRecovered === null ||
-              this.state.data[row.index].dateTimeRecovered === undefined) {
-              return "";
-            } else {
-              let i = this.state.data[row.index].dateTimeRecovered.indexOf("T");
-              let time_out = this.state.data[
-                row.index
-              ].dateTimeRecovered.substring(i + 1,i+6);
-              return `${time_out}`;
-            }
+        Cell: row => {
+          if (
+            this.state.data[row.index].dateTimeRecovered === null ||
+            this.state.data[row.index].dateTimeRecovered === undefined
+          ) {
+            return "";
+          } else {
+            let i = this.state.data[row.index].dateTimeRecovered.indexOf("T");
+            let time_out = this.state.data[
+              row.index
+            ].dateTimeRecovered.substring(i + 1, i + 6);
+            return `${time_out}`;
           }
+        }
       },
       {
         Header: "Main Unit Id",
@@ -571,12 +608,25 @@ export class Reception extends Component {
           />
         </div>
         <div>
-          <EditPageModal isOpen={this.state.modalEditUser} toggle={this.toggleEditUser} onChange={this.changeDate}/>
+          <EditPageModal
+            isOpen={this.state.modalEditUser}
+            toggle={this.toggleEditUser}
+            onChange={this.changeDate}
+            id={this.state.editId}
+          />
+        </div>
+        <div>
+          <NotificationModal
+            isOpen={this.state.modalNotification}
+            toggle={() => this.toggleNotification()}
+            index={this.state.notifyIndex}
+            data={this.state.data}
+          />
         </div>
 
         <div className="receptionList">
           <h1 className="receptionHeading">Reception</h1>
-          <div class="receptionNavBar">
+          <div className="receptionNavBar">
             <Nav tabs>
               <NavItem>
                 <NavLink active={this.state.activeStatus.reception}>

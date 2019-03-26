@@ -73,7 +73,7 @@ export class Reception extends Component {
           fullName:"Test User"
         }
       },
-      notifyIndex:"0",
+      notifyIndex:0,
       activeStatus: {
         reception: true,
         packet_in: false,

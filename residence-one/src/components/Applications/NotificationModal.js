@@ -1,33 +1,37 @@
 import React, { Component } from "react";
 import { Modal, ModalHeader, ModalBody, Row, Col } from "reactstrap";
 import "./NotificationModal.css";
+import { FaCreativeCommonsPd } from "react-icons/fa";
 
 export class NotificationModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: this.props.data,
+      data: null,
+      index: null,
       date: "",
       time: ""
     };
   }
   async componentDidMount() {
-    await this.setState({ data: this.props.data });
+    let data = this.props.data;
   }
-  async componentDidUpdate() {
-  
-    console.log(this.props);
-    //await console.log(i.map(u => console.log(u.fullName)));
-    // let i = this.state.data[this.props.index].indexOf("T");
-    // let date = this.props.data[this.props.index].dateTimeReceived.substring(
-    //   0,
-    //   i
-    // );
-    // let time = this.props.data[this.props.index].dateTimeReceived.substring(
-    //   i + 1,
-    //   i + 6
-    // );
-    // this.setState({ date, time });
+  async componentDidUpdate(prevProps, prevState) {
+    if (prevProps !== this.props)
+        await this.setState({ data: this.props.data, index:this.props.index });
+    console.log(this.state.data);
+    console.log("Index is :", this.props.index);
+
+    let i = this.state.data[this.state.index].dateTimeReceived.indexOf("T");
+    let date = this.state.data[this.state.index].dateTimeReceived.substring(
+      0,
+      i
+    );
+    let time = this.state.data[this.state.index].dateTimeReceived.substring(
+      i + 1,
+      i + 6
+    );
+    this.setState({ date, time });
   }
 
   render() {

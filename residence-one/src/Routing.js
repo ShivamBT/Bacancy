@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Route, Switch, withRouter } from "react-router-dom";
 import App from "./App";
-import { Reception } from "./components/Applications/Reception";
+import { Reception } from "./components/Applications/Reception/Reception";
 import { Council } from "./components/Council/Council";
 import { Blogs } from "./components/Public/Blogs";
 import { Website } from "./components/Public/Website";

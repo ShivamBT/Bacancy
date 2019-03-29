@@ -3,7 +3,7 @@ import { Modal, ModalHeader, ModalBody, Button } from "reactstrap";
 import axios from "axios";
 import "./Modals.css";
 import SignatureCanvas from "react-signature-canvas";
-import { recoverPacket } from "../ApiCalls/ApiCalls";
+import { recoverPacket } from "../../ApiCalls/ApiCalls";
 
 export class ModalPacket extends Component {
   constructor(props) {
@@ -52,20 +52,6 @@ export class ModalPacket extends Component {
   async componentDidMount() {
     console.log("Did mount called");
     await this.setState({ token: localStorage.getItem("token") });
-    let result = await axios.get(
-      `http://localhost:8080/api/reception/getpacket/${this.props.id}`,
-      {
-        headers: {
-          token: this.state.token
-        }
-      }
-    );
-
-    await this.setState({
-      imagePath: result.data.imagePathUser,
-      picture: this.props.original.user.picture
-    });
-    console.log("Result of recover packet is :", result);
   }
   render() {
     return (

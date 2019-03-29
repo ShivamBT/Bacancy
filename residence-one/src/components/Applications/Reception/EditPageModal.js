@@ -16,7 +16,7 @@ import {
 } from "reactstrap";
 import { Flag } from "react-flagkit";
 import DatePicker from "react-date-picker";
-import { editUserDetails } from "../ApiCalls/ApiCalls";
+import { editUserDetails } from ".././.././ApiCalls/ApiCalls";
 
 export class EditPageModal extends Component {
   constructor(props) {

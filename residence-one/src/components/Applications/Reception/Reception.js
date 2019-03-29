@@ -5,11 +5,11 @@ import {
   getLastPacket,
   getPacketTypes,
   addPacket
-} from "../ApiCalls/ApiCalls";
+} from ".././.././ApiCalls/ApiCalls";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
-import { Sidebar } from "../Sidebar/Sidebar";
-import { LogOutComponent } from "../LogOutComponent/LogOutComponent";
+import { Sidebar } from ".././.././Sidebar/Sidebar";
+import { LogOutComponent } from ".././.././LogOutComponent/LogOutComponent";
 import "./Reception.css";
 import { Button } from "reactstrap";
 import { FaMobileAlt, FaEnvelope, FaBirthdayCake } from "react-icons/fa";
@@ -25,6 +25,8 @@ import Select from "react-select";
 import { ModalPacket } from "./Modals";
 import { EditPageModal } from "./EditPageModal";
 import { NotificationModal } from "./NotificationModal";
+import { PacketRecovered } from "./Modals2";
+import { NotifyDropDown } from "./NotifyDropDown";
 
 export class Reception extends Component {
   constructor(props) {
@@ -79,7 +81,9 @@ export class Reception extends Component {
         packet_in: false,
         packet_out: false
       },
-      currentActive: "reception"
+      currentActive: "reception",
+      modalPacketRecovered: false,
+      packetRecoveredIndex:0
     };
     this.numberOfPackets = [
       { label: "1", value: "1" },
@@ -109,6 +113,16 @@ export class Reception extends Component {
     this.toggleEditUser = this.toggleEditUser.bind(this);
     this.changeDate = this.changeDate.bind(this);
     this.toggleNotification = this.toggleNotification.bind(this);
+    this.togglePacketRecovered = this.togglePacketRecovered.bind(this);
+  }
+
+  async togglePacketRecovered(index)
+  {
+    await this.setState({
+      packetRecoveredIndex: index,
+      modalPacketRecovered: !this.state.modalPacketRecovered
+    });
+
   }
 
 async toggleNotification(index) {
@@ -139,7 +153,7 @@ async toggleNotification(index) {
         activeStatus[x] = false;
       }
     }
-    await this.setState({ activeStatus, currentActive: e.target.name });
+    await this.setState({ activeStatus, currentActive: e.target.name ,current_page:1 });
     this.fetchData();
   }
 
@@ -171,18 +185,18 @@ async toggleNotification(index) {
   async sendNotification() {
     let index = this.state.index;
     let object = {
-      noteByGuard: null,
+      noteByGuard: 'test',
       recipientId: this.state.data[index].id,
       recipientFamilyId: this.state.data[index].familyId,
       dateTimeReceived: Date(),
       receivedById: this.state.data[index].updatedBy,
       packetTypeLabel: this.state.selected_type.label,
-      packetType: this.state.selected_type.label,
+      packetType: this.state.selected_type.value,
       numberOfItems: this.state.numberOfSelected_type.label,
       tempIdNumber: this.state.currentPacketNo,
       telephone: this.state.data[index].telephone,
       email: this.state.data[index].email,
-      currentHost: "localhost:3000",
+     // currentHost: "localhost:3000",
       fullName: this.state.data[index].fullName,
       emailPref: null,
       smsPref: null,
@@ -257,7 +271,7 @@ async toggleNotification(index) {
   }
 
   async componentDidMount() {
-    await this.setState({ token: localStorage.getItem("token") });
+    await this.setState({ token: localStorage.getItem("token") , notifyIndex:0});
     this.fetchData();
     let date = Date();
     await this.setState({ formattedDate: this.formatDate() });
@@ -448,7 +462,16 @@ async toggleNotification(index) {
     let columns3 = [
       {
         Header: "Number",
-        accessor: "tempIdNumber"
+        accessor: "tempIdNumber",
+        Cell: row =>
+        {
+          console.log("row of pakcet out is :", row);
+          return (
+            <Button color="link" onClick={() => this.togglePacketRecovered(row.index)}>
+              {row.original.tempIdNumber}
+            </Button>
+          );
+          }
       },
       {
         Header: "Date in",
@@ -618,10 +641,19 @@ async toggleNotification(index) {
         <div>
           <NotificationModal
             isOpen={this.state.modalNotification}
-            toggle={() => this.toggleNotification()}
+            toggle={() => this.toggleNotification(0)}
             index={this.state.notifyIndex}
-            data={this.state.data}
+            current_page={this.state.current_page}
+            currentActive={this.state.currentActive}
           />
+        </div>
+        <div>
+          <PacketRecovered
+            isOpen={this.state.modalPacketRecovered}
+            toggle={() => this.togglePacketRecovered(0)}
+            index={this.state.packetRecoveredIndex}
+            current_page={this.state.current_page} />
+            currentActive={this.state.currentActive}
         </div>
 
         <div className="receptionList">
@@ -663,7 +695,10 @@ async toggleNotification(index) {
               </NavItem>
             </Nav>
           </div>
-
+          <div style={{ marginLeft: "10%" }}>
+            <NotifyDropDown currentActive={this.state.currentActive}/>
+          </div>
+          <br/>
           <ReactTable
             data={this.state.data}
             columns={

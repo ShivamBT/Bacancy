@@ -1,5 +1,5 @@
 import axios from "axios";
-let url = "http://localhost:8080/api/";
+let url = "http://localhost:3001/api/";
 
 export const logIn = (email, password) => {
   return axios.post(`${url}user/login`, {
@@ -81,18 +81,17 @@ export const getReceptionList = (
         }
       }
     );
-  else
-  {
+  else {
     let val = currentActive === "packet_in" ? false : true;
-  
-      return axios.get(
-        `${url}reception/packets-List?page=${current_page}&dateTimeRecovered=${val}`,
-        {
-          headers: {
-            token: token
-          }
+
+    return axios.get(
+      `${url}reception/packets-List?page=${current_page}&dateTimeRecovered=${val}`,
+      {
+        headers: {
+          token: token
         }
-      );
+      }
+    );
   }
 };
 
@@ -129,22 +128,26 @@ export const addPacket = (object, token) => {
 };
 
 export const recoverPacket = (object, token) => {
-  return axios.post(
-    `${url}reception/update-recovered-date/`, object, {
-      headers: {
-        token:token
-      }
+  return axios.post(`${url}reception/update-recovered-date/`, object, {
+    headers: {
+      token: token
     }
-  );
-}
+  });
+};
 
-export const editUserDetails = (id,object, token) =>
-{
-  return axios.post(
-    `${url}pool/editPoolUserDetail/${id}`, object, {
-      headers: {
-        token:token
-      }
+export const editUserDetails = (id, object, token) => {
+  return axios.post(`${url}pool/editPoolUserDetail/${id}`, object, {
+    headers: {
+      token: token
     }
-  );
-  }
+  });
+};
+
+export const bulkNotifications = (arr,token) => {
+  console.log("Token is :", token);
+  return axios.post(`${url}notification/send-bulk-notifications`, { arr },{
+    headers: {
+      token: token
+    }
+  });
+};

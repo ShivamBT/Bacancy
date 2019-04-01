@@ -51,11 +51,11 @@ export const getUnitList = (current_page, search, token) => {
   );
 };
 
-export const getFamilyList = (current_page, string, sorting, token) => {
+export const getFamilyList = (current_page, string, sorting,status, token) => {
   return axios.get(
     `${url}family/list?page=${current_page}&${string}sort=${
       sorting.sort
-    }&field=${sorting.field}`,
+    }&field=${sorting.field}&status=${status}`,
     {
       headers: {
         token: token
@@ -151,3 +151,35 @@ export const bulkNotifications = (arr,token) => {
     }
   });
 };
+
+
+export const getSubFamilyData = (id, token) =>
+{
+  return axios.get(
+    `${url}family/getResidents/${id}?&showAllRecords=1&doNotShowMainPerson=1`, {
+      headers: {
+        token:token
+      }
+    }
+  );
+}
+
+export const getFamilyDetails = (id, token) =>
+{
+  return axios.get(`${url}family/getResidents/${id}?status=active`, {
+    headers: {
+      token:token
+    }
+  })
+}
+
+export const getResidents = (id, status, token) =>
+{
+  return axios.get(
+    `${url}family/getResidents/${id}?status=${status}`, {
+      headers: {
+        token:token
+      }
+    }
+  );
+}

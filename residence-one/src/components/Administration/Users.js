@@ -325,7 +325,7 @@ export class Users extends Component {
 
         Cell: row => {
           return (
-            <UncontrolledDropdown>
+            <UncontrolledDropdown style={{position:"unset"}}>
               <DropdownToggle>
                 <FaEllipsisV />
               </DropdownToggle>

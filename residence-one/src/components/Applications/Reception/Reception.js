@@ -652,8 +652,9 @@ async toggleNotification(index) {
             isOpen={this.state.modalPacketRecovered}
             toggle={() => this.togglePacketRecovered(0)}
             index={this.state.packetRecoveredIndex}
-            current_page={this.state.current_page} />
+            current_page={this.state.current_page}
             currentActive={this.state.currentActive}
+          />
         </div>
 
         <div className="receptionList">
@@ -696,9 +697,9 @@ async toggleNotification(index) {
             </Nav>
           </div>
           <div style={{ marginLeft: "10%" }}>
-            <NotifyDropDown currentActive={this.state.currentActive}/>
+            <NotifyDropDown currentActive={this.state.currentActive} />
           </div>
-          <br/>
+          <br />
           <ReactTable
             data={this.state.data}
             columns={

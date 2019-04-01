@@ -30,30 +30,33 @@ export class NotificationModal extends Component {
     };
   }
   async componentDidMount() {
-    console.log("Did mount called");
-    let result = await getReceptionList(
-      this.props.current_page,
-      this.state.search,
-      "packet_in",
-      localStorage.getItem("token")
-    );
+    if (this.props.currentActive === "packet_in") {
+      console.log("Did mount called");
+      let result = await getReceptionList(
+        this.props.current_page,
+        this.state.search,
+        "packet_in",
+        localStorage.getItem("token")
+      );
 
-    await this.setState({ data: result.data.data, index: this.props.index });
+      await this.setState({ data: result.data.data, index: this.props.index });
 
-    let i = this.state.data[this.state.index].dateTimeReceived.indexOf("T");
-    let date = this.state.data[this.state.index].dateTimeReceived.substring(
-      0,
-      i
-    );
-    let time = this.state.data[this.state.index].dateTimeReceived.substring(
-      i + 1,
-      i + 6
-    );
-    this.setState({ date, time });
+      let i = this.state.data[this.state.index].dateTimeReceived.indexOf("T");
+      let date = this.state.data[this.state.index].dateTimeReceived.substring(
+        0,
+        i
+      );
+      let time = this.state.data[this.state.index].dateTimeReceived.substring(
+        i + 1,
+        i + 6
+      );
+      this.setState({ date, time });
+    }
   }
+
   async componentDidUpdate(prevProps, prevState) {
     console.log("Did before if called");
-    if (prevProps !== this.props) {
+    if (prevProps !== this.props && this.props.currentActive==="packet_in") {
       console.log("Did update in the if called");
       let result = await getReceptionList(
         this.props.current_page,
@@ -120,14 +123,19 @@ export class NotificationModal extends Component {
               <div className="lowerModal">
                 <Row>
                   <Col md="3">
-                    <img src={this.state.data[this.state.index].QRCode}/>
+                    <img src={this.state.data[this.state.index].QRCode} />
                   </Col>
                   <Col>
-                    <p style={{ color: "black" , marginLeft:"10px" , textAlign:"right" }}>
+                    <p
+                      style={{
+                        color: "black",
+                        marginLeft: "10px",
+                        textAlign: "right"
+                      }}>
                       <b>{this.state.data[this.state.index].tempIdNumber}</b>
                       <br />
-                      This code will be scanned by<br/> the guard upon retrieval of
-                      your packet.
+                      This code will be scanned by
+                      <br /> the guard upon retrieval of your packet.
                     </p>
                   </Col>
                 </Row>

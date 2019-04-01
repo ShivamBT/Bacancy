@@ -11,6 +11,7 @@ import { Dashboard } from "./components/Dashboard/Dashboard";
 import { Units } from "./components/Administration/Units";
 import { Families } from "./components/Administration/Families";
 import { UserDetails } from "./components/Administration/UserDetails/UserDetails";
+import { FamilyDetails } from "./components/Administration/FamilyDetails/FamilyDetails";
 
 const Routing = () => {
   return (
@@ -26,7 +27,8 @@ const Routing = () => {
         <Route path="/public/website" component={Website} />
         <Route path="/administration/structure" component={Structure} />
         <Route path="/administration/units" component={Units} />
-        <Route path="/administration/families" component={Families}/>
+        <Route path="/administration/families" component={Families} />
+        <Route path="/administration/family/:id" component={FamilyDetails}/>
       </Switch>
     </BrowserRouter>
   );

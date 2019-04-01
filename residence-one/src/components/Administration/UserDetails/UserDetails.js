@@ -71,7 +71,7 @@ export class UserDetails extends Component {
             <p>Family Name : {this.state.data.family.mainPerson.fullName}</p>
           </div>
           <div className="mainDetails">
-            <div>
+            <div>   
               <p className="mainUnitId">
                 Main Unit Id :{" "}
                 {this.state.data.family.families_units[0].unit.officialId}

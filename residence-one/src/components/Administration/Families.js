@@ -5,7 +5,7 @@ import "react-table/react-table.css";
 import { Sidebar } from "../Sidebar/Sidebar";
 import { LogOutComponent } from "../LogOutComponent/LogOutComponent";
 import "./Families.css";
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   Nav,
   NavItem,
@@ -41,7 +41,8 @@ export class Families extends Component {
       user_bool: true,
       modalFamily: false,
       subData: [{ fullName: "ABC" }],
-      imagePath: ""
+      imagePath: "",
+      expanded:[]
     };
     this.fetchData = this.fetchData.bind(this);
     this.onFilteredChange = this.onFilteredChange.bind(this);
@@ -50,19 +51,15 @@ export class Families extends Component {
     this.clickHandler = this.clickHandler.bind(this);
     this.toggle = this.toggle.bind(this);
     this.getSubTableData = this.getSubTableData.bind(this);
+    this.handleExpanded = this.handleExpanded.bind(this);
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    console.log("shouldcomponentupdate called");
-    if (
-      nextState.data !== this.state.data ||
-      nextState.modalFamily != this.state.modalFamily
-    )
-      return true;
-    // else if (nextState.subData !== this.state.subData)
-    //   return true;
-    else return false;
+  handleExpanded(expand)
+  {
+    this.setState({ expand });
   }
+
+  
 
   async getSubTableData(id) {
     let result = await getSubFamilyData(id, this.state.token);
@@ -158,19 +155,38 @@ export class Families extends Component {
         id: "name",
         Header: "Name",
         accessor: "name",
-        Cell: row =>
-        {
+        Cell: row => {
+          console.log("row is :", row);
           return (
             <div>
-              <Link to={`/administration/family/${row.original.id}`}>{row.original.name}</Link>
+              <Link to={`/administration/family/${row.original.id}`}>
+                {row.original.name}
+              </Link>
             </div>
-          )
-          }
+          );
+        }
       },
       {
         id: "mainPerson_name",
         Header: "Main Person",
-        accessor: "mainPerson.fullName"
+        accessor: "mainPerson.fullName",
+        width:150,
+        Cell: row => {
+          return (
+            <div>
+              <Link to={{
+                pathname:`/administration/users/${row.original.mainPersonId}`,
+                // state: {
+                //   history: this.props.history.push("/userNotFound")
+                // }
+              }}>
+                {row.original.mainPerson === null || undefined
+                  ? "No FullName Found "
+                  : row.original.mainPerson.fullName}
+              </Link>
+            </div>
+          );
+        }
       },
       {
         id: "mainPerson_telephone",
@@ -202,8 +218,8 @@ export class Families extends Component {
 
     let columns2 = [
       {
-        Header: "",
-        accessor: "fullName"
+        Header: "fullName",
+        accessor:"fullName"
       },
       {
         Header: "",
@@ -293,7 +309,9 @@ export class Families extends Component {
               </ModalBody>
               <ModalFooter>
                 <Button color="success">Submit</Button>
-                <Button color="danger" onClick={this.toggle}>Cancel</Button>
+                <Button color="danger" onClick={this.toggle}>
+                  Cancel
+                </Button>
               </ModalFooter>
             </Modal>
           </div>
@@ -311,6 +329,8 @@ export class Families extends Component {
             noDataText="Please Wait ..."
             sortable={true}
             filterable={true}
+            expanded={this.state.expanded}
+            onExpandedChange={expand => this.setState({expanded:expand})}
             SubComponent={row => {
               return (
                 <div>

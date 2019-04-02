@@ -164,22 +164,104 @@ export const getSubFamilyData = (id, token) =>
   );
 }
 
-export const getFamilyDetails = (id, token) =>
-{
-  return axios.get(`${url}family/getResidents/${id}?status=active`, {
-    headers: {
-      token:token
-    }
-  })
-}
+// export const getFamilyDetails = (id, token) =>
+// {
+//   return axios.get(`${url}family/getResidents/${id}?status=active`, {
+//     headers: {
+//       token:token
+//     }
+//   })
+// }
 
-export const getResidents = (id, status, token) =>
+export const getFamilyData = (id, status,currentActive, token) =>
 {
-  return axios.get(
-    `${url}family/getResidents/${id}?status=${status}`, {
-      headers: {
-        token:token
+
+  if (currentActive === "residents")
+  {
+    return axios.get(
+      `${url}family/getResidents/${id}?status=${status}`, {
+        headers: {
+          token: token
+        }
       }
-    }
-  );
+    );
+    
+  }
+  else if (currentActive === "extended_members")
+  {
+    return axios.get(
+      `${url}family/getExtendedFamilyMember/${id}?&status=${status}`, {
+        headers: {
+          token: token
+        }
+      }
+    );
+  }
+  
+  else if (currentActive === "personnel")
+  {
+    return axios.get(
+      `${url}family/getResidents/${id}?personStatus=NR-FP&status=${status}`, {
+        headers: {
+          token: token
+        }
+      }
+    );
+  }
+  
+  else if (currentActive === "temporary_resident")
+  {
+    return axios.get(
+      `${url}family/getResidents/${id}?personStatus=NR-TEMP&status=${status}`, {
+        headers: {
+          token: token
+        }
+      }
+    );
+  }
+  
+  else if (currentActive === "units")
+  {
+    return axios.get(
+      `${url}family/unitList/${id}`, {
+        headers: {
+          token: token
+        }
+      }
+    );
+  }
+  
+  else if (currentActive === "vehicles")
+  {
+    return axios.get(
+      `${url}vehicle/listByFamilyId/${id}?status=${status}`, {
+        headers: {
+          token: token
+        }
+      }
+    );
+  }
+  else if (currentActive === "packets")
+  {
+    return axios.get(
+      `${url}family/packets-List/${id}?status=${status}`, {
+        headers: {
+          token: token
+        }
+      }
+    );
+  }
+  
+  else if (currentActive === "purchases")
+  {
+    return axios.get(
+      `${url}purchases/list/${id}`, {
+        headers: {
+          token: token
+        }
+      }
+    );
+  }
+  
+  
 }

@@ -6,7 +6,10 @@ export class DataHandler extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      active: ""
+      active: "",
+      data: [],
+      picture:
+        "http://localhost:3001/images/lacadenelle13008fr/users/abc.jpeg"
     };
       
       this.displayHandler = this.displayHandler.bind(this);
@@ -15,13 +18,15 @@ export class DataHandler extends Component {
   componentDidMount() {
     console.log("component did mount called");
     let active = this.props.active;
-    this.setState({ active });
+    let string = "http://localhost:3001/images/lacadenelle13008fr/users/abc.jpeg";
+    this.setState({ active, data: this.props.data, picture: this.state.data.picture || string});
   }
 
   componentDidUpdate(prevProps, prevState) {
     console.log("did update called");
     if (prevProps !== this.props) {
-      this.setState({ active: this.props.active });
+      let string="http://localhost:3001/images/lacadenelle13008fr/users/abc.jpeg";
+      this.setState({ active: this.props.active,data:this.props.data,picture:this.state.data.picture || string });
     }
   }
     
@@ -31,7 +36,7 @@ export class DataHandler extends Component {
         {
             return (<div>
                 <p>Profile pic</p>
-                <img src="" alt="Profile Picture" />
+                <img src={this.props.data.picture} alt="Profile Picture" />
             </div>)
             
             }
@@ -40,10 +45,12 @@ export class DataHandler extends Component {
 
   render() {
     return (
-      <div style={{ backgroundColor: "red", color: "black" }} className="displayBlock">
+      <div
+        className="displayBlock">
         {console.log("return reached")}
         {this.state.active} is rendered;
         {this.displayHandler}
+        <img src={this.state.picture} alt="Profile Picture" />
       </div>
     );
   }

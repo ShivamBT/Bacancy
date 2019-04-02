@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { getFamilyDetails } from "../../ApiCalls/ApiCalls";
+import { getFamilyData } from "../../ApiCalls/ApiCalls";
 import { Sidebar } from "../../Sidebar/Sidebar";
 import { LogOutComponent } from "../../LogOutComponent/LogOutComponent";
 import "./FamilyDetails.css";
@@ -23,7 +23,7 @@ export class FamilyDetails extends Component {
         packets: false,
         purchases: false
       },
-      current_active: "profile"
+      current_active: "residents"
     };
 
     this.clickHandler = this.clickHandler.bind(this);
@@ -44,8 +44,10 @@ export class FamilyDetails extends Component {
 
   async componentDidMount() {
     await this.setState({ token: localStorage.getItem("token") });
-    let result = await getFamilyDetails(
+    let result = await getFamilyData(
       this.props.match.params.id,
+      "active",
+      "residents",
       this.state.token
     );
     this.setState({ data: result.data.data });
@@ -54,7 +56,7 @@ export class FamilyDetails extends Component {
   render() {
     if (this.state.data !== null) {
       return (
-        <div className="main">
+        <div>
           <div className="sidebar">
             <Sidebar {...this.props} />
           </div>
@@ -63,29 +65,43 @@ export class FamilyDetails extends Component {
             <LogOutComponent {...this.props} />
           </div>
 
-          <div className="mainHeading">
-            <div>
+          <div>
+            <div style={{ marginLeft: "20%", fontSize: "20px" }}>
               <p>
                 Main Unit Id :{" "}
-                {this.state.data.families_units[0].unit.officialId}
+                {this.state.data.families_units[0] === undefined ||
+                this.state.data.families_units[0] === null
+                  ? "No Id Found"
+                  : this.state.data.families_units[0].unit.officialId}
               </p>{" "}
               {}
             </div>
-            <div className="subHeading">
+            <div
+              style={{
+                marginLeft: "20%",
+                fontSize: "20px",
+                display: "flex",
+                justifyContent: "space-between"
+              }}>
               <div>
                 <p>
                   Person Responsible : {this.state.data.mainPerson.fullName}
                 </p>
               </div>
               <div>
-                <p className="resident">
+                <p>
                   {this.state.data.mainPerson.personStatus}{" "}
                   <span className="dot" />
                 </p>
               </div>
             </div>
 
-            <div style={{ border: "1px solid black" }}>
+            <div
+              style={{
+                marginLeft: "20%",
+                border: "1px solid darkgray",
+                fontSize: "4px"
+              }}>
               <Nav tabs>
                 <NavItem>
                   <NavLink active={this.state.activeStatus.residents}>
@@ -180,7 +196,11 @@ export class FamilyDetails extends Component {
                 </NavItem>
               </Nav>
 
-              <div style={{marginLeft:"5px",fontSize:"15px"}}>
+              <div
+                style={{
+                  fontSize: "15px",
+                  border: "1px solid darkgray"
+                }}>
                 <FamilyDataHandler
                   current_active={this.state.current_active}
                   {...this.props}

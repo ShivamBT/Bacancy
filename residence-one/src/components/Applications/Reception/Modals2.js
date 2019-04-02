@@ -10,7 +10,7 @@ export class PacketRecovered extends Component {
     super(props);
     this.state = {
       token: "",
-      imagePath: "http://localhost:8080/images/lacadenelle13008fr/users/",
+      imagePath: "http://localhost:3001/images/lacadenelle13008fr/users/",
       picture: "abc.jpeg",
       current_page:1,
       data: [
@@ -72,21 +72,21 @@ export class PacketRecovered extends Component {
           <div>
             <p style={{ fontSize: "30px" }}> Packet Number</p>
             <p className="modalNumber">
-              {/* {this.state.data[this.state.index].tempIdNumber} */}
+              {this.state.data[this.state.index].tempIdNumber}
             </p>
           </div>
           <div>
             <p style={{ fontSize: "30px" }}>Packet Type</p>
             <p style={{ fontSize: "20px" }}>
-              {/* {this.state.data[this.state.index].packet_type === null
+              {this.state.data[this.state.index].packet_type === null
                 ? "No type found"
-                : `${this.state.data[this.state.index].packet_type.name}`} */}
+                : `${this.state.data[this.state.index].packet_type.name}`}
             </p>
           </div>
           <div>
             <p style={{ fontSize: "30px" }}>Number of Packets</p>
             <p style={{ fontSize: "20px" }}>
-              {/* {this.state.data[this.state.index].numberOfItems} */}
+              {this.state.data[this.state.index].numberOfItems}
             </p>
           </div>
           <div>
@@ -96,7 +96,7 @@ export class PacketRecovered extends Component {
           <div>
             <p style={{ fontSize: "30px" }}>Signature</p>
             <div style={{border:"1px solid black" , height:"100" , width:"100"}}>
-              {/* <img src={this.state.data[this.state.index].recoveredBySign} /> */}
+              <img src={this.state.data[this.state.index].recoveredBySign} />
             </div>
             <Button color="danger" disabled>
               Clear
@@ -108,7 +108,7 @@ export class PacketRecovered extends Component {
               rows="5"
               cols="40"
               onChange={e => this.changeValue(e.target.value)}
-             // value={this.state.data[this.state.index].noteAfterRecovery}
+             value={this.state.data[this.state.index].noteAfterRecovery}
             />
           </div>
           <div>

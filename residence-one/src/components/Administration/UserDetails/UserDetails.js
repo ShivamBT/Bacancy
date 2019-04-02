@@ -1,11 +1,10 @@
 import React, { Component } from "react";
 import { getUserDetails } from "../../ApiCalls/ApiCalls";
-import "./UserDetails.css";
 import { Sidebar } from ".././.././Sidebar/Sidebar";
 import { LogOutComponent } from ".././.././LogOutComponent/LogOutComponent";
 import { Nav, NavLink, NavItem, Button } from "reactstrap";
 import { DataHandler } from "./DataHandler";
-
+import { Redirect,Link} from "react-router-dom";
 export class UserDetails extends Component {
   constructor(props) {
     super(props);
@@ -43,17 +42,78 @@ export class UserDetails extends Component {
   }
 
   async componentDidMount() {
-    await this.setState({ token: localStorage.getItem("token") });
-    let result = await getUserDetails(
-      this.props.match.params.id,
-      this.state.token
-    );
-    this.setState({ data: result.data.data });
-    console.log("Result is :", result);
+    console.log("Did mount called");
+    if (this.props.match.params.id===null || undefined)
+    {
+      this.props.history.push("/userNotFound");
+    }
+    else
+    {
+      let data = {
+        fullName: "Not Found",
+        family: {
+          mainPerson: {
+            fullName: "Not Found"
+          },
+          families_units: [
+            {
+              unit: {
+                officialId: "Not Found"
+              }
+            }
+          ]
+        },
+        positions: {
+          name: "Not Found"
+        }
+      }
+      await this.setState({ token: localStorage.getItem("token") });
+      let result = await getUserDetails(
+        this.props.match.params.id,
+        this.state.token
+      );
+      this.setState({ data: result.data.data || data});
+      console.log("Result is :", result);
+
+      
+      }
+  }
+  
+  componentWillMount()
+  {
+    console.log("Will mount called");
+    if (this.props.match.params.id === null || undefined) {
+      this.props.location.state.history();
+    }
+
+    else {
+      let data = {
+        fullName: "Not Found",
+        family: {
+          mainPerson: {
+            fullName: "Not Found"
+          },
+          families_units: [
+            {
+              unit: {
+                officialId: "Not Found"
+              }
+            }
+          ]
+        },
+        positions: {
+          name: "Not Found"
+        }
+      };
+
+      this.setState({ data });
+    }
+
   }
 
   render() {
-    if (this.state.data !== null) {
+    
+    if(this.state.data !== null) {
       return (
         <div className="main">
           <div className="sidebar">
@@ -64,17 +124,31 @@ export class UserDetails extends Component {
             <LogOutComponent {...this.props} />
           </div>
 
-          <h1 className="mainHeading">
+          <h1
+            style={{
+              fontSize: "25px",
+              marginLeft: "20%",
+              textDecoration: "underline",
+              textDecorationColor: "#4262f4"
+            }}>
             User Profile : {this.state.data.fullName}
           </h1>
           <div className="familyName">
-            <p>Family Name : {this.state.data.family.mainPerson.fullName}</p>
+            <p>
+              Family Name :{" "}
+              {this.state.data.family === null || undefined
+                ? "No Family name found"
+                : this.state.data.family.mainPerson.fullName}
+            </p>
           </div>
           <div className="mainDetails">
-            <div>   
+            <div>
               <p className="mainUnitId">
                 Main Unit Id :{" "}
-                {this.state.data.family.families_units[0].unit.officialId}
+                {this.state.data.family === null || undefined
+                  ? "No Main Unit Id Found"
+                  : this.state.data.family.families_units[0].unit
+                      .officialId}
               </p>
             </div>
 
@@ -85,7 +159,7 @@ export class UserDetails extends Component {
             </div>
           </div>
 
-          <div className="mainBlock">
+          <div className="mainBlock" style={{ marginLeft: "20%" }}>
             <Nav tabs>
               <NavItem>
                 <NavLink active={this.state.activeStatus.profile}>
@@ -148,7 +222,8 @@ export class UserDetails extends Component {
                 </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink active={this.state.activeStatus.ownership_history}>
+                <NavLink
+                  active={this.state.activeStatus.ownership_history}>
                   <Button
                     color="link"
                     value="ownership_history"
@@ -171,8 +246,11 @@ export class UserDetails extends Component {
           </div>
 
           <div className="dislayBlock">
-            <DataHandler active={this.state.current_active} />
-          </div>
+            <DataHandler
+              active={this.state.current_active}
+              data={this.state.data}
+            />
+          </div> 
         </div>
       );
     } else {

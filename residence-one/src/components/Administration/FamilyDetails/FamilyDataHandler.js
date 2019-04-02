@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Nav, NavItem, NavLink, Button } from "reactstrap";
-import { getResidents } from "../../ApiCalls/ApiCalls";
+import { getResidents, getFamilyData } from "../../ApiCalls/ApiCalls";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import "./FamilyDataHandler.css";
@@ -22,16 +22,19 @@ export class FamilyDataHandler extends Component {
   }
 
   async fetchData() {
-    let result = await getResidents(
-      this.props.match.params.id,
-      this.state.status,
-      this.state.token
-    );
+    if (this.state.current_active !== "documents") {
+      let result = await getFamilyData(
+        this.props.match.params.id,
+        this.state.status,
+        this.state.current_active,
+        this.state.token
+      );
       console.log("result of fetchdata is :", result);
-    this.setState({
-      data: result.data.data.users,
-      imagePath: result.data.imagePath
-    });
+      this.setState({
+        data: result.data.data.users || result.data.data,
+        imagePath: result.data.imagePath
+      });
+    }
   }
 
   async clickHandler(e) {
@@ -66,7 +69,8 @@ export class FamilyDataHandler extends Component {
     let column1 = [
       {
         Header: "Full Name",
-        accessor: "fullName"
+        accessor: "fullName",
+        width:200,
       },
       {
         Header: "Profile Picture",
@@ -93,14 +97,12 @@ export class FamilyDataHandler extends Component {
         accessor: "telephone"
       },
       {
-        Header: "Active On",
-        
+        Header: "Active On"
       }
     ];
     return (
-        <div className="mainHeading">
-            
-         <Nav tabs>
+      <div className="mainHeading">
+        <Nav tabs>
           <NavItem>
             <NavLink active={this.state.active}>
               <Button
@@ -122,10 +124,18 @@ export class FamilyDataHandler extends Component {
             </NavLink>
           </NavItem>
         </Nav>
-
-        <ReactTable data={this.state.data} columns={column1}
-          style={{ fontSize: "15px" }}
-          defaultPageSize={8}/>  
+        {this.state.current_active !== "documents" ? (
+          <ReactTable
+            data={this.state.data}
+            columns={column1}
+            style={{ fontSize: "15px" }}
+            defaultPageSize={8}
+          />
+        ) : (
+          <div>
+            <p>No Documents found</p>
+          </div>
+        )}
       </div>
     );
   }

@@ -12,6 +12,7 @@ import { Units } from "./components/Administration/Units";
 import { Families } from "./components/Administration/Families";
 import { UserDetails } from "./components/Administration/UserDetails/UserDetails";
 import { FamilyDetails } from "./components/Administration/FamilyDetails/FamilyDetails";
+import {UserNotFound } from "./components/Administration/UserDetails/UserNotFound";
 
 const Routing = () => {
   return (
@@ -28,7 +29,8 @@ const Routing = () => {
         <Route path="/administration/structure" component={Structure} />
         <Route path="/administration/units" component={Units} />
         <Route path="/administration/families" component={Families} />
-        <Route path="/administration/family/:id" component={FamilyDetails}/>
+        <Route path="/administration/family/:id" component={FamilyDetails} />
+        <Route path="/userNotFound" component={UserNotFound}/>
       </Switch>
     </BrowserRouter>
   );

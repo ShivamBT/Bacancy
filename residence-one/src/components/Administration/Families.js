@@ -21,6 +21,7 @@ import {
   ModalFooter
 } from "reactstrap";
 import { FaEllipsisV } from "react-icons/fa";
+import { AddNewFamilyModals } from "./FamilyDetails/AddNewFamilyModals";
 
 export class Families extends Component {
   constructor(props) {
@@ -39,27 +40,28 @@ export class Families extends Component {
       active_bool: true,
       inactive_bool: false,
       user_bool: true,
-      modalFamily: false,
       subData: [{ fullName: "ABC" }],
       imagePath: "",
-      expanded:[]
+      expanded: [],
+      modalAddFamily: false
     };
     this.fetchData = this.fetchData.bind(this);
     this.onFilteredChange = this.onFilteredChange.bind(this);
     this.paginationHandler = this.paginationHandler.bind(this);
     this.onSortedChange = this.onSortedChange.bind(this);
     this.clickHandler = this.clickHandler.bind(this);
-    this.toggle = this.toggle.bind(this);
     this.getSubTableData = this.getSubTableData.bind(this);
     this.handleExpanded = this.handleExpanded.bind(this);
+    this.toggleAddFamily = this.toggleAddFamily.bind(this);
   }
 
-  handleExpanded(expand)
-  {
+  async toggleAddFamily() {
+    await this.setState({ modalAddFamily: !this.state.modalAddFamily });
+  }
+
+  handleExpanded(expand) {
     this.setState({ expand });
   }
-
-  
 
   async getSubTableData(id) {
     let result = await getSubFamilyData(id, this.state.token);
@@ -69,10 +71,6 @@ export class Families extends Component {
     });
 
     return result;
-  }
-
-  toggle() {
-    this.setState({ modalFamily: !this.state.modalFamily });
   }
 
   async clickHandler(e) {
@@ -170,16 +168,17 @@ export class Families extends Component {
         id: "mainPerson_name",
         Header: "Main Person",
         accessor: "mainPerson.fullName",
-        width:150,
+        width: 150,
         Cell: row => {
           return (
             <div>
-              <Link to={{
-                pathname:`/administration/users/${row.original.mainPersonId}`,
-                // state: {
-                //   history: this.props.history.push("/userNotFound")
-                // }
-              }}>
+              <Link
+                to={{
+                  pathname: `/administration/users/${row.original.mainPersonId}`
+                  // state: {
+                  //   history: this.props.history.push("/userNotFound")
+                  // }
+                }}>
                 {row.original.mainPerson === null || undefined
                   ? "No FullName Found "
                   : row.original.mainPerson.fullName}
@@ -219,7 +218,7 @@ export class Families extends Component {
     let columns2 = [
       {
         Header: "fullName",
-        accessor:"fullName"
+        accessor: "fullName"
       },
       {
         Header: "",
@@ -282,14 +281,14 @@ export class Families extends Component {
                 <FaEllipsisV />
               </DropdownToggle>
               <DropdownMenu>
-                <DropdownItem onClick={this.toggle}>Add Family</DropdownItem>
+                <DropdownItem onClick={this.toggleAddFamily}>Add New Family</DropdownItem>
                 <DropdownItem>Help</DropdownItem>
               </DropdownMenu>
             </UncontrolledButtonDropdown>
           </div>
 
           <div>
-            <Modal isOpen={this.state.modalFamily} toggle={this.toggle}>
+            {/* <Modal isOpen={this.state.modalFamily} toggle={this.toggle}>
               <ModalHeader toggle={this.toggle}>
                 <h4>Add Family</h4>
               </ModalHeader>
@@ -313,7 +312,11 @@ export class Families extends Component {
                   Cancel
                 </Button>
               </ModalFooter>
-            </Modal>
+            </Modal> */}
+            <AddNewFamilyModals
+              isOpen={this.state.modalAddFamily}
+              toggle={this.toggleAddFamily}
+            />
           </div>
 
           <ReactTable
@@ -330,7 +333,7 @@ export class Families extends Component {
             sortable={true}
             filterable={true}
             expanded={this.state.expanded}
-            onExpandedChange={expand => this.setState({expanded:expand})}
+            onExpandedChange={expand => this.setState({ expanded: expand })}
             SubComponent={row => {
               return (
                 <div>

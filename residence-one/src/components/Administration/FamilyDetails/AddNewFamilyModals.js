@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { getUserList, getUnitList } from ".././.././ApiCalls/ApiCalls";
 import {
   Modal,
   ModalHeader,
@@ -7,7 +8,10 @@ import {
   Form,
   FormGroup,
   Label,
-  Input
+  Input,
+  Button,
+  Row,
+  Col
 } from "reactstrap";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
@@ -17,13 +21,17 @@ export class AddNewFamilyModals extends Component {
     super(props);
     this.state = {
       units: {},
-      unit_selectAll: 0,
+      last_selected_unit: "",
       users: {},
-      user_selectAll: 0,
+      last_selected_user: "",
       modal: false,
       current_page: 1,
       total_pages: "",
-      currentActive: "units"
+      currentActive: "units",
+      search: {
+        id: "",
+        value: ""
+      }
     };
     this.toggleRow = this.toggleRow.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
@@ -31,14 +39,13 @@ export class AddNewFamilyModals extends Component {
     this.fetchData = this.fetchData.bind(this);
   }
 
-  async toggleModal() {
-    if (this.state.currentActive === "units")
-      await this.setState({
-        modal: !this.state.modal,
-        total_pages: "",
-        current_page: 1,
-        currentActive: "units"
-      });
+  async toggleModal(e) {
+    await this.setState({
+      modal: !this.state.modal,
+      total_pages: "",
+      current_page: 1,
+      currentActive: e.target.value
+    });
     this.fetchData();
   }
 
@@ -54,23 +61,48 @@ export class AddNewFamilyModals extends Component {
         this.state.search,
         this.state.token
       );
+
+      let array = result.data.data;
+      let object = {};
+      let x;
+      for (let i = 0; i < 20; i++) {
+        x = array[i].officialId;
+        object[x] = false;
+     
+      }
+      let units = object;  
+
       this.setState({
         data: result.data.data,
-        total_pages: Math.ceil(result.data.totalRecords / 20)
+        total_pages: Math.ceil(result.data.totalRecords / 20),
+        units
       });
 
       console.log("Result of unit is:", result);
     } else if (this.state.currentActive === "users") {
       let result = await getUserList(
-        this.state.user_bool,
+        true,
         this.state.current_page,
         this.state.search,
         this.state.token
       );
+
+      let array = result.data.data;
+      let object = {};
+      let x;
+      for (let i = 0; i < 20; i++) {
+        x = array[i].firstName;
+        object[x] = false;
+
+      }
+      let users = object;
+
+
       this.setState({
         data: result.data.data,
         imagePath: result.data.imagePath,
-        total_pages: Math.ceil(result.data.totalRecords / 20)
+        total_pages: Math.ceil(result.data.totalRecords / 20),
+        users
       });
 
       console.log("Result is :", result);
@@ -82,43 +114,34 @@ export class AddNewFamilyModals extends Component {
     this.fetchData();
   }
 
-  toggleRow(firstName) {
-    let var1 =
-      this.state.currentActive === "units"
-        ? this.state.units
-        : this.state.users;
-    let var2 = this.state.currentActive === "units" ? units : users;
-    let var3 =
-      this.state.currentActive === "units" ? unit_selectAll : user_selectAll;
+  toggleRow(x) {
+    if (this.state.currentActive === "units")
+    {
+      console.log("Trying to check official ID:", x);
 
-    const newSelected = Object.assign({}, var1);
-    newSelected[firstName] = !this.state.selected[firstName];
-    this.setState({
-      [var2]: newSelected,
-      [var3]: 2
-    });
-  }
-
-  toggleSelectAll() {
-    let newSelected = {};
-    let var1 =
-      this.state.currentActive === "units"
-        ? this.state.unit_selectAll
-        : this.state.user_selectAll;
-
-    if (var1 === 0) {
-      this.state.data.forEach(x => {
-        newSelected[x.firstName] = true;
+      let units = { ...this.state.units };
+      let m = !this.state.units[x];
+      units[x] = m;
+      let last_selected_unit = m === true ? x : "";
+      this.setState({
+        units,
+        last_selected_unit
       });
     }
-    let var2 = this.state.currentActive === "units" ? units : users;
-    let var3 =
-      this.state.currentActive === "units" ? unit_selectAll : user_selectAll;
+    else {
+      console.log("Trying to check Full Name:", x);
 
-    this.setState({
-      [var2]: newSelected,
-      [var3]: var1 === 0 ? 1 : 0
-    });
+      let users = { ...this.state.users };
+      let m = !this.state.users[x];
+      users[x] = m;
+      let last_selected_user = m === true ? x : "";
+      this.setState({
+        users,
+        last_selected_user
+      });
+      
+    }
+    
   }
 
   render() {
@@ -126,29 +149,16 @@ export class AddNewFamilyModals extends Component {
       {
         id: "checkbox",
         accessor: "",
-        Cell: ({ original }) => {
+        Cell: row => {
           return (
             <input
               type="checkbox"
-              checked={this.state.selected[original.firstName] === true}
-              onChange={() => this.toggleRow(original.firstName)}
-            />
+              checked={this.state.units[row.original.officialId]}
+              onChange={() => this.toggleRow(row.original.officialId)}
+             />
           );
         },
-        Header: x => {
-          return (
-            <input
-              type="checkbox"
-              checked={this.state.selectAll === 1}
-              ref={input => {
-                if (input) {
-                  input.indeterminate = this.state.selectAll === 2;
-                }
-              }}
-              onChange={() => this.toggleSelectAll()}
-            />
-          );
-        },
+
         sortable: false,
         width: 45
       },
@@ -196,33 +206,20 @@ export class AddNewFamilyModals extends Component {
       {
         id: "checkbox",
         accessor: "",
-        Cell: ({ original }) => {
+        Cell: row => {
+          console.log("row is :", row);
           return (
             <input
               type="checkbox"
-              checked={this.state.selected[original.firstName] === true}
-              onChange={() => this.toggleRow(original.firstName)}
+              checked={this.state.users[row.original.firstName]}
+              onChange={() => this.toggleRow(row.original.firstName)}
             />
           );
         },
-        Header: x => {
-          return (
-            <input
-              type="checkbox"
-              checked={this.state.selectAll === 1}
-              ref={input => {
-                if (input) {
-                  input.indeterminate = this.state.selectAll === 2;
-                }
-              }}
-              onChange={() => this.toggleSelectAll()}
-            />
-          );
-        },
+
         sortable: false,
         width: 45
       },
-
       {
         id: "name",
         Header: "FullName",
@@ -230,16 +227,8 @@ export class AddNewFamilyModals extends Component {
         width: 250,
         maxWidth: 250,
         minWidth: 250,
-        filterable: true,
-        Cell: row => {
-          return (
-            <div>
-              <Link to={`/administration/users/${row.original.id}`}>
-                {row.original.fullName}
-              </Link>
-            </div>
-          );
-        }
+        filterable: true
+      
       },
 
       {
@@ -311,30 +300,48 @@ export class AddNewFamilyModals extends Component {
     return (
       <div>
         <Modal isOpen={this.props.isOpen} toggle={this.props.toggle}>
-          <ModalHeader>Add New Family</ModalHeader>
+          <ModalHeader toggle={this.props.toggle}>
+            <h4>Add New Family</h4>
+          </ModalHeader>
           <ModalBody>
             <Form>
               <FormGroup>
                 <Label>Select the unit</Label>
-                <span>
-                  <Input type="text" />{" "}
-                  <Button value="units" onClick={e => this.toggleModal(e)}>
-                    Select
-                  </Button>
-                </span>
+                <Row>
+                  <Col>
+                    <Input type="text" value={this.state.last_selected_unit} disabled={true}/>{" "}
+                  </Col>
+                  <Col>
+                    <Button value="units" onClick={e => this.toggleModal(e)}>
+                      Select
+                    </Button>
+                  </Col>
+                </Row>
               </FormGroup>
               <FormGroup>
                 <Label>Select The Users</Label>
-                <Input type="text" />{" "}
-                <Button value="users" onClick={e => this.toggleModal(e)}>
-                  Select
-                </Button>
+                <Row>
+                  <Col>
+                    <Input type="text" value={this.state.last_selected_user} disabled={true}/>{" "}
+                  </Col>
+                  <Col>
+                    <Button value="users" onClick={e => this.toggleModal(e)}>
+                      Select
+                    </Button>
+                  </Col>
+                </Row>
+              </FormGroup>
+              <FormGroup>
+                <Label>
+                  Add the Name of the New Family (Optional)
+                </Label>
+                <Input type="text" />
               </FormGroup>
             </Form>
           </ModalBody>
           <ModalFooter>
             <Button color="success">Submit</Button>
-            <Button color="danger" onClick={() => this.toggleModal("units")}>
+            <Button color="danger" onClick={this.props.toggle}>
               Cancel
             </Button>
           </ModalFooter>
@@ -355,8 +362,12 @@ export class AddNewFamilyModals extends Component {
             />
           </ModalBody>
           <ModalFooter>
-            <Button color="success" onClick={() => this.toggleModal("units")}>Submit</Button>
-            <Button color="danger" onClick={() => this.toggleModal("units")}>Cancel</Button>
+            <Button color="success" onClick={() => this.toggleModal("units")}>
+              Submit
+            </Button>
+            <Button color="danger" onClick={() => this.toggleModal("units")}>
+              Cancel
+            </Button>
           </ModalFooter>
         </Modal>
       </div>

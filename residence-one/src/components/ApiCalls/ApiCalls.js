@@ -265,3 +265,16 @@ export const getFamilyData = (id, status,currentActive, token) =>
   
   
 }
+
+
+export const getOwnerList = (status,current_page,token) =>
+{
+  return axios.get(
+    `${url}owner/list?page=${current_page}&status=${status}`,
+    {
+      headers: {
+        token: token
+      }
+    }
+  );
+}

@@ -2,6 +2,11 @@ import React, { Component } from "react";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import "./Users.css";
+import "react-dates/initialize";
+import "react-dates/lib/css/_datepicker.css";
+
+import { DateRangePicker } from "react-dates";
+
 import {
   Button,
   Nav,
@@ -30,7 +35,7 @@ import {
 import { getUserList, signupUser } from "../ApiCalls/ApiCalls";
 import { Sidebar } from "../Sidebar/Sidebar";
 import { LogOutComponent } from "../LogOutComponent/LogOutComponent";
-import { FaEllipsisV ,FaAngleDown} from "react-icons/fa";
+import { FaEllipsisV, FaAngleDown } from "react-icons/fa";
 import { Footer } from "../Footer/Footer";
 import { Link } from "react-router-dom";
 import DatePicker from "react-date-picker";
@@ -68,7 +73,11 @@ export class Users extends Component {
         confirmPassword: "",
         //dateOfBirth: "",
         telephone: ""
-      }
+      },
+
+      startDate: null,
+      endDate: null,
+      focusedInput: null,
     };
 
     this.clickHandler = this.clickHandler.bind(this);
@@ -243,7 +252,7 @@ export class Users extends Component {
       },
 
       {
-        id:"name",
+        id: "name",
         Header: "FullName",
         accessor: "fullName",
         width: 250,
@@ -253,11 +262,12 @@ export class Users extends Component {
         Cell: row => {
           return (
             <div>
-              <Link to={`/administration/users/${row.original.id}`}>{row.original.fullName}</Link>
+              <Link to={`/administration/users/${row.original.id}`}>
+                {row.original.fullName}
+              </Link>
             </div>
           );
         }
-        
       },
 
       {
@@ -330,7 +340,7 @@ export class Users extends Component {
 
         Cell: row => {
           return (
-            <UncontrolledDropdown style={{position:"unset"}}>
+            <UncontrolledDropdown style={{ position: "unset" }}>
               <DropdownToggle>
                 <FaEllipsisV />
               </DropdownToggle>
@@ -383,12 +393,21 @@ export class Users extends Component {
                   />
                 </FormGroup>
                 <FormGroup>
-                  <h4 id="toggler">Personal  <FaAngleDown /> </h4>
-                  <div>
-                    <div></div>
-                    <div></div>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between"
+                    }}
+                    id="toggler1"
+                    className="formHover">
+                    <div>
+                      <h5>Personal</h5>
+                    </div>
+                    <div>
+                      <FaAngleDown />
+                    </div>
                   </div>
-                  <UncontrolledCollapse toggler="#toggler">
+                  <UncontrolledCollapse toggler="#toggler1">
                     <Label>Mobile Number:</Label>
                     <Input
                       type="number"
@@ -397,7 +416,7 @@ export class Users extends Component {
                       onChange={e => this.changeValue(e)}
                       placeholder="Enter your Phone Number here"
                     />
-                    <br/>
+                    <br />
                     <Label>Email :</Label>
                     <Input
                       type="email"
@@ -406,7 +425,7 @@ export class Users extends Component {
                       onChange={e => this.changeValue(e)}
                       placeholder="Enter your Email Here"
                     />
-                    <br/>
+                    <br />
                     <Label>Company Name :</Label>
                     <Input
                       type="text"
@@ -415,39 +434,129 @@ export class Users extends Component {
                       onChange={e => this.changeValue(e)}
                       placeholder="Enter your Company Name here Here"
                     />
-                    <br/>
+                    <br />
                     <Label>Date of Birth</Label>
                     <DatePicker
                     // onChange={this.changeDate}
                     // value={this.state.date}
                     />
-                    <br/>
+                    <br />
+                    <br />
                     <Button color="primary">Upload Profile Picture</Button>
                   </UncontrolledCollapse>
-
-                  
                 </FormGroup>
                 <FormGroup>
-                  <Label>Password :</Label>
-                  <Input
-                    type="password"
-                    name="password"
-                    value={this.state.signup.password}
-                    onChange={e => this.changeValue(e)}
-                  />
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between"
+                    }}
+                    id="toggler2"
+                    className="formHover">
+                    <div>
+                      <h5>Security</h5>
+                    </div>
+                    <div>
+                      <FaAngleDown />
+                    </div>
+                  </div>
+                  <UncontrolledCollapse toggler="#toggler2">
+                    <Label>Password :</Label>
+                    <Input
+                      type="password"
+                      name="password"
+                      value={this.state.signup.password}
+                      onChange={e => this.changeValue(e)}
+                    />
 
-                  <Label>Confirm Password :</Label>
-                  <Input
-                    type="password"
-                    name="confirmPassword"
-                    value={this.state.signup.confirmPassword}
-                    onChange={e => this.changeValue(e)}
-                  />
+                    <Label>Confirm Password :</Label>
+                    <Input
+                      type="password"
+                      name="confirmPassword"
+                      value={this.state.signup.confirmPassword}
+                      onChange={e => this.changeValue(e)}
+                    />
+                  </UncontrolledCollapse>
                 </FormGroup>
 
-                <FormGroup />
+                <FormGroup>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between"
+                    }}
+                    id="toggler3"
+                    className="formHover">
+                    <div>
+                      <h5>Residence-linked Data</h5>
+                    </div>
+                    <div>
+                      <FaAngleDown />
+                    </div>
+                  </div>
+                  <UncontrolledCollapse toggler="#toggler3">
+                    <Label>Active Date Range(Format : MM/DD/YYYY)</Label>
+                    <DateRangePicker
+                      startDateId="startDate"
+                      endDateId="endDate"
+                      startDate={this.state.startDate}
+                      endDate={this.state.endDate}
+                      onDatesChange={({ startDate, endDate }) => {
+                        this.setState({ startDate, endDate });
+                      }}
+                      focusedInput={this.state.focusedInput}
+                      onFocusChange={focusedInput => {
+                        this.setState({ focusedInput });
+                      }}
+                    />
+                    <br />
+                    <Label>Position</Label>
+                    <Input type="text" />
+                  </UncontrolledCollapse>
+                </FormGroup>
 
-                <FormGroup />
+                <FormGroup>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between"
+                    }}
+                    id="toggler4"
+                    className="formHover">
+                    <div>
+                      <h5>Pool</h5>
+                    </div>
+                    <div>
+                      <FaAngleDown />
+                    </div>
+                  </div>
+                  <UncontrolledCollapse toggler="#toggler4">
+                    <Input type="checkbox" />
+                    <Label>
+                      Manual Pool Access
+                    </Label>
+                  </UncontrolledCollapse>
+                </FormGroup>
+                <FormGroup>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between"
+                    }}
+                    id="toggler5"
+                    className="formHover">
+                    <div>
+                      <h5>Note</h5>
+                    </div>
+                    <div>
+                      <FaAngleDown />
+                    </div>
+                  </div>
+                  <UncontrolledCollapse toggler="#toggler5">
+                    <Label>Note</Label>
+                    <Input type="text" />
+                  </UncontrolledCollapse>
+                </FormGroup>
               </Form>
             </ModalBody>
             <ModalFooter>
@@ -488,7 +597,7 @@ export class Users extends Component {
           </Nav>
           <div>
             <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-              <DropdownToggle>
+              <DropdownToggle color="link">
                 <FaEllipsisV />
               </DropdownToggle>
               <DropdownMenu>

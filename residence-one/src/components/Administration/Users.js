@@ -22,14 +22,19 @@ import {
   UncontrolledDropdown,
   Collapse,
   Card,
-  CardBody
+  CardBody,
+  UncontrolledCollapse,
+  Row,
+  Col
 } from "reactstrap";
 import { getUserList, signupUser } from "../ApiCalls/ApiCalls";
 import { Sidebar } from "../Sidebar/Sidebar";
 import { LogOutComponent } from "../LogOutComponent/LogOutComponent";
-import { FaEllipsisV } from "react-icons/fa";
+import { FaEllipsisV ,FaAngleDown} from "react-icons/fa";
 import { Footer } from "../Footer/Footer";
 import { Link } from "react-router-dom";
+import DatePicker from "react-date-picker";
+
 export class Users extends Component {
   constructor(props) {
     super(props);
@@ -363,6 +368,7 @@ export class Users extends Component {
                     name="firstName"
                     value={this.state.signup.firstName}
                     onChange={e => this.changeValue(e)}
+                    placeholder="First Name"
                   />
                 </FormGroup>
 
@@ -373,16 +379,53 @@ export class Users extends Component {
                     name="lastName"
                     value={this.state.signup.lastName}
                     onChange={e => this.changeValue(e)}
+                    placeholder="Last Name"
                   />
                 </FormGroup>
                 <FormGroup>
-                  <Label>Email :</Label>
-                  <Input
-                    type="email"
-                    name="email"
-                    value={this.state.signup.email}
-                    onChange={e => this.changeValue(e)}
-                  />
+                  <h4 id="toggler">Personal  <FaAngleDown /> </h4>
+                  <div>
+                    <div></div>
+                    <div></div>
+                  </div>
+                  <UncontrolledCollapse toggler="#toggler">
+                    <Label>Mobile Number:</Label>
+                    <Input
+                      type="number"
+                      name="telephone"
+                      value={this.state.signup.telephone}
+                      onChange={e => this.changeValue(e)}
+                      placeholder="Enter your Phone Number here"
+                    />
+                    <br/>
+                    <Label>Email :</Label>
+                    <Input
+                      type="email"
+                      name="email"
+                      value={this.state.signup.email}
+                      onChange={e => this.changeValue(e)}
+                      placeholder="Enter your Email Here"
+                    />
+                    <br/>
+                    <Label>Company Name :</Label>
+                    <Input
+                      type="text"
+                      name="company_name"
+                      value={this.state.signup.company_name}
+                      onChange={e => this.changeValue(e)}
+                      placeholder="Enter your Company Name here Here"
+                    />
+                    <br/>
+                    <Label>Date of Birth</Label>
+                    <DatePicker
+                    // onChange={this.changeDate}
+                    // value={this.state.date}
+                    />
+                    <br/>
+                    <Button color="primary">Upload Profile Picture</Button>
+                  </UncontrolledCollapse>
+
+                  
                 </FormGroup>
                 <FormGroup>
                   <Label>Password :</Label>
@@ -392,9 +435,7 @@ export class Users extends Component {
                     value={this.state.signup.password}
                     onChange={e => this.changeValue(e)}
                   />
-                </FormGroup>
 
-                <FormGroup>
                   <Label>Confirm Password :</Label>
                   <Input
                     type="password"
@@ -404,15 +445,9 @@ export class Users extends Component {
                   />
                 </FormGroup>
 
-                <FormGroup>
-                  <Label>Mobile Number:</Label>
-                  <Input
-                    type="number"
-                    name="telephone"
-                    value={this.state.signup.telephone}
-                    onChange={e => this.changeValue(e)}
-                  />
-                </FormGroup>
+                <FormGroup />
+
+                <FormGroup />
               </Form>
             </ModalBody>
             <ModalFooter>
@@ -457,7 +492,9 @@ export class Users extends Component {
                 <FaEllipsisV />
               </DropdownToggle>
               <DropdownMenu>
-                <DropdownItem onClick={this.toggleModal}>Add User</DropdownItem>
+                <DropdownItem onClick={this.toggleModal}>
+                  Add User
+                </DropdownItem>
                 <DropdownItem>Help</DropdownItem>
               </DropdownMenu>
             </Dropdown>

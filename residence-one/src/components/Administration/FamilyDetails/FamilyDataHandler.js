@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Nav, NavItem, NavLink, Button } from "reactstrap";
-import { getResidents, getFamilyData } from "../../ApiCalls/ApiCalls";
+import { getFamilyData } from "../../ApiCalls/ApiCalls";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import "./FamilyDataHandler.css";

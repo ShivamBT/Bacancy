@@ -15,10 +15,7 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter
+ 
 } from "reactstrap";
 import { FaEllipsisV } from "react-icons/fa";
 import { AddNewFamilyModals } from "./FamilyDetails/AddNewFamilyModals";
@@ -212,6 +209,35 @@ export class Families extends Component {
         id: "families_units_unit_shares",
         Header: "Shares",
         accessor: "families_units[0].unit.shares"
+      },
+      {
+        Header: "",
+        Cell: row =>
+        {
+          return (
+            <div>
+              <UncontrolledButtonDropdown style={{position:"unset"}}>
+                <DropdownToggle color="link">
+                  <FaEllipsisV />
+                </DropdownToggle>
+                <DropdownMenu>
+                  <DropdownItem>
+                    Mark as Inactive
+                  </DropdownItem>
+                  <DropdownItem>
+                    Go to main Person's Profile
+                  </DropdownItem>
+                  <DropdownItem>
+                    Send Notifications
+                  </DropdownItem>
+                  <DropdownItem>
+                    Help
+                  </DropdownItem>
+                </DropdownMenu>
+              </UncontrolledButtonDropdown>
+            </div>
+          )
+          }
       }
     ];
 

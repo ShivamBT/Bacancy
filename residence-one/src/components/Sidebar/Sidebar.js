@@ -189,7 +189,7 @@ export class Sidebar extends Component {
                     </DropdownItem>
                     <DropdownItem>
                       <FaUserSecret id="link1" />{" "}
-                      <Link to="/admininstration/owners" className="link">
+                      <Link to="/administration/owners" className="link">
                         Owners
                       </Link>
                     </DropdownItem>

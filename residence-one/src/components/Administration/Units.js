@@ -5,6 +5,7 @@ import "react-table/react-table.css";
 import { Sidebar } from "../Sidebar/Sidebar";
 import { LogOutComponent } from "../LogOutComponent/LogOutComponent";
 import "./Units.css";
+import { Link } from "react-router-dom";
 
 export class Units extends Component {
   constructor(props) {
@@ -70,7 +71,15 @@ export class Units extends Component {
     let columns = [
       {
         Header: "Unit Id",
-        accessor: "officialId"
+        accessor: "officialId",
+        Cell: row =>
+        {
+          return (
+            <div>
+              <Link to={`/administration/units-profile/${row.original.id}`}>{row.original.officialId}</Link>
+            </div>
+          )
+          }
       },
       {
         Header: "Section",

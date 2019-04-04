@@ -14,6 +14,8 @@ import { UserDetails } from "./components/Administration/UserDetails/UserDetails
 import { FamilyDetails } from "./components/Administration/FamilyDetails/FamilyDetails";
 import {UserNotFound } from "./components/Administration/UserDetails/UserNotFound";
 import { Owners } from "./components/Administration/Owners";
+import { OwnersProfile } from "./components/Administration/OwnersProfile/OwnersProfile";
+import { UnitProfile } from "./components/Administration/UnitProfile/UnitProfile";
 
 const Routing = () => {
   return (
@@ -32,7 +34,9 @@ const Routing = () => {
         <Route path="/administration/families" component={Families} />
         <Route path="/administration/family/:id" component={FamilyDetails} />
         <Route path="/userNotFound" component={UserNotFound} />
-        <Route path="/admininstration/owners" component={Owners}/>
+        <Route path="/administration/owners" component={Owners} />
+        <Route path="/administration/owners-profile/:id" component={OwnersProfile} />
+        <Route path="/administration/units-profile/:id" component={UnitProfile} />
       </Switch>
     </BrowserRouter>
   );

@@ -5,6 +5,7 @@ import { Sidebar } from "../Sidebar/Sidebar";
 import { LogOutComponent } from "../LogOutComponent/LogOutComponent";
 import { getOwnerList } from "../ApiCalls/ApiCalls";
 import "./Owners.css";
+import {Link} from "react-router-dom"
 import {
   Nav,
   NavLink,
@@ -93,7 +94,16 @@ export class Owners extends Component {
     let column = [
       {
         Header: "Name",
-        accessor: "name"
+        accessor: "name",
+        Cell: row =>
+        {
+          return (
+            <div>
+              
+              <Link to={`/administration/owners-profile/${row.original.id}`}>{row.original.name}</Link>
+            </div>
+          )
+          }
       },
       {
         Header: "Address",

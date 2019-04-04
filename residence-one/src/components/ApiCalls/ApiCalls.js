@@ -278,3 +278,27 @@ export const getOwnerList = (status,current_page,token) =>
     }
   );
 }
+
+
+export const getOwnerProfile = (id, token) =>
+{
+  return axios.get(
+    `${url}owner/getOwnerById/${id}`,
+    {
+      headers: {
+        token:token
+      }
+    }
+  );
+}
+
+
+export const getUnitDetails = (id, token) =>
+{
+  return axios.get(`${url}unit/detail/${id}`, {
+    headers: {
+      token:token
+    }
+  }
+  )
+}

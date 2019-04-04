@@ -124,7 +124,7 @@ export class Owners extends Component {
         </div>
 
         <div className="groupList">
-          <h1>Groups</h1>
+          <h1>Owners</h1>
 
           <Nav tabs>
             <NavItem>

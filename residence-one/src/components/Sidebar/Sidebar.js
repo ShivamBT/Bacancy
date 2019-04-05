@@ -219,7 +219,7 @@ export class Sidebar extends Component {
                     </DropdownItem>
                     <DropdownItem>
                       <FaSwimmer id="link1" />{" "}
-                      <Link to="/" className="link">
+                      <Link to="/administration/pool" className="link">
                         Pool
                       </Link>
                     </DropdownItem>

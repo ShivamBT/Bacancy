@@ -2,7 +2,8 @@ import axios from "axios";
 let url = "http://localhost:3001/api/";
 
 export const logIn = (email, password) => {
-  return axios.post(`${url}user/login`, {
+  console.log("Login url called is :", url);
+  return axios.post(`${url}/user/login`, {
     email: email,
     password: password
   });
@@ -301,4 +302,14 @@ export const getUnitDetails = (id, token) =>
     }
   }
   )
+}
+
+export const getPoolData = (token) =>
+{
+  return axios.get(`${url}pool/user-management-list?sort=asc&field=family.families_units.unit.officialId`,
+    {
+      headers: {
+      token:token
+    }
+  });
 }

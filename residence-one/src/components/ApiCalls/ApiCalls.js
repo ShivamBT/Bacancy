@@ -304,12 +304,23 @@ export const getUnitDetails = (id, token) =>
   )
 }
 
-export const getPoolData = (token) =>
+export const getPoolData = (page,statusString,poolAccessRulesCompliantString,token) =>
 {
-  return axios.get(`${url}pool/user-management-list?sort=asc&field=family.families_units.unit.officialId`,
+  return axios.get(`${url}pool/user-management-list?page=${page}&${statusString}&${poolAccessRulesCompliantString}&sort=asc&field=family.families_units.unit.officialId`,
     {
       headers: {
       token:token
     }
   });
+}
+
+export const updatePoolStatus = (id,object, token) =>
+{
+  return axios.post(
+    `${url}pool/updateStatus/${id}`, object, {
+      headers: {
+        token:token
+      }
+    }
+  );
 }

@@ -52,7 +52,7 @@ export const getUnitList = (current_page, search, token) => {
   );
 };
 
-export const getFamilyList = (current_page, string, sorting,status, token) => {
+export const getFamilyList = (current_page, string, sorting, status, token) => {
   return axios.get(
     `${url}family/list?page=${current_page}&${string}sort=${
       sorting.sort
@@ -144,26 +144,29 @@ export const editUserDetails = (id, object, token) => {
   });
 };
 
-export const bulkNotifications = (arr,token) => {
+export const bulkNotifications = (arr, token) => {
   console.log("Token is :", token);
-  return axios.post(`${url}notification/send-bulk-notifications`, { arr },{
-    headers: {
-      token: token
-    }
-  });
-};
-
-
-export const getSubFamilyData = (id, token) =>
-{
-  return axios.get(
-    `${url}family/getResidents/${id}?&showAllRecords=1&doNotShowMainPerson=1`, {
+  return axios.post(
+    `${url}notification/send-bulk-notifications`,
+    { arr },
+    {
       headers: {
-        token:token
+        token: token
       }
     }
   );
-}
+};
+
+export const getSubFamilyData = (id, token) => {
+  return axios.get(
+    `${url}family/getResidents/${id}?&showAllRecords=1&doNotShowMainPerson=1`,
+    {
+      headers: {
+        token: token
+      }
+    }
+  );
+};
 
 // export const getFamilyDetails = (id, token) =>
 // {
@@ -174,150 +177,120 @@ export const getSubFamilyData = (id, token) =>
 //   })
 // }
 
-export const getFamilyData = (id, status,currentActive, token) =>
-{
+export const getFamilyData = (id, status, currentActive, token) => {
+  if (currentActive === "residents") {
+    return axios.get(`${url}family/getResidents/${id}?status=${status}`, {
+      headers: {
+        token: token
+      }
+    });
+  } else if (currentActive === "extended_members") {
+    return axios.get(
+      `${url}family/getExtendedFamilyMember/${id}?&status=${status}`,
+      {
+        headers: {
+          token: token
+        }
+      }
+    );
+  } else if (currentActive === "personnel") {
+    return axios.get(
+      `${url}family/getResidents/${id}?personStatus=NR-FP&status=${status}`,
+      {
+        headers: {
+          token: token
+        }
+      }
+    );
+  } else if (currentActive === "temporary_resident") {
+    return axios.get(
+      `${url}family/getResidents/${id}?personStatus=NR-TEMP&status=${status}`,
+      {
+        headers: {
+          token: token
+        }
+      }
+    );
+  } else if (currentActive === "units") {
+    return axios.get(`${url}family/unitList/${id}`, {
+      headers: {
+        token: token
+      }
+    });
+  } else if (currentActive === "vehicles") {
+    return axios.get(`${url}vehicle/listByFamilyId/${id}?status=${status}`, {
+      headers: {
+        token: token
+      }
+    });
+  } else if (currentActive === "packets") {
+    return axios.get(`${url}family/packets-List/${id}?status=${status}`, {
+      headers: {
+        token: token
+      }
+    });
+  } else if (currentActive === "purchases") {
+    return axios.get(`${url}purchases/list/${id}`, {
+      headers: {
+        token: token
+      }
+    });
+  }
+};
 
-  if (currentActive === "residents")
-  {
-    return axios.get(
-      `${url}family/getResidents/${id}?status=${status}`, {
-        headers: {
-          token: token
-        }
-      }
-    );
-    
-  }
-  else if (currentActive === "extended_members")
-  {
-    return axios.get(
-      `${url}family/getExtendedFamilyMember/${id}?&status=${status}`, {
-        headers: {
-          token: token
-        }
-      }
-    );
-  }
-  
-  else if (currentActive === "personnel")
-  {
-    return axios.get(
-      `${url}family/getResidents/${id}?personStatus=NR-FP&status=${status}`, {
-        headers: {
-          token: token
-        }
-      }
-    );
-  }
-  
-  else if (currentActive === "temporary_resident")
-  {
-    return axios.get(
-      `${url}family/getResidents/${id}?personStatus=NR-TEMP&status=${status}`, {
-        headers: {
-          token: token
-        }
-      }
-    );
-  }
-  
-  else if (currentActive === "units")
-  {
-    return axios.get(
-      `${url}family/unitList/${id}`, {
-        headers: {
-          token: token
-        }
-      }
-    );
-  }
-  
-  else if (currentActive === "vehicles")
-  {
-    return axios.get(
-      `${url}vehicle/listByFamilyId/${id}?status=${status}`, {
-        headers: {
-          token: token
-        }
-      }
-    );
-  }
-  else if (currentActive === "packets")
-  {
-    return axios.get(
-      `${url}family/packets-List/${id}?status=${status}`, {
-        headers: {
-          token: token
-        }
-      }
-    );
-  }
-  
-  else if (currentActive === "purchases")
-  {
-    return axios.get(
-      `${url}purchases/list/${id}`, {
-        headers: {
-          token: token
-        }
-      }
-    );
-  }
-  
-  
-}
+export const getOwnerList = (status, current_page, token) => {
+  return axios.get(`${url}owner/list?page=${current_page}&status=${status}`, {
+    headers: {
+      token: token
+    }
+  });
+};
 
+export const getOwnerProfile = (id, token) => {
+  return axios.get(`${url}owner/getOwnerById/${id}`, {
+    headers: {
+      token: token
+    }
+  });
+};
 
-export const getOwnerList = (status,current_page,token) =>
-{
+export const getUnitDetails = (id, token) => {
+  return axios.get(`${url}unit/detail/${id}`, {
+    headers: {
+      token: token
+    }
+  });
+};
+
+export const getPoolData = (
+  page,
+  statusString,
+  poolAccessRulesCompliantString,
+  exceptionalPoolAccess,
+  allowedInPool,
+  token
+) => {
   return axios.get(
-    `${url}owner/list?page=${current_page}&status=${status}`,
+    `${url}pool/user-management-list?page=${page}&${statusString}&${poolAccessRulesCompliantString}&${exceptionalPoolAccess}&${allowedInPool}&sort=asc&field=family.families_units.unit.officialId`,
     {
       headers: {
         token: token
       }
     }
   );
-}
+};
 
-
-export const getOwnerProfile = (id, token) =>
-{
-  return axios.get(
-    `${url}owner/getOwnerById/${id}`,
-    {
-      headers: {
-        token:token
-      }
-    }
-  );
-}
-
-
-export const getUnitDetails = (id, token) =>
-{
-  return axios.get(`${url}unit/detail/${id}`, {
+export const updatePoolStatus = (id, object, token) => {
+  return axios.post(`${url}pool/updateStatus/${id}`, object, {
     headers: {
-      token:token
-    }
-  }
-  )
-}
-
-export const getPoolData = (page,statusString,poolAccessRulesCompliantString,token) =>
-{
-  return axios.get(`${url}pool/user-management-list?page=${page}&${statusString}&${poolAccessRulesCompliantString}&sort=asc&field=family.families_units.unit.officialId`,
-    {
-      headers: {
-      token:token
+      token: token
     }
   });
-}
+};
 
-export const updatePoolStatus = (id,object, token) =>
-{
-  return axios.post(
-    `${url}pool/updateStatus/${id}`, object, {
+export const getPoolEntries = (dateStart, dateEnd, token) => {
+  return axios.get(
+    `${url}pool_entry/poolentry-user-list?dateRangeStart=${dateStart}&dateRangeEnd=${dateEnd}&sort=desc&field=createdAt`, {
       headers: {
         token:token
       }

@@ -4,6 +4,7 @@ import { Jumbotron } from "reactstrap";
 import "./Dashboard.css";
 import { LogOutComponent } from "../LogOutComponent/LogOutComponent";
 import { Footer } from "../Footer/Footer";
+import {Helmet} from "react-helmet"
 
 export class Dashboard extends Component {
   constructor(props) {
@@ -14,8 +15,12 @@ export class Dashboard extends Component {
   render() {
     return (
       <div>
+        <Helmet>
+          <title>Dashboard</title>
+          <meta name="description" content="Dashboard of residence" />
+        </Helmet>
         <div className="sidebar">
-          <Sidebar {...this.props}/>
+          <Sidebar {...this.props} />
         </div>
 
         <div className="dashboard">

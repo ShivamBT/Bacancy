@@ -288,9 +288,9 @@ export const updatePoolStatus = (id, object, token) => {
   });
 };
 
-export const getPoolEntries = (dateStart, dateEnd, token) => {
+export const getPoolEntries = (dateStart, dateEnd,current_page, token) => {
   return axios.get(
-    `${url}pool_entry/poolentry-user-list?dateRangeStart=${dateStart}&dateRangeEnd=${dateEnd}&sort=desc&field=createdAt`, {
+    `${url}pool_entry/poolentry-user-list?page=${current_page}&dateRangeStart=${dateStart}&dateRangeEnd=${dateEnd}&sort=desc&field=createdAt`, {
       headers: {
         token:token
       }

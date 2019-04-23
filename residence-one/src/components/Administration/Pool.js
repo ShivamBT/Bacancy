@@ -1,11 +1,7 @@
 import React, { Component } from "react";
 import { Helmet } from "react-helmet";
 
-import {
-  getPoolData,
-  updatePoolStatus,
-  getPoolEntries
-} from "./../ApiCalls/ApiCalls";
+import { getPoolData, updatePoolStatus } from "./../ApiCalls/ApiCalls";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import { Sidebar } from "../Sidebar/Sidebar";
@@ -16,14 +12,13 @@ import Select from "react-select";
 import { Nav, NavItem, NavLink, Button, Jumbotron } from "reactstrap";
 import "./Pool.css";
 import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  Tooltip,
-  Legend,
-  Label
-} from "recharts";
+  UncontrolledButtonDropdown,
+  DropdownMenu,
+  DropdownItem,
+  DropdownToggle
+} from "reactstrap";
+import { PoolEntry } from "./PoolDetails/PoolEntry";
+import { FaEllipsisV } from "react-icons/fa";
 
 export class Pool extends Component {
   constructor(props) {
@@ -61,7 +56,8 @@ export class Pool extends Component {
         settings: false
       },
       currentActive: "dashboard",
-      graphData: []
+      graphData: [],
+      dropdownActive: "current_year"
     };
     this.option1 = [
       { label: "All", value: 0 },
@@ -91,6 +87,12 @@ export class Pool extends Component {
     this.changeCurrentPage = this.changeCurrentPage.bind(this);
     this.changeDropDown = this.changeDropDown.bind(this);
     this.clickHandler = this.clickHandler.bind(this);
+    this.dropDownHandler = this.dropDownHandler.bind(this);
+  }
+
+  dropDownHandler(value)
+  {
+    this.setState({ dropdownActive: value });
   }
 
   async clickHandler(e) {
@@ -186,42 +188,7 @@ export class Pool extends Component {
 
   async componentDidMount() {
     await this.setState({ token: localStorage.getItem("token") });
-    let x = new Date();
-    let y = x.getFullYear() - 1;
-    let dateStart = `${y}-12-31`;
-    let dateEnd = `${y}-01-01`;
-    let result = await getPoolEntries(dateStart, dateEnd, this.state.token);
-    console.log("Result of pool entries is : ", result);
-    let graphObject = { ...result.data.graphObject };
-    let graphData = [];
-    let i = 0;
 
-    let month = [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "June",
-      "July",
-      "Aug",
-      "Sept",
-      "Oct",
-      "Nov",
-      "Dec"
-    ];
-
-    let formattedDate = "";
-
-    for (let x in graphObject) {
-      let exactDate = new Date(x);
-      formattedDate = month[exactDate.getMonth()] + " " + exactDate.getDate();
-      graphData[i] = { date: formattedDate, value: graphObject[x] };
-      i++;
-    }
-
-    graphData = graphData.reverse();
-    this.setState({ graphData });
     this.fetchData();
   }
 
@@ -431,14 +398,11 @@ export class Pool extends Component {
 
           {this.state.currentActive === "dashboard" ? (
             <div>
-              <Helmet>
-                <title>Dashboard</title>
-                <meta
-                  name="description"
-                  content="Dashboard of Pool Page"
-                />
-              </Helmet>
               <Jumbotron>
+                <Helmet>
+                  <title>Dashboard</title>
+                  <meta name="description" content="Dashboard of Pool Page" />
+                </Helmet>
                 <h4>Dashboard</h4>
                 <p>This is the Dashboard</p>
               </Jumbotron>
@@ -468,35 +432,27 @@ export class Pool extends Component {
             <div>
               <Helmet>
                 <title>Pool User Graph</title>
-                <meta
-                  name="description"
-                  content=" Graph data of pool users"
-                />
+                <meta name="description" content=" Graph data of pool users" />
               </Helmet>
-              <LineChart
-                width={900}
-                height={400}
-                data={this.state.graphData}
-                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-                >
-                <XAxis dataKey="date">
-                  <Label
-                    value="Date of Pool Entries"
-                    offset={0}
-                    position="insideBottom"
-                  />
-                </XAxis>
-                <YAxis
-                  label={{
-                    value: "No of Pool Entries",
-                    position: "insideLeft",
-                    angle: -90
-                  }}
-                />
-                <Tooltip />
-                {/* <Legend /> */}
-                <Line type="monotone" dataKey="value" stroke="purple" />
-              </LineChart>
+              <UncontrolledButtonDropdown>
+                <DropdownToggle color="link">
+                  <FaEllipsisV />
+                </DropdownToggle>
+                <DropdownMenu>
+                  {this.state.dropdownActive === "current_year" ? (
+                    <DropdownItem
+                      onClick={() => this.dropDownHandler("last_year")}>
+                      Last Year
+                    </DropdownItem>
+                  ) : (
+                    <DropdownItem
+                      onClick={() => this.dropDownHandler("current_year")}>
+                      Current Year
+                    </DropdownItem>
+                  )}
+                </DropdownMenu>
+              </UncontrolledButtonDropdown>
+              <PoolEntry dropdownActive={this.state.dropdownActive} />
             </div>
           )}
         </div>

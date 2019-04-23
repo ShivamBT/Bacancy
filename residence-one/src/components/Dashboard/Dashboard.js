@@ -4,21 +4,16 @@ import { Jumbotron } from "reactstrap";
 import "./Dashboard.css";
 import { LogOutComponent } from "../LogOutComponent/LogOutComponent";
 import { Footer } from "../Footer/Footer";
-import {Helmet} from "react-helmet"
+import { Helmet } from "react-helmet";
 
 export class Dashboard extends Component {
   constructor(props) {
     super(props);
   }
 
-  
   render() {
     return (
       <div>
-        <Helmet>
-          <title>Dashboard</title>
-          <meta name="description" content="Dashboard of residence" />
-        </Helmet>
         <div className="sidebar">
           <Sidebar {...this.props} />
         </div>
@@ -28,6 +23,10 @@ export class Dashboard extends Component {
             <LogOutComponent {...this.props} />
           </div>
           <Jumbotron>
+            <Helmet>
+              <title>Dashboard</title>
+              <meta name="description" content="Dashboard of residence" />
+            </Helmet>
             <h1>Dashboard</h1>
             <p>Logged In</p>
           </Jumbotron>

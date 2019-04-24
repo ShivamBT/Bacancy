@@ -90,9 +90,9 @@ export class Pool extends Component {
     this.dropDownHandler = this.dropDownHandler.bind(this);
   }
 
-  dropDownHandler(value)
+  async dropDownHandler(value)
   {
-    this.setState({ dropdownActive: value });
+    await this.setState({ dropdownActive: value });
   }
 
   async clickHandler(e) {

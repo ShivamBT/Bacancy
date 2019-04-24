@@ -12,11 +12,13 @@ import { Units } from "./components/Administration/Units";
 import { Families } from "./components/Administration/Families";
 import { UserDetails } from "./components/Administration/UserDetails/UserDetails";
 import { FamilyDetails } from "./components/Administration/FamilyDetails/FamilyDetails";
-import {UserNotFound } from "./components/Administration/UserDetails/UserNotFound";
+import { UserNotFound } from "./components/Administration/UserDetails/UserNotFound";
 import { Owners } from "./components/Administration/Owners";
 import { OwnersProfile } from "./components/Administration/OwnersProfile/OwnersProfile";
 import { UnitProfile } from "./components/Administration/UnitProfile/UnitProfile";
 import { Pool } from "./components/Administration/Pool";
+import { Vehicle } from "./components/Administration/Vehicle";
+import { Events } from "./components/Administration/Events";
 
 const Routing = () => {
   return (
@@ -25,7 +27,7 @@ const Routing = () => {
         <Route exact path="/" component={App} />
         <Route path="/dashboard" component={Dashboard} />
         <Route exact path="/administration/users" component={Users} />
-        <Route exact path="/administration/users/:id" component={UserDetails}/>
+        <Route exact path="/administration/users/:id" component={UserDetails} />
         <Route path="/application/reception" component={Reception} />
         <Route path="/council" component={Council} />
         <Route path="/public/blogs" component={Blogs} />
@@ -36,9 +38,17 @@ const Routing = () => {
         <Route path="/administration/family/:id" component={FamilyDetails} />
         <Route path="/userNotFound" component={UserNotFound} />
         <Route path="/administration/owners" component={Owners} />
-        <Route path="/administration/owners-profile/:id" component={OwnersProfile} />
-        <Route path="/administration/units-profile/:id" component={UnitProfile} />
-        <Route path="/administration/pool" component={Pool}/>
+        <Route
+          path="/administration/owners-profile/:id"
+          component={OwnersProfile}
+        />
+        <Route
+          path="/administration/units-profile/:id"
+          component={UnitProfile}
+        />
+        <Route path="/administration/pool" component={Pool} />
+        <Route path="/administration/vehicles" component={Vehicle} />
+        <Route path="/administration/events" component={Events}/>
       </Switch>
     </BrowserRouter>
   );

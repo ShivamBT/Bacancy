@@ -22,7 +22,8 @@ export class PoolEntry extends Component {
       data: [],
       current_page: 1,
       total_pages: "",
-      graphData: []
+      graphData: [],
+      isEmpty: true
     };
     this.changeCurrentPage = this.changeCurrentPage.bind(this);
     this.fetchData = this.fetchData.bind(this);
@@ -37,7 +38,7 @@ export class PoolEntry extends Component {
     let x = new Date();
 
     let y, dateStart, dateEnd;
-    if (this.props.dropDownActive === "current_year") {
+    if (this.props.dropdownActive === "current_year") {
       dateStart = `${x.getFullYear()}-${x.getMonth()}-${x.getDate()}`;
       dateEnd = `${x.getFullYear()}-01-01`;
     } else {
@@ -45,6 +46,7 @@ export class PoolEntry extends Component {
       dateEnd = `${x.getFullYear() - 1}-01-01`;
     }
 
+    console.log("Date start and end are : ", dateStart, dateEnd);
     await this.setState({
       dateStart,
       dateEnd,
@@ -56,6 +58,8 @@ export class PoolEntry extends Component {
       this.state.current_page,
       this.state.token
     );
+    let isEmpty = result.data.data === [] ? true : false;
+    await this.setState({ isEmpty });
     console.log("Result of pool entries is : ", result);
     let graphObject = { ...result.data.graphObject };
     let graphData = [];
@@ -88,6 +92,7 @@ export class PoolEntry extends Component {
     graphData = graphData.reverse();
     this.setState({
       graphData,
+      isEmpty,
       data: result.data.data,
       total_pages: Math.ceil(result.data.totalRecords / 20)
     });
@@ -161,45 +166,54 @@ export class PoolEntry extends Component {
         accessor: "unit.entry.name"
       }
     ];
-    return (
-      <div>
-        <LineChart
-          width={900}
-          height={400}
-          data={this.state.graphData}
-          margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-          >
-          <XAxis dataKey="date">
-            <Label
-              value="Date of Pool Entries"
-              offset={0}
-              position="insideBottom"
-            />
-          </XAxis>
-          <YAxis
-            label={{
-              value: "No of Pool Entries",
-              position: "insideLeft",
-              angle: -90
-            }}
-          />
-          <Tooltip />
-          {/* <Legend /> */}
-          <Line type="monotone" dataKey="value" stroke="purple" />
-        </LineChart>
 
-        <ReactTable
-          data={this.state.data}
-          columns={column}
-          pages={this.state.total_pages}
-          page={this.state.current_page - 1}
-          noDataText="Please Wait ...."
-          showPageSizeOptions={false}
-          className="-striped -highlight"
-          onPageChange={pageIndex => this.changeCurrentPage(pageIndex)}
-          manual
-        />
-      </div>
-    );
+    if (this.state.isEmpty === true) {
+      return (
+        <div>
+          <h4>No Data Received</h4>
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          <LineChart
+            width={900}
+            height={400}
+            data={this.state.graphData}
+            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+            >
+            <XAxis dataKey="date">
+              <Label
+                value="Date of Pool Entries"
+                offset={0}
+                position="insideBottom"
+              />
+            </XAxis>
+            <YAxis
+              label={{
+                value: "No of Pool Entries",
+                position: "insideLeft",
+                angle: -90
+              }}
+            />
+            <Tooltip />
+            {/* <Legend /> */}
+            <Line type="monotone" dataKey="value" stroke="purple" />
+          </LineChart>
+
+          <ReactTable
+            data={this.state.data}
+            columns={column}
+            pages={this.state.total_pages}
+            page={this.state.current_page - 1}
+            noDataText="Please Wait ...."
+            showPageSizeOptions={false}
+            className="-striped -highlight"
+            onPageChange={pageIndex => this.changeCurrentPage(pageIndex)}
+            manual
+          />
+        </div>
+      );
+    }
   }
 }

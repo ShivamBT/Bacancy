@@ -297,3 +297,25 @@ export const getPoolEntries = (dateStart, dateEnd,current_page, token) => {
     }
   );
 }
+
+export const getVehicleList = (current_page,status,token) =>
+{
+  return axios.get(`${url}vehicle/list?page=${current_page}&status=${status}`,
+    {
+      headers: {
+        token:token
+    }
+  });
+}
+
+export const getEventList = (id, token) =>
+{
+  return axios.get(
+    `${url}event/list/?&loggedInUser=${id}&private=false`, {
+      headers: {
+        token:token
+      }
+    }
+  );
+}
+

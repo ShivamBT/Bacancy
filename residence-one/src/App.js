@@ -48,6 +48,7 @@ class App extends Component {
       });
 
       localStorage.setItem("token", this.state.token);
+      localStorage.setItem("id", result.data.data.id);
       this.props.history.push(`/dashboard`);
     }
   }

@@ -195,7 +195,7 @@ export class Sidebar extends Component {
                     </DropdownItem>
                     <DropdownItem>
                       <FaCar id="link1" />{" "}
-                      <Link to="/" className="link">
+                      <Link to="/administration/vehicles" className="link">
                         Vehicle
                       </Link>
                     </DropdownItem>
@@ -207,7 +207,7 @@ export class Sidebar extends Component {
                     </DropdownItem>
                     <DropdownItem>
                       <FaCalendarAlt id="link1" />{" "}
-                      <Link to="/" className="link">
+                      <Link to="/administration/events" className="link">
                         Event
                       </Link>
                     </DropdownItem>

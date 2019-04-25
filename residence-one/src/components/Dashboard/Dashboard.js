@@ -25,7 +25,7 @@ export class Dashboard extends Component {
           <Jumbotron>
             <Helmet>
               <title>Dashboard</title>
-              <meta name="description" content="Dashboard of residence" />
+              <meta name="description" content="Dashboard Page" />
             </Helmet>
             <h1>Dashboard</h1>
             <p>Logged In</p>

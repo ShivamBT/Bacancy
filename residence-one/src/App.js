@@ -63,8 +63,8 @@ class App extends Component {
     return (
       <div className="App">
         <Helmet>
-          <title>My Title</title>
-          <meta name="description" content="Helmet application" />
+          <title>Login Page</title>
+          <meta name="description" content="Login Page" />
         </Helmet>
         <h1 className="h1" style={{ textAlign: "center" }}>
           <b>la Cadenelle</b>

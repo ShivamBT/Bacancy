@@ -319,3 +319,12 @@ export const getEventList = (id, token) =>
   );
 }
 
+export const getPurchaseSettings = (token) =>
+{
+  return axios.get(`${url}purchases/purchaseTypes/list`, {
+    headers: {
+      token:token
+    }
+  });
+  }
+

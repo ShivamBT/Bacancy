@@ -237,8 +237,10 @@ export class Sidebar extends Component {
                     </DropdownItem>
                     <DropdownItem>
                       <FaCogs id="link1" />
-                      <Link to="/" className="link">
-                        Settings
+                      <Link
+                        to="/administration/settings/purchase"
+                        className="link">
+                        Purchase Settings
                       </Link>
                     </DropdownItem>
                   </DropdownMenu>

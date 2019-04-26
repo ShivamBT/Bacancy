@@ -19,37 +19,53 @@ import { UnitProfile } from "./components/Administration/UnitProfile/UnitProfile
 import { Pool } from "./components/Administration/Pool";
 import { Vehicle } from "./components/Administration/Vehicle";
 import { Events } from "./components/Administration/Events";
+import { Helmet } from "react-helmet";
+import { PurchaseSettings } from "./components/Administration/Settings/PurchaseSettings";
 
 const Routing = () => {
   return (
     <BrowserRouter>
-      <Switch>
-        <Route exact path="/" component={App} />
-        <Route path="/dashboard" component={Dashboard} />
-        <Route exact path="/administration/users" component={Users} />
-        <Route exact path="/administration/users/:id" component={UserDetails} />
-        <Route path="/application/reception" component={Reception} />
-        <Route path="/council" component={Council} />
-        <Route path="/public/blogs" component={Blogs} />
-        <Route path="/public/website" component={Website} />
-        <Route path="/administration/structure" component={Structure} />
-        <Route path="/administration/units" component={Units} />
-        <Route path="/administration/families" component={Families} />
-        <Route path="/administration/family/:id" component={FamilyDetails} />
-        <Route path="/userNotFound" component={UserNotFound} />
-        <Route path="/administration/owners" component={Owners} />
-        <Route
-          path="/administration/owners-profile/:id"
-          component={OwnersProfile}
-        />
-        <Route
-          path="/administration/units-profile/:id"
-          component={UnitProfile}
-        />
-        <Route path="/administration/pool" component={Pool} />
-        <Route path="/administration/vehicles" component={Vehicle} />
-        <Route path="/administration/events" component={Events}/>
-      </Switch>
+      <div>
+        <Helmet>
+          <title>Routing</title>
+          <meta name="description" content="routing page" />
+        </Helmet>
+        <Switch>
+          <Route exact path="/" component={App} />
+          <Route path="/dashboard" component={Dashboard} />
+          <Route exact path="/administration/users" component={Users} />
+          <Route
+            exact
+            path="/administration/users/:id"
+            component={UserDetails}
+          />
+          <Route path="/application/reception" component={Reception} />
+          <Route path="/council" component={Council} />
+          <Route path="/public/blogs" component={Blogs} />
+          <Route path="/public/website" component={Website} />
+          <Route path="/administration/structure" component={Structure} />
+          <Route path="/administration/units" component={Units} />
+          <Route path="/administration/families" component={Families} />
+          <Route
+            path="/administration/family/:id"
+            component={FamilyDetails}
+          />
+          <Route path="/userNotFound" component={UserNotFound} />
+          <Route path="/administration/owners" component={Owners} />
+          <Route
+            path="/administration/owners-profile/:id"
+            component={OwnersProfile}
+          />
+          <Route
+            path="/administration/units-profile/:id"
+            component={UnitProfile}
+          />
+          <Route path="/administration/pool" component={Pool} />
+          <Route path="/administration/vehicles" component={Vehicle} />
+          <Route path="/administration/events" component={Events} />
+          <Route path="/administration/settings/purchase" component={PurchaseSettings} />
+        </Switch>
+      </div>
     </BrowserRouter>
   );
 };

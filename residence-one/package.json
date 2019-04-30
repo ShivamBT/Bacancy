@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@wojtekmaj/react-datetimerange-picker": "^2.1.0",
     "axios": "^0.18.0",
     "bootstrap": "^4.3.1",
     "history": "^4.7.2",

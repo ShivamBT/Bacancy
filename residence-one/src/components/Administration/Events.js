@@ -2,9 +2,24 @@ import React, { Component } from "react";
 import BigCalendar from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import { getEventList } from "../ApiCalls/ApiCalls";
+import { getEventList, getEventTypes } from "../ApiCalls/ApiCalls";
 import { Sidebar } from "../Sidebar/Sidebar";
 import { LogOutComponent } from "../LogOutComponent/LogOutComponent";
+import {
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  Button
+} from "reactstrap";
+import Toggle from "react-toggle";
+import "react-toggle/style.css";
+import Select from "react-select";
+import DateTimeRangePicker from "@wojtekmaj/react-datetimerange-picker";
 
 const localizer = BigCalendar.momentLocalizer(moment);
 
@@ -15,58 +30,59 @@ export class Events extends Component {
       id: "",
       token: "",
       data: [],
-      event2: [{title:"null" ,value:0}],
+      event2: [{ title: "null", value: 0 }],
       dataLength: "",
-      count:0
+      count: 0,
+      eventModal: false,
+      eventTypes: [],
+      date: [new Date(), new Date()]
     };
     this.eventStyleGetter = this.eventStyleGetter.bind(this);
     this.tooltipHandler = this.tooltipHandler.bind(this);
     this.EventComponent = this.EventComponent.bind(this);
     this.clickHandler = this.clickHandler.bind(this);
+    this.eventToggler = this.eventToggler.bind(this);
+    this.changeDate = this.changeDate.bind(this);
   }
 
-  clickHandler(event, e)
-  {
+  changeDate(date) {
+    this.setState({ date: date });
+  }
+
+  eventToggler() {
+    this.setState({ eventModal: !this.state.eventModal });
+  }
+
+  clickHandler(event, e) {
     console.log("click event and e:", event, e);
   }
 
-  EventComponent =() => {
+  EventComponent = () => {
     // let result = await getEventList(localStorage.getItem("id"), localStorage.getItem("token"));
     // let data = result.data.data;
     // let i = 0;
     // let count = { ...this.state.count };
     console.log("Custom Component render :");
     // await this.setState({ count: count + 1 });
-   // console.log(this.state.event2[this.state.count-1].title || "null");
-    return <p>Hello world</p>;
+    // console.log(this.state.event2[this.state.count-1].title || "null");
+    return <p onClick={this.eventToggler}>Hello world</p>;
   };
 
   tooltipHandler(event) {
-    return (event.title);
+    return event.title;
   }
 
-  eventStyleGetter(event, start, end, isSelected)
-  {
+  eventStyleGetter(event, start, end, isSelected) {
     console.log("Event props are :", event);
     let style = {
-      backgroundColor:event.event_type.colorCode,
+      backgroundColor: event.event_type.colorCode,
       color: "white"
     };
-    // if (this.state.event2[this.state.event2.length-1].value <= this.state.dataLength)
-    // {
-    //   let object = {};
-    //   let event2 = [...this.state.event2];
-    //   object["id"] = event.id;
-    //   object["title"] = event.title;
-    //   object["value"] = this.state.event2[this.state.event2.length - 1]["value"] + 1;
-    //   event2 = [...event2, object];
-    //   await this.setState({ event2 });
-    // }
-    
+
     return {
       style: style
     };
-  };
+  }
 
   async componentDidMount() {
     await this.setState({
@@ -75,7 +91,17 @@ export class Events extends Component {
     });
     let result = await getEventList(this.state.id, this.state.token);
     console.log("Results of events are :", result);
-    this.setState({ data: result.data.data ,dataLength:result.data.data.length });
+    let result2 = await getEventTypes(this.state.token);
+    let eventTypes = [];
+    for (let i = 0; i < result2.data.data.length; i++) {
+      eventTypes[i] = { label: result2.data.data[i].type, value: i + 1 };
+    }
+
+    this.setState({
+      data: result.data.data,
+      dataLength: result.data.data.length,
+      eventTypes
+    });
   }
 
   render() {
@@ -103,11 +129,43 @@ export class Events extends Component {
               components={{
                 event: this.EventComponent
               }}
-              onSelectEvent={this.clickHandler}
-              onSelecting={this.clickHandler}
-              onDrillDown={this.clickHandler}
+              // onSelectEvent={this.clickHandler}
+              // onSelecting={this.clickHandler}
+              // onDrillDown={this.clickHandler}
             />
           </div>
+
+          <Modal isOpen={this.state.eventModal} toggle={this.eventToggler}>
+            <ModalHeader toggle={this.eventToggler}>Set Event</ModalHeader>
+            <ModalBody>
+              <Form>
+                <FormGroup>
+                  <Label>Title</Label>
+                  <Input type="text" />
+                </FormGroup>
+                <FormGroup>
+                  <Label>Description</Label>
+                  <Input type="text" />
+                </FormGroup>
+                <FormGroup>
+                  <Label>Private Event</Label>
+                  <br />
+                  <Toggle defaultChecked={false} />
+                </FormGroup>
+                <FormGroup>
+                  <Label>Event Type</Label>
+                  <Select options={this.state.eventTypes} />
+                </FormGroup>
+                <FormGroup>
+                  <Label>Event Date</Label>
+                  <DateTimeRangePicker
+                    value={this.state.date}
+                    onChange={this.changeDate}
+                  />
+                </FormGroup>
+              </Form>
+            </ModalBody>
+          </Modal>
         </div>
       </div>
     );

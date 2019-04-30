@@ -326,5 +326,16 @@ export const getPurchaseSettings = (token) =>
       token:token
     }
   });
-  }
+}
+  
+export const getEventTypes = (token) =>
+{
+  return axios.get(`${url}event/eventTypes/?`, {
+    headers: {
+      token:token
+    }
+  });
+}
+  
+
 

@@ -1,0 +1,8 @@
+.customtheme {
+ font-size: 8px !important;
+ pointer-events: auto !important;
+}
+.customtheme:hover{
+visibility: visible !important;
+opacity: 1 !important;
+}

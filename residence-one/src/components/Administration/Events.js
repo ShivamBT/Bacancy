@@ -14,12 +14,17 @@ import {
   FormGroup,
   Label,
   Input,
-  Button
+  Button,
+  UncontrolledTooltip
 } from "reactstrap";
 import Toggle from "react-toggle";
 import "react-toggle/style.css";
 import Select from "react-select";
 import DateTimeRangePicker from "@wojtekmaj/react-datetimerange-picker";
+import ReactTooltip from "react-tooltip";
+import "./Events.css";
+
+
 
 const localizer = BigCalendar.momentLocalizer(moment);
 
@@ -55,17 +60,31 @@ export class Events extends Component {
 
   clickHandler(event, e) {
     console.log("click event and e:", event, e);
+    this.eventToggler();
   }
 
-  EventComponent = () => {
-    // let result = await getEventList(localStorage.getItem("id"), localStorage.getItem("token"));
-    // let data = result.data.data;
-    // let i = 0;
-    // let count = { ...this.state.count };
-    console.log("Custom Component render :");
-    // await this.setState({ count: count + 1 });
-    // console.log(this.state.event2[this.state.count-1].title || "null");
-    return <p onClick={this.eventToggler}>Hello world</p>;
+  EventComponent = (props) => {
+    console.log("Custom Component render :",props);
+    return (
+      <div>
+        <a data-tip={props.event.desc}>
+          <p
+            onClick={this.eventToggler}
+            style={{ backgroundColor: props.event.event_type.colorCode }}
+            id="tooltip">
+            {props.event.title}
+          </p>
+        </a>
+        <ReactTooltip className="customtheme" delayHide={1000}/>
+{/*        
+        <UncontrolledTooltip target="tooltip">
+          <div style={{ backgroundColor: "white", color: "black" }}>
+            <p>{props.event.title}</p>
+            <p>{props.event.desc}</p>
+          </div>
+        </UncontrolledTooltip> */}
+      </div>
+    );
   };
 
   tooltipHandler(event) {
@@ -123,15 +142,19 @@ export class Events extends Component {
               events={this.state.data}
               startAccessor="start"
               endAccessor="end"
-              tooltipAccessor={this.tooltipHandler}
-              eventPropGetter={this.eventStyleGetter}
+              //tooltipAccessor={this.tooltipHandler}
+              //eventPropGetter={this.eventStyleGetter}
               toolbar={true}
               components={{
-                event: this.EventComponent
+                //event: this.EventComponent,
+                eventWrapper:this.EventComponent
               }}
+              selectable={true}
+              onSelectSlot={this.clickHandler}
               // onSelectEvent={this.clickHandler}
               // onSelecting={this.clickHandler}
               // onDrillDown={this.clickHandler}
+            
             />
           </div>
 

@@ -1,5 +1,10 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+### Created By Shivam Pande
+
+
+### React Select example
+This project demonstrates switching between multi select and single select using react select package 
 ## Available Scripts
 
 In the project directory, you can run:

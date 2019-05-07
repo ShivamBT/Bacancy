@@ -1,15 +1,15 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import App from "./App";
+import * as serviceWorker from "./serviceWorker";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { createStore } from "redux";
 import { Provider } from "react-redux";
 import { myReducer } from "./Reducers/Reducer";
 import { composeWithDevTools } from "redux-devtools-extension";
 
-const store = createStore(myReducer , composeWithDevTools()); 
+const store = createStore(myReducer, composeWithDevTools());
 
 ReactDOM.render(
   <Provider store={store}>

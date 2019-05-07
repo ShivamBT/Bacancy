@@ -27,3 +27,10 @@ export const onFemaleAgeDown = () =>
         type: "FEMALE_AGE_DOWN"
     }
 }
+
+export const increaseNumber = () =>
+{
+    return {
+        type: "INCREASE_NUMBER"
+    }
+}

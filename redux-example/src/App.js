@@ -2,7 +2,13 @@ import React from "react";
 import "./App.css";
 import { connect } from "react-redux";
 import { Badge, Row, Col, Button } from "reactstrap";
-import { onMaleAgeUp,onMaleAgeDown,onFemaleAgeUp,onFemaleAgeDown } from "./Actions/Actions";
+import {
+  onMaleAgeUp,
+  onMaleAgeDown,
+  onFemaleAgeUp,
+  onFemaleAgeDown,
+  increaseNumber
+} from "./Actions/Actions";
 
 const App = props => {
   return (
@@ -28,7 +34,7 @@ const App = props => {
           </Button>
         </Col>
       </Row>
-      <br/>
+      <br />
       <Row>
         <Col md={{ offset: 3 }}>
           <h4>
@@ -47,14 +53,26 @@ const App = props => {
           </Button>
         </Col>
       </Row>
+      <br/>
+      <Row>
+        <Col md={{ offset: 3 }}>
+          <h4>
+            <Badge color="primary">Number : {props.number}</Badge>
+          </h4>
+        </Col>
+        <Col>
+          <Button color="success" onClick={props.increaseNumber}> Increase Number</Button>
+        </Col>
+      </Row>
     </div>
   );
 };
 
 const mapStateToProps = state => {
   return {
-    male_age: state.age.male_age,
-    female_age: state.age.female_age
+    male_age: state.ag.age.male_age,
+    female_age: state.ag.age.female_age,
+    number:state.nu.number
   };
 };
 
@@ -67,13 +85,14 @@ const mapStateToProps = state => {
 //   };
 // };
 
-
-const mapDispatchToProps =  {    //mapDispatchToProps in Object format
+const mapDispatchToProps = {
+                                                        //mapDispatchToProps in Object format
   onMaleAgeUp,
   onMaleAgeDown,
   onFemaleAgeUp,
-  onFemaleAgeDown
-}
+  onFemaleAgeDown,
+  increaseNumber
+};
 
 export default connect(
   mapStateToProps,

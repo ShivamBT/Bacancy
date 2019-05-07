@@ -2,6 +2,7 @@ import React from "react";
 import "./App.css";
 import { connect } from "react-redux";
 import { Badge, Row, Col, Button } from "reactstrap";
+import { onMaleAgeUp,onMaleAgeDown,onFemaleAgeUp,onFemaleAgeDown } from "./Actions/Actions";
 
 const App = props => {
   return (
@@ -16,7 +17,7 @@ const App = props => {
           </h4>
         </Col>
         <Col>
-          <Button color="success" onClick={props.onMaleAgeUp}>
+          <Button color="success" onClick={() => props.onMaleAgeUp(2)}>
             Age Up
           </Button>
           <Button
@@ -35,7 +36,7 @@ const App = props => {
           </h4>
         </Col>
         <Col>
-          <Button color="success" onClick={props.onFemaleAgeUp}>
+          <Button color="success" onClick={() => props.onFemaleAgeUp(2)}>
             Age Up
           </Button>
           <Button
@@ -57,14 +58,22 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    onMaleAgeUp: () => dispatch({ type: "MALE_AGE_UP" }),
-    onMaleAgeDown: () => dispatch({ type: "MALE_AGE_DOWN" }),
-    onFemaleAgeUp: () => dispatch({ type: "FEMALE_AGE_UP" }),
-    onFemaleAgeDown: () => dispatch({ type: "FEMALE_AGE_DOWN" })
-  };
-};
+// const mapDispatchToProps = dispatch => {              //mapDispatchToProps in Functional Format
+//   return {
+//     onMaleAgeUp: (val) => dispatch({ type: "MALE_AGE_UP" , payload:val}),
+//     onMaleAgeDown: () => dispatch({ type: "MALE_AGE_DOWN" }),
+//     onFemaleAgeUp: (val) => dispatch({ type: "FEMALE_AGE_UP" , payload:val}),
+//     onFemaleAgeDown: () => dispatch({ type: "FEMALE_AGE_DOWN" })
+//   };
+// };
+
+
+const mapDispatchToProps =  {    //mapDispatchToProps in Object format
+  onMaleAgeUp,
+  onMaleAgeDown,
+  onFemaleAgeUp,
+  onFemaleAgeDown
+}
 
 export default connect(
   mapStateToProps,

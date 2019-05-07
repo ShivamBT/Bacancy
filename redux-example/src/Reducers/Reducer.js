@@ -13,7 +13,7 @@ export const myReducer = (state = intialState, action) =>
         case "MALE_AGE_UP":
             return {
                 ...state,
-                age: { ...state.age, male_age: state.age.male_age + 1 },
+                age: { ...state.age, male_age: state.age.male_age + action.payload },
             };
             
         
@@ -27,7 +27,7 @@ export const myReducer = (state = intialState, action) =>
         case "FEMALE_AGE_UP":
             return {
                 ...state,
-                age: { ...state.age, female_age: state.age.female_age + 1 }
+                age: { ...state.age, female_age: state.age.female_age + action.payload }
             }
             
         case "FEMALE_AGE_DOWN":

@@ -1,6 +1,7 @@
 import { combineReducers } from "redux";
 import { numberReducer} from "../Reducers/NumberReducer";
-import { ageReducer} from "../Reducers/AgeReducer";
+import { ageReducer } from "../Reducers/AgeReducer";
+import { apiReducer} from "../Reducers/apiReducer";
 // const intialState = {
 //   age: {
 //     male_age: 15,
@@ -49,6 +50,7 @@ import { ageReducer} from "../Reducers/AgeReducer";
 export const myReducer = combineReducers(
   {
     nu: numberReducer,
-    ag: ageReducer
+    ag: ageReducer,
+    api:apiReducer
   }
 );

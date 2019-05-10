@@ -7,8 +7,30 @@ import {
   onMaleAgeDown,
   onFemaleAgeUp,
   onFemaleAgeDown,
-  increaseNumber
+  increaseNumber,
+  fetchApiData
 } from "./Actions/Actions";
+import ReactTable from "react-table";
+import "react-table/react-table.css";
+
+let column = [
+  {
+    Header: "User Id",
+    accessor: "userId"
+  },
+  {
+    Header: "Id",
+    accessor: "id"
+  },
+  {
+    Header: "Title",
+    accessor: "title"
+  },
+  {
+    Header: "Body",
+    accessor: "body"
+  }
+];
 
 const App = props => {
   return (
@@ -62,6 +84,15 @@ const App = props => {
         </Col>
         <Col>
           <Button color="success" onClick={props.increaseNumber}> Increase Number</Button>
+          <Button color="primary" onClick={props.fetchApiData}> Fetch Api Data</Button>
+        </Col>
+      </Row>
+      <Row>
+        <Col md={{ offset: 3 }}>
+          <ReactTable
+            data={props.data}
+            columns={column}
+          />
         </Col>
       </Row>
     </div>
@@ -72,7 +103,8 @@ const mapStateToProps = state => {
   return {
     male_age: state.ag.age.male_age,
     female_age: state.ag.age.female_age,
-    number:state.nu.number
+    number: state.nu.number,
+    data: state.api.data
   };
 };
 
@@ -91,7 +123,8 @@ const mapDispatchToProps = {
   onMaleAgeDown,
   onFemaleAgeUp,
   onFemaleAgeDown,
-  increaseNumber
+  increaseNumber,
+  fetchApiData
 };
 
 export default connect(
